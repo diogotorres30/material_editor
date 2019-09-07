@@ -1,0 +1,17 @@
+@import "paper-css/paper.css";
+
+@page {
+	size: auto;
+	margin: 0mm;
+	size: A4;
+}
+
+p {
+	overflow-wrap: break-word;
+	word-wrap: break-word;
+	hyphens: auto;
+}
+
+section{
+    color: black;
+}

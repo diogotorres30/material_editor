@@ -1,0 +1,50 @@
+<body class="A4">
+    <mat-toolbar color="primary">
+        <mat-toolbar-row>
+            <button mat-icon-button>
+                <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+            </button>
+            <a mat-button [routerLink]="'/'" class="logo">Report Repository</a>
+            <!-- <span class="menu-spacer"></span> -->
+            <div>
+                <a mat-button [routerLink]="'/editor'"> Report Editor </a>
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <mat-sidenav-container>
+        <mat-sidenav #sidenav>
+            <mat-nav-list>
+                <a mat-list-item *ngFor="let issue of issues" (click)="printIssue(issue)">{{issue.title}}</a>
+                <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>
+            </mat-nav-list>
+        </mat-sidenav>
+        <mat-sidenav-content>
+            <section class="sheet padding-10mm">
+                <div *ngIf="print_issue">
+                    <h1>{{print_issue.title}}</h1>
+                    <h3>Description</h3>
+                    <p>{{print_issue.description}}</p>
+                    <h3>Impact</h3>
+                    <p>{{print_issue.impact}}</p>
+                    <h3>Remediation</h3>
+                    <p>{{print_issue.remediation}}</p>
+                    <h3>CVSS Vector</h3>
+                    <a href="{{print_issue.cvss_vector_url}}">{{print_issue.cvss_vector}}</a>
+                    <h3>Other references</h3>
+                    <a href="{{print_issue.other_refs_url}}">{{print_issue.other_refs}}</a>
+                    <h3>Technical Details</h3>
+                    <p>{{print_issue.technical_details}}</p>
+                    <h3>Current status</h3>
+                    <p>{{print_issue.current_status}}</p>
+                </div>
+
+            </section>
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+
+
+
+    <router-outlet></router-outlet>
+</body>
