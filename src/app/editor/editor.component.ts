@@ -12,7 +12,8 @@ export class EditorComponent implements OnInit {
 	constructor(private _http: HttpService) {}
 	public issues = [];
 	public clicked_issues = [];
-	public print_issue: IIssue;
+  public print_issue: IIssue;
+  
 	textFormat = 'Hello Wold!';
 
 	editorForm: FormGroup;
