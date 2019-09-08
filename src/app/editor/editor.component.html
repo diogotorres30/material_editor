@@ -38,13 +38,24 @@
                     <h3>Current status</h3>
                     <p>{{print_issue.current_status}}</p>
                 </div>
-
             </section>
+            <section class="sheet padding-10mm">
+                <div class="container">
+                    <form *ngIf="show" [formGroup]="editorForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label for="editor">
+                            </label>
+                            <quill-editor [style]="editorStyle" formControlName="editor" [(ngModel)]="textFormat">
+                            </quill-editor>
+                        </div>
+                        <button mat-button color="blue">Submit</button>
+                    </form>
+                    <p [innerHTML]="editorContent" id="print-section"></p>
+                </div>
+            </section>
+
             <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>
-
-
-
     <router-outlet></router-outlet>
 </body>

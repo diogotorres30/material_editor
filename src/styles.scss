@@ -1,12 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@import "quill/dist/quill.core.css";
+@import "quill/dist/quill.snow.css";
+@import "paper-css/paper.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
-a.logo{
-    font-size: 22px;
+html,
+body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+a.logo {
+	font-size: 22px;
 }
 @page {
 	size: auto;
 	margin: 0mm;
 	size: A4;
+}
+
+.mat-button.mat-blue {
+	color: white;
+	background-color: #337ab7;
 }
