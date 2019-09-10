@@ -20,7 +20,8 @@
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
-            <section class="sheet padding-10mm">
+            <button *ngIf="checkOverflow(pageOverflow)"> More </button>
+            <section class="sheet padding-10mm" #pageOverflow>
                 <div *ngIf="print_issue">
                     <h1>{{print_issue.title}}</h1>
                     <h3>Description</h3>
@@ -34,7 +35,7 @@
                     <h3>Other references</h3>
                     <a href="{{print_issue.other_refs_url}}">{{print_issue.other_refs}}</a>
                     <h3>Technical Details</h3>
-                    <div class="container">
+                    <div>
                         <form *ngIf="show" [formGroup]="editorForm" (ngSubmit)="onSubmit()">
                             <div class="form-group">
                                 <label for="editor">
@@ -52,7 +53,9 @@
                     <p>{{print_issue.current_status}}</p>
                 </div>
             </section>
+            <section class="sheet padding-10mm">
 
+            </section>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>

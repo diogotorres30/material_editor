@@ -19,7 +19,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 		BrowserAnimationsModule,
 		MaterialModule,
 		HttpClientModule,
-		QuillModule.forRoot({}),
+		QuillModule.forRoot(),
 		ReactiveFormsModule
 	],
 	providers: [],
