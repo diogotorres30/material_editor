@@ -13,9 +13,19 @@ export class EditorComponent implements OnInit {
 	public issues = [];
 	public clicked_issues = [];
 	public print_issue: IIssue;
+	public subTitles = [
+		'Description',
+		'Impact',
+		'Remediation',
+		'CVSS Vector',
+		'Other References',
+		'Technical Details',
+		'Current Status'
+	];
 
-	@ViewChild('sRef',{static: false}) section: ElementRef;
-	
+	@ViewChild('sRef', { static: false })
+	section: ElementRef;
+
 	editorForm: FormGroup;
 
 	editorContent: string;
@@ -30,9 +40,9 @@ export class EditorComponent implements OnInit {
 		this._http.getIssues().subscribe((data) => {
 			this.issues = data;
 			data.forEach((element) => {
-				console.log(element);
+				// console.log(element);
 				for (let leo in element) {
-					console.log(element[leo]);
+					// console.log(element[leo]);
 				}
 			});
 		});
@@ -48,6 +58,7 @@ export class EditorComponent implements OnInit {
 	}
 	printIssue(i: IIssue) {
 		this.print_issue = i;
+		this.editorForm.get('editor').setValue(this.print_issue.technical_details);
 	}
 
 	checkOverflow(element) {
@@ -59,9 +70,24 @@ export class EditorComponent implements OnInit {
 		}
 	}
 
-	addElement() {
-		const p: HTMLParagraphElement = this.renderer.createElement('p');
-		p.innerHTML = 'add new';
-		this.renderer.appendChild(this.section.nativeElement, p);
+	addElement(i: IIssue) {
+		var sub_title, paragraph;
+		var iter = 0;
+		this.print_issue = i;
+		this.editorForm.get('editor').setValue(this.print_issue.technical_details);
+		console.log(this.print_issue.title);
+		var title = this.renderer.createElement('h1');
+		title.innerHTML = this.print_issue.title;
+		this.renderer.appendChild(this.section.nativeElement, title);
+		for (let leo in this.print_issue) {
+			if (leo != 'title') {
+				sub_title = this.renderer.createElement('h3');
+				sub_title.innerHTML = this.subTitles[iter];
+				iter++;
+				this.renderer.appendChild(this.section.nativeElement, sub_title);
+			}
+
+			// console.log(this.print_issue[leo]);
+		}
 	}
 }

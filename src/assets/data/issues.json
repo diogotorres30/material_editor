@@ -5,9 +5,7 @@
         "impact": "An attacker that intercepts the request can be able to view the cookie session id in clear text, and use it to impersonate that user on further communications with the application.",
         "remediation": "By setting the secure flag, the browser will prevent the transmission of acookie over an unencrypted channel.",
         "cvss_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N",
-        "cvss_vector_url": "https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N",
         "other_refs": "https://cwe.mitre.org/data/definitions/614",
-        "other_refs_url": "https://cwe.mitre.org/data/definitions/614",
         "technical_details": "The application does not properly protect session cookies. In the case of domain, one of the session cookies are being set, without the proper protection attributes and both with the same value (See figure 1). See appendix C for more information.",
         "current_status": "At the current report date, this issue has not been fixed (see Figure 2)."
     },
@@ -17,9 +15,7 @@
         "impact": "An attacker that discovers a XSS flaw on the website, can manage to steal user cookies, because client side scripts are able to access cookies.",
         "remediation": "By setting the HttpOnly flag, the browser won’t let client side scripts access client cookies (only if the browser supports this flag, otherwise it will ignore the flag).",
         "cvss_vector": "CVSS:3.0/AV:N/AC:H/PR:L/UI:R/S:C/C:H/I:L/A:N",
-        "cvss_vector_url": "https://www.first.org/cvss/calculator/3.0#CVSS:3.0/AV:N/AC:L/PR:N/UI:R/S:C/C:H/I:L/A:N",
         "other_refs": "https://cwe.mitre.org/data/definitions/1004",
-        "other_refs_url": "https://cwe.mitre.org/data/definitions/614",
         "technical_details": "The application does not properly protect session cookies. In the case of domain, one of the session cookies are being set, without the proper protection attributes and both with the same value (See figure 1). See appendix C for more information.",
         "current_status": "At the current report date, this issue has not been fixed (see Figure 2)."
     }
