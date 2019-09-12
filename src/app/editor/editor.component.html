@@ -21,7 +21,7 @@
         </mat-sidenav>
         <mat-sidenav-content>
             <button *ngIf="checkOverflow(pageOverflow)"> More </button>
-            <section class="sheet padding-10mm" #pageOverflow>
+            <section #sRef class="sheet padding-10mm" #pageOverflow>
                 <div *ngIf="print_issue">
                     <h1>{{print_issue.title}}</h1>
                     <h3>Description</h3>
@@ -53,9 +53,7 @@
                     <p>{{print_issue.current_status}}</p>
                 </div>
             </section>
-            <section class="sheet padding-10mm">
-
-            </section>
+            <button type="button" (click)="addElement()">Add</button>
             <router-outlet></router-outlet>
         </mat-sidenav-content>
     </mat-sidenav-container>
