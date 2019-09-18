@@ -81,10 +81,13 @@ export class EditorComponent implements OnInit {
 		this.renderer.appendChild(this.section.nativeElement, title);
 		for (let leo in this.print_issue) {
 			if (leo != 'title') {
-				sub_title = this.renderer.createElement('h3');
-				sub_title.innerHTML = this.subTitles[iter];
-				iter++;
-				this.renderer.appendChild(this.section.nativeElement, sub_title);
+				// sub_title = this.renderer.createElement('h3');
+				// sub_title.innerHTML = this.subTitles[iter];
+				// iter++;
+				// this.renderer.appendChild(this.section.nativeElement, sub_title);
+				// paragraph = this.renderer.createElement('p');
+				// paragraph.innerHTML = this.print_issue[leo];
+				// this.renderer.appendChild(this.section.nativeElement, paragraph);
 			}
 
 			// console.log(this.print_issue[leo]);
