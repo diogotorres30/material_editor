@@ -15,14 +15,14 @@
     <mat-sidenav-container>
         <mat-sidenav #sidenav>
             <mat-nav-list>
-                <a mat-list-item *ngFor="let issue of issues" (click)="addElement(issue)">{{issue.title}}</a>
+                <a mat-list-item *ngFor="let issue of issues" (click)="printIssue(issue)">{{issue.title}}</a>
                 <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>
             </mat-nav-list>
         </mat-sidenav>
         <mat-sidenav-content>
             <button *ngIf="checkOverflow(pageOverflow)"> More </button>
             <section #sRef class="sheet padding-10mm" #pageOverflow>
-                <!-- <div *ngIf="print_issue">
+                <div *ngIf="print_issue">
                     <h1>{{print_issue.title}}</h1>
                     <h3>Description</h3>
                     <p>{{print_issue.description}}</p>
@@ -35,7 +35,7 @@
                     <h3>Other references</h3>
                     <a href="{{print_issue.other_refs_url}}">{{print_issue.other_refs}}</a>
                     <h3>Technical Details</h3>
-                    <div>
+                    <div (dblclick)="onDblClick()">
                         <form *ngIf="show" [formGroup]="editorForm" (ngSubmit)="onSubmit()">
                             <div class="form-group">
                                 <label for="editor">
@@ -45,13 +45,14 @@
                             </div>
                             <button mat-button color="blue">Submit</button>
                         </form>
-                        <p [innerHTML]="editorContent" id="print-section"></p>
-                    </div> -->
+                        <p *ngIf="!show" [innerHTML]="editorContent" id="print-section"></p>
+                    </div>
                     <!-- <p>{{print_issue.technical_details}}</p> -->
-                    <!-- <h3>Current status</h3>
-                    <p>{{print_issue.current_status}}</p> -->
-                <!-- </div> -->
+                    <h3>Current status</h3>
+                    <p>{{print_issue.current_status}}</p>
+                </div>
             </section>
+            <section #sRef class="sheet padding-10mm" #pageOverflow></section>
             <button type="button" >Add</button>
             <router-outlet></router-outlet>
         </mat-sidenav-content>

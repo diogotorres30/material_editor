@@ -2,6 +2,7 @@ import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/co
 import { HttpService } from '../http.service';
 import { IIssue } from './issue';
 import { FormGroup, FormControl } from '@angular/forms';
+import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
 
 @Component({
 	selector: 'app-editor',
@@ -70,27 +71,41 @@ export class EditorComponent implements OnInit {
 		}
 	}
 
-	addElement(i: IIssue) {
-		var sub_title, paragraph;
-		var iter = 0;
-		this.print_issue = i;
-		this.editorForm.get('editor').setValue(this.print_issue.technical_details);
-		console.log(this.print_issue.title);
-		var title = this.renderer.createElement('h1');
-		title.innerHTML = this.print_issue.title;
-		this.renderer.appendChild(this.section.nativeElement, title);
-		for (let leo in this.print_issue) {
-			if (leo != 'title') {
-				// sub_title = this.renderer.createElement('h3');
-				// sub_title.innerHTML = this.subTitles[iter];
-				// iter++;
-				// this.renderer.appendChild(this.section.nativeElement, sub_title);
-				// paragraph = this.renderer.createElement('p');
-				// paragraph.innerHTML = this.print_issue[leo];
-				// this.renderer.appendChild(this.section.nativeElement, paragraph);
-			}
+	onDblClick() {
+		this.show = true;
+	}
 
-			// console.log(this.print_issue[leo]);
-		}
+	addElement(i: IIssue) {
+		// var sub_title, paragraph, form;
+		// var iter = 0;
+		// this.print_issue = i;
+		// this.editorForm.get('editor').setValue(this.print_issue.technical_details);
+		// console.log(this.print_issue.title);
+		// var title = this.renderer.createElement('h1');
+		// title.innerHTML = this.print_issue.title[0];
+		// this.renderer.appendChild(this.section.nativeElement, title);
+		// for (let leo in this.print_issue) {
+		// 	if (leo != 'title') {
+		// 		sub_title = this.renderer.createElement("h3");
+		// 		sub_title.innerHTML = this.subTitles[iter];
+		// 		iter++;
+		// 		this.renderer.appendChild(this.section.nativeElement, sub_title);
+		// 		paragraph = this.renderer.createElement(this.print_issue[leo][1]);
+		// 		if(this.print_issue[leo][1] == 'a'){
+		// 			this.renderer.setAttribute(paragraph, 'href', this.print_issue[leo][0]);
+		// 		}
+		// 		if(this.print_issue[leo][1] == 'div'){
+		// 			form = this.renderer.createElement('form');
+		// 			// this.renderer.setProperty(form, '*ngIf', 'show');
+		// 			// this.renderer.setProperty(form, '[formGroup]', 'editorFormGroup');
+		// 			// this.renderer.setProperty(form, '(ngSubmit)', 'onSubmit()');
+		// 			this.renderer.appendChild(paragraph, form);
+		// 		}
+		// 		paragraph.innerHTML = this.print_issue[leo][0];
+		// 		this.renderer.appendChild(this.section.nativeElement, paragraph);
+		// 	}
+
+		// 	// console.log(this.print_issue[leo]);
+		// }
 	}
 }
