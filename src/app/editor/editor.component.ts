@@ -23,15 +23,16 @@ export class EditorComponent implements OnInit {
 		'Technical Details',
 		'Current Status'
 	];
-
-	@ViewChild('sRef', { static: false })
-	section: ElementRef;
+	
+	@ViewChild('sRef', { static: false }) section: ElementRef;
 
 	editorForm: FormGroup;
 
 	editorContent: string;
 
 	show: boolean = true;
+
+	pageHeight: number;
 
 	editorStyle = {
 		height: '800px'
@@ -52,6 +53,10 @@ export class EditorComponent implements OnInit {
 		});
 	}
 
+	ngAfterViewInit() {
+		this.pageHeight = this.section.nativeElement.offsetHeight;
+	}
+
 	onSubmit() {
 		this.editorContent = this.editorForm.get('editor').value;
 		// console.log(this.editorForm.get('editor').value);
@@ -62,18 +67,25 @@ export class EditorComponent implements OnInit {
 		this.editorForm.get('editor').setValue(this.print_issue.technical_details);
 	}
 
-	checkOverflow(element) {
-		if (element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth) {
-			this.editorContent = this.editorForm.get('editor').value;
-			this.show = false;
-		} else {
-			return false;
+	// checkOverflow(element) {
+	// 	if (element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth) {
+	// 		this.editorContent = this.editorForm.get('editor').value;
+	// 		this.show = false;
+	// 	} else {
+	// 		return false;
+	// 	}
+	// }
+
+	pageGrowth(element) {
+		if (element.offsetHeight / this.pageHeight > 1) {
+			var dottedLine = this.renderer.createElement('div');
+			this.renderer.setAttribute(dottedLine,'class',"myPageBreak")
 		}
 	}
 
 	onDblClick() {
 		this.show = true;
-	}
+	} 
 
 	addElement(i: IIssue) {
 		// var sub_title, paragraph, form;
@@ -86,15 +98,15 @@ export class EditorComponent implements OnInit {
 		// this.renderer.appendChild(this.section.nativeElement, title);
 		// for (let leo in this.print_issue) {
 		// 	if (leo != 'title') {
-		// 		sub_title = this.renderer.createElement("h3");
+		// 		sub_title = this.renderer.createElement('h3');
 		// 		sub_title.innerHTML = this.subTitles[iter];
 		// 		iter++;
 		// 		this.renderer.appendChild(this.section.nativeElement, sub_title);
 		// 		paragraph = this.renderer.createElement(this.print_issue[leo][1]);
-		// 		if(this.print_issue[leo][1] == 'a'){
+		// 		if (this.print_issue[leo][1] == 'a') {
 		// 			this.renderer.setAttribute(paragraph, 'href', this.print_issue[leo][0]);
 		// 		}
-		// 		if(this.print_issue[leo][1] == 'div'){
+		// 		if (this.print_issue[leo][1] == 'div') {
 		// 			form = this.renderer.createElement('form');
 		// 			// this.renderer.setProperty(form, '*ngIf', 'show');
 		// 			// this.renderer.setProperty(form, '[formGroup]', 'editorFormGroup');
@@ -104,7 +116,6 @@ export class EditorComponent implements OnInit {
 		// 		paragraph.innerHTML = this.print_issue[leo][0];
 		// 		this.renderer.appendChild(this.section.nativeElement, paragraph);
 		// 	}
-
 		// 	// console.log(this.print_issue[leo]);
 		// }
 	}

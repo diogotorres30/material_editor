@@ -1,9 +1,39 @@
-@import "paper-css/paper.css";
+// @import "paper-css/paper.css";
 
-@page {
-	size: auto;
-	margin: 0mm;
-	size: A4;
+// @page {
+// 	size: auto;
+// 	margin: 0mm;
+// 	size: A4;
+// }
+
+.sheet {
+	width: 210mm;
+	min-height: 296mm;
+	overflow: visible;
+	position: relative;
+	box-sizing: border-box;
+	page-break-after: always;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+	background: white;
+	box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);
+	margin: 5mm auto;
+	padding: 10mm;
+}
+
+@media screen {
+	.myPageBreak {
+		margin: 10px 0 0 0;
+		padding: 10px 0;
+		border-top: 1px dotted #c5c5c5;
+	}
+}
+@media print {
+	.myPageBreak {
+		page-break-before: always;
+		padding: 0;
+		margin: 0;
+		border: none;
+	}
 }
 
 p {
@@ -12,6 +42,6 @@ p {
 	hyphens: auto;
 }
 
-section{
-    color: black;
+section {
+	color: black;
 }
