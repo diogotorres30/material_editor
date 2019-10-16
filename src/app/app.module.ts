@@ -10,9 +10,10 @@ import { EditorComponent } from './editor/editor.component';
 import { HttpClientModule } from '@angular/common/http';
 import { QuillModule } from 'ngx-quill';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
-	declarations: [ AppComponent, HomeComponent, EditorComponent ],
+	declarations: [AppComponent, HomeComponent, EditorComponent],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
@@ -20,9 +21,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 		MaterialModule,
 		HttpClientModule,
 		QuillModule.forRoot(),
-		ReactiveFormsModule
+		ReactiveFormsModule,
+		MatTreeModule
 	],
 	providers: [],
-	bootstrap: [ AppComponent ]
+	bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
