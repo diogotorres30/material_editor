@@ -132,5 +132,8 @@
       }
     }
   },
-  "defaultProject": "material-editor"
+  "defaultProject": "material-editor",
+  "cli": {
+    "analytics": false
+  }
 }
