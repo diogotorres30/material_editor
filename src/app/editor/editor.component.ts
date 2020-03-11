@@ -24,7 +24,7 @@ export class EditorComponent implements OnInit {
 		'Current Status'
 	];
 	
-	@ViewChild('sRef', { static: false }) section: ElementRef;
+	@ViewChild('sRef') section: ElementRef;
 
 	editorForm: FormGroup;
 
