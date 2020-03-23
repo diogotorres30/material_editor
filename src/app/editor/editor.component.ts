@@ -2,7 +2,7 @@ import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/co
 import { HttpService } from '../http.service';
 import { IIssue } from './issue';
 import { FormGroup, FormControl } from '@angular/forms';
-import { throwMatDialogContentAlreadyAttachedError } from '@angular/material';
+import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
 
 @Component({
 	selector: 'app-editor',

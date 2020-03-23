@@ -16,5 +16,39 @@ a.logo {
 	background-color: #337ab7;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+	height: 100%;
+}
+body {
+	margin: 0;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+div.container {
+	margin: 0px 40px;
+}
+
+.fill-remaining-space {
+	flex: 1 1 auto;
+}
+
+form.normal-form {
+	margin: 10px;
+}
+
+.controllers-container > * {
+	width: 100%;
+}
+
+.add-bottom-padding {
+	padding: 10px;
+}
+
+mat-radio-group mat-radio-button{
+	margin-left: 5px;
+}
+
+.button-row button{
+	margin: 5px;
+}
