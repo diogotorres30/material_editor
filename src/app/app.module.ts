@@ -15,9 +15,11 @@ import { MatTreeModule } from '@angular/material/tree';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { ProjectsComponent } from './projects/projects.component';
 import { ProjectComponent } from './projects/project/project.component';
+import { GraphQLModule } from './graphql.module';
+import { ProjectTableComponent } from './projects/project-table/project-table.component';
 
 @NgModule({
-	declarations: [ AppComponent, HomeComponent, EditorComponent, ProjectsComponent, ProjectComponent ],
+	declarations: [ AppComponent, HomeComponent, EditorComponent, ProjectsComponent, ProjectComponent, ProjectTableComponent ],
 	imports: [
 		BrowserModule,
 		AppRoutingModule,
@@ -27,7 +29,8 @@ import { ProjectComponent } from './projects/project/project.component';
 		QuillModule.forRoot(),
 		ReactiveFormsModule,
 		MatTreeModule,
-		NgxDatatableModule
+		NgxDatatableModule,
+		GraphQLModule
 	],
 	providers: [ ProjectService ],
 	bootstrap: [ AppComponent ]

@@ -1,0 +1,6 @@
+query dogsList {
+			dogs {
+				id
+				name
+			}
+		}

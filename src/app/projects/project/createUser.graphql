@@ -1,0 +1,7 @@
+mutation createUser($username: String!){
+    createDog(name: $username){
+        id
+        username
+        messages
+    }
+}

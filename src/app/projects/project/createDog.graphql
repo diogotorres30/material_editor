@@ -1,0 +1,6 @@
+mutation createDog($name: String!){
+    createDog(name: $name){
+        id
+        name
+    }
+}
