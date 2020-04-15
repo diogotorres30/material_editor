@@ -4,7 +4,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 @Injectable({
 	providedIn: 'root'
 })
-export class ProjectService {
+export class ProjectFormService {
 	constructor() {}
 
 	form: FormGroup = new FormGroup({

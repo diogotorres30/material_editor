@@ -1,1 +1,48 @@
-<p>project-table works!</p>
+<div class="search-div">
+  <button mat-raised-button (click)="createProject()">
+    <mat-icon>add</mat-icon>Create
+  </button>
+  <mat-form-field class="search-form-field" floatLabel="never">
+    <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+    <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="listData" matSort>
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>ID</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="relatorios">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Reports</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{flatten(element.relatorios)}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="users">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Users</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{flatten(element.users)}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="clients">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Client</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{flatten(element.clients)}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row;let i = index;let element">
+        <button mat-icon-button (click)="createRelatorio()"><mat-icon>launch</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="deleteProject(element.id);refresh()"><mat-icon>delete_outline</mat-icon></button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+</div>
+
+

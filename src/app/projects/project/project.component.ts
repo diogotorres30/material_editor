@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Apollo, QueryRef } from 'apollo-angular';
-import { map } from 'rxjs/operators';
-import gql from 'graphql-tag';
+import { Apollo} from 'apollo-angular';
 
-import { ProjectService } from '../../shared/project.service';
-import { Observable } from 'rxjs';
+import { ProjectFormService } from '../../shared/projectForm.service';
 import { Dog, DogsListGQL, CreateDogGQL } from '../../../generated/graphql';
 
 @Component({
@@ -17,21 +14,23 @@ export class ProjectComponent implements OnInit {
 	public dogs: Dog[] = null;
 
 	constructor(
-		public service: ProjectService,
+		public service: ProjectFormService,
 		private apollo: Apollo,
 		private dogsGQL: DogsListGQL,
 		private createDogGQL: CreateDogGQL
 	) {}
+
 	departments = [ { id: 1, value: 'Dep 1' }, { id: 2, value: 'Dep 2' }, { id: 3, value: 'Dep 3' } ];
 	ngOnInit() {
 		// this.apollo.query({query:this.dogsList}).subscribe(console.log);
 		// this.dogs$ = this.apollo.watchQuery({ query: this.dogsList }).valueChanges.pipe(map(result => result.data.dogs));
 
-		
+
 		this.dogsGQL.watch().valueChanges.subscribe((result) => {
 			this.dogs = result.data.dogs;
+      console.log(this.dogs);
 		});
-		console.log(this.dogs);
+
 	}
 
 	createDog(name: string) {

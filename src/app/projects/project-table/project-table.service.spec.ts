@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ProjectFormService } from './projectForm.service';
+import { ProjectTableService } from './project-table.service';
 
-describe('ProjectService', () => {
-  let service: ProjectFormService;
+describe('ProjectTableService', () => {
+  let service: ProjectTableService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ProjectFormService);
+    service = TestBed.inject(ProjectTableService);
   });
 
   it('should be created', () => {

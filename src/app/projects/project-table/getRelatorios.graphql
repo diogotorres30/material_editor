@@ -1,0 +1,16 @@
+query getProjects {
+  getProjects{
+    id
+    name
+    relatorios{
+      name
+    }
+    users{
+      name
+      role
+    }
+    clients{
+      name
+    }
+  }
+}
