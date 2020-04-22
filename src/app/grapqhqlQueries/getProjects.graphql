@@ -1,0 +1,29 @@
+query getProjects {
+  getProjects{
+    id
+    name
+    status
+    relatorios{
+      name
+    }
+    auditor{
+      name
+      email
+      role
+    }
+    reviewer{
+      name
+      email
+      role
+    }
+    projectManager{
+      name
+      email
+      role
+    }
+    clients{
+      name
+      email
+    }
+  }
+}

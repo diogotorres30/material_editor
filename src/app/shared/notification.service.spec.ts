@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ProjectTableService } from './project-table.service';
+import { NotidicationService } from './notidication.service';
 
-describe('ProjectTableService', () => {
-  let service: ProjectTableService;
+describe('NotidicationService', () => {
+  let service: NotidicationService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(ProjectTableService);
+    service = TestBed.inject(NotidicationService);
   });
 
   it('should be created', () => {
