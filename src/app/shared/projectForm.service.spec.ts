@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { ProjectFormService } from './projectForm.service';
 
-describe('ProjectService', () => {
+describe('ProjectFormService', () => {
   let service: ProjectFormService;
 
   beforeEach(() => {

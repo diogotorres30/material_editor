@@ -4,6 +4,7 @@ query getProjects {
     name
     status
     relatorios{
+      id
       name
     }
     auditor{
@@ -12,6 +13,7 @@ query getProjects {
       role
     }
     reviewer{
+      id
       name
       email
       role
