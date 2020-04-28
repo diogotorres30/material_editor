@@ -1,0 +1,3 @@
+mutation addProjectManagerToProject($userId: ID!, $projId: ID!){
+  addProjectManagerToProject(userId: $userId, projId: $projId)
+}

@@ -1,5 +1,5 @@
-query getClients{
-  getClients{
+query fetchClients{
+  fetchClients{
     id
     name
     email

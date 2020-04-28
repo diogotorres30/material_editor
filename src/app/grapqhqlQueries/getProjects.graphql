@@ -1,5 +1,5 @@
-query getProjects {
-  getProjects{
+query fetchProjects {
+  fetchProjects{
     id
     name
     status
@@ -16,14 +16,14 @@ query getProjects {
       id
       name
       email
-      role
+
     }
     projectManager{
       name
       email
-      role
+
     }
-    clients{
+    client{
       name
       email
     }

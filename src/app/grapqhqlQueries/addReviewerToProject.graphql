@@ -1,0 +1,3 @@
+mutation addReviewerToProject($userId: ID!, $projId: ID!){
+  addReviewerToProject(userId: $userId, projId: $projId)
+}

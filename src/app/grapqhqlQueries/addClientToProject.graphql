@@ -1,6 +1,3 @@
-mutation addClientToProject($clientId: ID!, $projId: ID!, $name: String!, $email: String!){
-  addClientToProject(clientId: $clientId, projId: $projId, name: $name, email:$email){
-    id
-    name
-  }
+mutation addClientToProject($clientId: ID!, $projId: ID!){
+  addClientToProject(clientId: $clientId, projId: $projId)
 }

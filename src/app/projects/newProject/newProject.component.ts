@@ -8,17 +8,17 @@ import {NotificationService} from "../../shared/notification.service";
 
 @Component({
   selector: 'app-project',
-  templateUrl: './project.component.html',
-  styleUrls: ['./project.component.scss']
+  templateUrl: './newProject.component.html',
+  styleUrls: ['./newProject.component.scss']
 })
-export class ProjectComponent implements OnInit {
+export class NewProjectComponent implements OnInit {
 
 
   constructor(
     public projectFormService: ProjectFormService,
     public formOptionsService: FormOptionsService,
     private apollo: Apollo,
-    public dialogRef: MatDialogRef<ProjectComponent>,
+    public dialogRef: MatDialogRef<NewProjectComponent>,
     public notificationService: NotificationService,
   ) {
   }

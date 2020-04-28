@@ -27,7 +27,10 @@
     <ng-container matColumnDef="relatorios">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Reports</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button class="invisible-button" *ngFor="let rel of element.relatorios" (click)="printThis(rel['id'])">{{rel['name']}}</button>
+        <button class="invisible-button" *ngFor="let rel of element.relatorios">{{rel['name']}}</button>
+        <button mat-icon-button class="small-plus">
+          <mat-icon (click)="createRelatorio()">add</mat-icon>
+        </button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="auditor">
@@ -42,19 +45,19 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>Project Manager</mat-header-cell>
       <mat-cell *matCellDef="let element">{{flatten(element.projectManager, 'name')}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="clients">
+    <ng-container matColumnDef="client">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Client</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{flatten(element.clients, 'name')}}</mat-cell>
+      <mat-cell *matCellDef="let element">{{flatten(element.client, 'name')}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="clientEmail">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Client Email</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{flatten(element.clients, 'email')}}</mat-cell>
+      <mat-cell *matCellDef="let element">{{flatten(element.client, 'email')}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row;let i = index;let element">
-        <button mat-icon-button (click)="createRelatorio(element.id)">
-          <mat-icon>launch</mat-icon>
+        <button mat-icon-button (click)="onEdit(row)">
+          <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="deleteProject(element.id)">
           <mat-icon>delete_outline</mat-icon>

@@ -13,12 +13,14 @@ import {QuillModule} from 'ngx-quill';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatTreeModule} from '@angular/material/tree';
 import {ProjectsComponent} from './projects/projects.component';
-import {ProjectComponent} from './projects/project/project.component';
+import {NewProjectComponent} from './projects/newProject/newProject.component';
 import {GraphQLModule} from './graphql.module';
 import {ProjectTableComponent} from './projects/project-table/project-table.component';
+import {FormOptionsService} from "./shared/form-options.service";
+import {UpdateProjectComponent} from './projects/update-project/update-project.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, ProjectComponent, ProjectTableComponent],
+  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -31,9 +33,9 @@ import {ProjectTableComponent} from './projects/project-table/project-table.comp
     GraphQLModule,
     FormsModule
   ],
-  providers: [ProjectFormService],
+  providers: [ProjectFormService, FormOptionsService],
   bootstrap: [AppComponent],
-  entryComponents: [ProjectComponent]
+  entryComponents: [NewProjectComponent]
 })
 export class AppModule {
 }
