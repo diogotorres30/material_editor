@@ -1,0 +1,3 @@
+mutation addAuditorToProject($userId: ID!, $projId: ID!){
+  addAuditorToProject(userId: $userId, projId: $projId)
+}

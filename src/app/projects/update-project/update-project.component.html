@@ -1,0 +1,49 @@
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="auditorListData" matSort>
+
+    <ng-container matColumnDef="auditor">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Auditors</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row;let i = index;let element">
+        <button mat-icon-button (click)="onEdit(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" >
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="auditorDisplayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: auditorDisplayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-table [dataSource]="reviewerListData" matSort>
+
+    <ng-container matColumnDef="reviewer">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Reviewers</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row;let i = index;let element">
+        <button mat-icon-button (click)="onEdit(row)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" >
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="reviewerDisplayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: reviewerDisplayedColumns;"></mat-row>
+  </mat-table>
+</div>
+
+
