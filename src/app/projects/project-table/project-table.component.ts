@@ -85,7 +85,7 @@ export class ProjectTableComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     // dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "80%";
+    dialogConfig.width = "60%";
     this.dialog.open(UpdateProjectComponent, dialogConfig);
   }
 

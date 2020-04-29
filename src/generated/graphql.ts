@@ -13,6 +13,7 @@ export type Scalars = {
 };
 
 
+
 export type Auditor = {
   __typename?: 'Auditor';
   id: Scalars['ID'];
@@ -322,7 +323,7 @@ export type CreateRelatorioMutation = (
   { __typename?: 'Mutation' }
   & { createRelatorio: (
     { __typename?: 'Relatorio' }
-    & Pick<Relatorio, 'name'>
+    & Pick<Relatorio, 'name' | 'status' | 'revDeadline' | 'delDeadline'>
   ) }
 );
 
@@ -361,7 +362,7 @@ export type FetchProjectsQuery = (
     & {
     relatorios?: Maybe<Array<(
       { __typename?: 'Relatorio' }
-      & Pick<Relatorio, 'id' | 'name'>
+      & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline'>
       )>>, auditor?: Maybe<Array<(
       { __typename?: 'Auditor' }
       & Pick<Auditor, 'name' | 'email' | 'role'>
@@ -467,6 +468,9 @@ export const CreateRelatorioDocument = gql`
   mutation createRelatorio($name: String!, $status: String, $revDeadline: String, $delDeadline: String) {
     createRelatorio(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline) {
       name
+      status
+      revDeadline
+      delDeadline
     }
   }
 `;
@@ -478,10 +482,11 @@ export const CreateRelatorioDocument = gql`
     document = CreateRelatorioDocument;
 
   }
+
 export const DeleteProjectDocument = gql`
-    mutation deleteProject($id: ID!) {
-  deleteProject(id: $id)
-    }
+  mutation deleteProject($id: ID!) {
+    deleteProject(id: $id)
+  }
 `;
 
 @Injectable({
@@ -519,6 +524,9 @@ export const FetchProjectsDocument = gql`
       relatorios {
         id
         name
+        status
+        revDeadline
+        delDeadline
       }
       auditor {
         name
@@ -570,12 +578,12 @@ export class FetchUsersGQL extends Apollo.Query<FetchUsersQuery, FetchUsersQuery
 
 export const NewProjectDocument = gql`
   mutation newProject($name: String!) {
-  newProject(name: $name) {
-    id
-    name
+    newProject(name: $name) {
+      id
+      name
+    }
   }
-}
-    `;
+`;
 
   @Injectable({
     providedIn: 'root'

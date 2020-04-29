@@ -36,6 +36,8 @@ export class ProjectFormService {
   });
   edit_auditors = []
   edit_reviewers = []
+  edit_pms = []
+  edit_rels = []
 
 
   initializeFormGroup() {
@@ -116,5 +118,7 @@ export class ProjectFormService {
   editProject(project) {
     this.edit_auditors = project.auditor
     this.edit_reviewers = project.reviewer
+    this.edit_pms = project.projectManager
+    this.edit_rels = project.relatorios
   }
 }

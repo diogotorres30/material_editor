@@ -18,15 +18,22 @@ export class UpdateProjectComponent implements OnInit {
   }
 
   auditorListData: MatTableDataSource<any>;
-  auditorDisplayedColumns: string[] = ['auditor', 'actions'];
+  auditorDisplayedColumns: string[] = ['name', 'email', 'actions'];
   reviewerListData: MatTableDataSource<any>;
-  reviewerDisplayedColumns: string[] = ['reviewer', 'actions'];
+  reviewerDisplayedColumns: string[] = ['name', 'email', 'actions'];
+  pmListData: MatTableDataSource<any>;
+  pmDisplayedColumns: string[] = ['name', 'email', 'actions'];
+  relListData: MatTableDataSource<any>;
+  relDisplayedColumns: string[] = ['name', 'status', 'revDeadline', 'delDeadline', 'actions'];
 
   ngOnInit() {
     this.auditorListData = new MatTableDataSource<any>(this.projectFormService.edit_auditors);
     this.reviewerListData = new MatTableDataSource<any>(this.projectFormService.edit_reviewers);
+    this.pmListData = new MatTableDataSource<any>(this.projectFormService.edit_pms);
+    this.relListData = new MatTableDataSource<any>(this.projectFormService.edit_rels);
   }
-  onEdit(auditor){
+
+  onEdit(auditor) {
     console.log(auditor)
   }
 }

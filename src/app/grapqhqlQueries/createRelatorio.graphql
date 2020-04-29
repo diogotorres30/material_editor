@@ -1,5 +1,8 @@
 mutation createRelatorio($name: String!, $status: String, $revDeadline: String, $delDeadline: String){
   createRelatorio(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline){
     name
+    status
+    revDeadline
+    delDeadline
   }
 }
