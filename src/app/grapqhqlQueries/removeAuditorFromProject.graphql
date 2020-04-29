@@ -1,0 +1,3 @@
+mutation removeAuditorFromProject($auditorId: ID!, $projId: ID!){
+  removeAuditorFromProject(auditorId: $auditorId, projId: $projId)
+}

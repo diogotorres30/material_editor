@@ -1,0 +1,3 @@
+mutation removeProjectManagerFromProject($projectManagerId: ID!, $projId: ID!){
+  removeProjectManagerFromProject(projectManagerId: $projectManagerId, projId: $projId)
+}

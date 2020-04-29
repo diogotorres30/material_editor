@@ -1,7 +1,18 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProjectFormService} from 'src/app/shared/projectForm.service';
 import {Apollo} from 'apollo-angular';
-import {CreateRelatorioGQL, DeleteProjectGQL, FetchProjectsGQL} from "../../../generated/graphql";
+import {
+  Auditor,
+  Client,
+  CreateRelatorioGQL,
+  DeleteProjectGQL,
+  FetchProjectsGQL,
+  Maybe,
+  Project,
+  ProjectManager,
+  Relatorio,
+  Reviewer
+} from "../../../generated/graphql";
 
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
@@ -26,6 +37,7 @@ export class ProjectTableComponent implements OnInit {
     private dialog: MatDialog) {
   }
 
+  localListData: Array<{ __typename?: "Project" } & Pick<Project, "id" | "name" | "status"> & { relatorios?: Maybe<Array<{ __typename?: "Relatorio" } & Pick<Relatorio, "id" | "name" | "status" | "revDeadline" | "delDeadline">>>; auditor?: Maybe<Array<{ __typename?: "Auditor" } & Pick<Auditor, "id" | "name" | "email" | "role">>>; reviewer?: Maybe<Array<{ __typename?: "Reviewer" } & Pick<Reviewer, "id" | "name" | "email" | "role">>>; projectManager?: Maybe<Array<{ __typename?: "ProjectManager" } & Pick<ProjectManager, "id" | "name" | "email" | "role">>>; client?: Maybe<Array<{ __typename?: "Client" } & Pick<Client, "name" | "email">>> }>
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = ['id', 'name', 'status', 'relatorios', 'auditor', 'reviewer', 'projectManager', 'client', 'clientEmail', 'actions'];
   @ViewChild(MatSort) sort: MatSort;
@@ -36,7 +48,8 @@ export class ProjectTableComponent implements OnInit {
 
   ngOnInit() {
     this.fetchProjectsGQL.watch().valueChanges.subscribe((result) => {
-      this.listData = new MatTableDataSource(result.data.fetchProjects);
+      this.localListData = result.data.fetchProjects
+      this.listData = new MatTableDataSource(this.localListData);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     })
@@ -54,6 +67,7 @@ export class ProjectTableComponent implements OnInit {
     this.deleteProjectGQL.mutate({id}).subscribe((created) => {
       location.reload();
     })
+
   }
 
   createRelatorio() {
@@ -61,6 +75,7 @@ export class ProjectTableComponent implements OnInit {
       name: "certo?",
       status: "OPEN"
     }).subscribe((created) => {
+
       location.reload();
     });
   }
@@ -80,7 +95,7 @@ export class ProjectTableComponent implements OnInit {
   }
 
   onEdit(project) {
-    this.service.populateProjectForm(project);
+    // this.service.populateProjectForm(project);
     this.service.editProject(project);
     const dialogConfig = new MatDialogConfig();
     // dialogConfig.disableClose = true;

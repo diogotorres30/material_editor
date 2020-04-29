@@ -38,6 +38,7 @@ export class ProjectFormService {
   edit_reviewers = []
   edit_pms = []
   edit_rels = []
+  edit_proj: string
 
 
   initializeFormGroup() {
@@ -80,45 +81,46 @@ export class ProjectFormService {
     location.reload();
   }
 
-  populateProjectForm(project) {
-    let client_option
-    let reviewer_option
-    let auditor_option
-    let projectManager_option
-    try {
-      client_option = (this.formOptionsService.clientsArray.findIndex(el => el.name === project.client[0].name) + 1).toString()
-    } catch (e) {
-      client_option = ''
-    }
-    try {
-      reviewer_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.reviewer[0].name) + 1).toString()
-    } catch (e) {
-      reviewer_option = ''
-    }
-    try {
-      auditor_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.auditor[0].name) + 1).toString()
-    } catch (e) {
-      auditor_option = ''
-    }
-    try {
-      projectManager_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.projectManager[0].name) + 1).toString()
-    } catch (e) {
-      projectManager_option = ''
-    }
-
-    this.form.setValue({
-      name: project.name,
-      client: client_option,
-      projectManager: projectManager_option,
-      auditor: auditor_option,
-      reviewer: reviewer_option
-    })
-  }
+  // populateProjectForm(project) {
+  //   let client_option
+  //   let reviewer_option
+  //   let auditor_option
+  //   let projectManager_option
+  //   try {
+  //     client_option = (this.formOptionsService.clientsArray.findIndex(el => el.name === project.client[0].name) + 1).toString()
+  //   } catch (e) {
+  //     client_option = ''
+  //   }
+  //   try {
+  //     reviewer_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.reviewer[0].name) + 1).toString()
+  //   } catch (e) {
+  //     reviewer_option = ''
+  //   }
+  //   try {
+  //     auditor_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.auditor[0].name) + 1).toString()
+  //   } catch (e) {
+  //     auditor_option = ''
+  //   }
+  //   try {
+  //     projectManager_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.projectManager[0].name) + 1).toString()
+  //   } catch (e) {
+  //     projectManager_option = ''
+  //   }
+  //
+  //   this.form.setValue({
+  //     name: project.name,
+  //     client: client_option,
+  //     projectManager: projectManager_option,
+  //     auditor: auditor_option,
+  //     reviewer: reviewer_option
+  //   })
+  // }
 
   editProject(project) {
     this.edit_auditors = project.auditor
     this.edit_reviewers = project.reviewer
     this.edit_pms = project.projectManager
     this.edit_rels = project.relatorios
+    this.edit_proj = project.id
   }
 }

@@ -1,0 +1,3 @@
+mutation removeReviewerFromProject($reviewerId: ID!, $projId: ID!){
+  removeReviewerFromProject(reviewerId: $reviewerId, projId: $projId)
+}
