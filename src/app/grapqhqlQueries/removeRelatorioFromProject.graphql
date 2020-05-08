@@ -1,0 +1,3 @@
+mutation removeRelatorioFromProject($relatorioId: ID!, $projId: ID!){
+  removeRelatorioFromProject(relatorioId: $relatorioId, projId: $projId)
+}

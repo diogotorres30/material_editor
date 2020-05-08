@@ -50,7 +50,10 @@
     "@angular/cli": "^9.0.7",
     "@angular/compiler-cli": "^9.0.7",
     "@angular/language-service": "^9.0.7",
-    "@graphql-codegen/cli": "^1.13.1",
+    "@graphql-codegen/cli": "1.13.3",
+    "@graphql-codegen/typescript": "1.13.3",
+    "@graphql-codegen/typescript-apollo-angular": "1.13.3",
+    "@graphql-codegen/typescript-operations": "1.13.3",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^12.12.31",
@@ -66,9 +69,6 @@
     "protractor": "^5.4.3",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.7.5",
-    "@graphql-codegen/typescript": "1.13.1",
-    "@graphql-codegen/typescript-operations": "1.13.1",
-    "@graphql-codegen/typescript-apollo-angular": "1.13.1"
+    "typescript": "~3.7.5"
   }
 }

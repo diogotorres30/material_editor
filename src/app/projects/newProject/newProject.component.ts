@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import {Apollo} from 'apollo-angular';
 
 import {ProjectFormService} from '../../shared/projectForm.service';
-import {FormOptionsService} from '../../shared/form-options.service'
+import {ProjectFormOptionsService} from '../../shared/projectForm-options.service'
 import {NotificationService} from "../../shared/notification.service";
 
 @Component({
@@ -16,8 +15,7 @@ export class NewProjectComponent implements OnInit {
 
   constructor(
     public projectFormService: ProjectFormService,
-    public formOptionsService: FormOptionsService,
-    private apollo: Apollo,
+    public formOptionsService: ProjectFormOptionsService,
     public dialogRef: MatDialogRef<NewProjectComponent>,
     public notificationService: NotificationService,
   ) {
@@ -33,7 +31,6 @@ export class NewProjectComponent implements OnInit {
       this.projectFormService.form.reset();
       this.projectFormService.initializeFormGroup();
       this.notificationService.success(':: Submitted successfully');
-      // location.reload();
     }
   }
 

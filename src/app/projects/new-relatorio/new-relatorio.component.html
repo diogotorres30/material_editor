@@ -1,0 +1,34 @@
+<form [formGroup]="relatorioFormService.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="2" rowHeight="300px">
+    <mat-grid-tile>
+      <div class="controllers-container">
+        <mat-form-field>
+          <input formControlName="name" matInput placeholder="Name*">
+          <mat-error>This field is mandatory.</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="revDeadline" matInput [matDatepicker]="revPicker" placeholder="Review Deadline">
+          <mat-datepicker-toggle matSuffix [for]="revPicker"></mat-datepicker-toggle>
+          <mat-datepicker #revPicker></mat-datepicker>
+        </mat-form-field>
+
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <div class="controllers-container">
+        <mat-form-field>
+          <input formControlName="delDeadline" matInput [matDatepicker]="delPicker" placeholder="Delivery Deadline">
+          <mat-datepicker-toggle matSuffix [for]="delPicker"></mat-datepicker-toggle>
+          <mat-datepicker #delPicker></mat-datepicker>
+        </mat-form-field>
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit"
+                  [disabled]="relatorioFormService.form.invalid">Submit
+          </button>
+          <button mat-raised-button color="warn">Clear</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

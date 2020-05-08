@@ -4,7 +4,7 @@ import {FetchClientsGQL, FetchProjectsGQL, FetchUsersGQL,} from "../../generated
 @Injectable({
   providedIn: 'root'
 })
-export class FormOptionsService {
+export class ProjectFormOptionsService {
   public usersArray: any;
   public clientsArray: any;
   public projectsArray: any;

@@ -28,9 +28,6 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>Reports</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <button class="invisible-button" *ngFor="let rel of element.relatorios">{{rel['name']}}</button>
-        <button mat-icon-button class="small-plus">
-          <mat-icon (click)="createRelatorio()">add</mat-icon>
-        </button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="auditor">

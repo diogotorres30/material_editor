@@ -70,16 +70,6 @@ export class ProjectTableComponent implements OnInit {
 
   }
 
-  createRelatorio() {
-    this.createRelatorioGQL.mutate({
-      name: "certo?",
-      status: "OPEN"
-    }).subscribe((created) => {
-
-      location.reload();
-    });
-  }
-
   createProject() {
     this.service.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();

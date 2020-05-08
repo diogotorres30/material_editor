@@ -1,13 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {ProjectFormService} from "../../shared/projectForm.service";
 import {
+  AddAuditorToProjectGQL, AddProjectManagerToProjectGQL,
+  AddReviewerToProjectGQL, CreateRelatorioGQL,
   RemoveAuditorFromProjectGQL,
-  RemoveProjectManagerFromProjectGQL,
+  RemoveProjectManagerFromProjectGQL, RemoveRelatorioFromProjectGQL,
   RemoveReviewerFromProjectGQL
 } from "../../../generated/graphql";
-import {FormOptionsService} from "../../shared/form-options.service";
+import {ProjectFormOptionsService} from "../../shared/projectForm-options.service";
+import {NewRelatorioComponent} from "../new-relatorio/new-relatorio.component";
+import {RelatorioFormService} from "../../shared/relatorio-form.service";
 
 @Component({
   selector: 'app-update-project',
@@ -19,11 +23,18 @@ export class UpdateProjectComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<UpdateProjectComponent>,
+    private relatorioFormService: RelatorioFormService,
     private projectFormService: ProjectFormService,
-    public formOptionsService: FormOptionsService,
+    public formOptionsService: ProjectFormOptionsService,
     private removeAuditorFromProjectGQL: RemoveAuditorFromProjectGQL,
     private removeReviewerFromProjectGQL: RemoveReviewerFromProjectGQL,
-    private removeProjectManagerFromProjectGQL: RemoveProjectManagerFromProjectGQL
+    private removeProjectManagerFromProjectGQL: RemoveProjectManagerFromProjectGQL,
+    private addAuditorToProjectGQL: AddAuditorToProjectGQL,
+    private addReviewerToProjectGQL: AddReviewerToProjectGQL,
+    private addProjectManagerToProjectGQL: AddProjectManagerToProjectGQL,
+    private removeRelatorioFromProjectGQL: RemoveRelatorioFromProjectGQL,
+    private createRelatorioGQL: CreateRelatorioGQL,
+    private dialog: MatDialog
   ) {
   }
 
@@ -45,9 +56,32 @@ export class UpdateProjectComponent implements OnInit {
   }
 
   addAuditorToProject(id) {
-    console.log(id)
-    console.log(this.projectFormService.edit_proj)
+    this.addAuditorToProjectGQL.mutate({
+      userId: id,
+      projId: this.projectFormService.edit_proj
+    }).subscribe(created => {
+    });
+    location.reload();
   }
+
+  addReviewerToProject(id) {
+    this.addReviewerToProjectGQL.mutate({
+      userId: id,
+      projId: this.projectFormService.edit_proj
+    }).subscribe(created => {
+    });
+    location.reload();
+  }
+
+  addProjectManagerToProject(id) {
+    this.addProjectManagerToProjectGQL.mutate({
+      userId: id,
+      projId: this.projectFormService.edit_proj
+    }).subscribe(created => {
+    });
+    location.reload();
+  }
+
 
   removeAuditor(row) {
     this.removeAuditorFromProjectGQL.mutate({
@@ -77,7 +111,27 @@ export class UpdateProjectComponent implements OnInit {
     location.reload();
   }
 
-  removeRelatorio(row) {
+  createRelatorio() {
+    // this.createRelatorioGQL.mutate({
+    //   name: "certo ding dong?",
+    //   status: "OPEN",
+    //   projId: this.projectFormService.edit_proj
+    // }).subscribe((created) => {
+    //   // location.reload();
+    // });
+    this.relatorioFormService.initializeFormGroup();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "80%";
+    this.dialog.open(NewRelatorioComponent, dialogConfig);
+  }
 
+  removeRelatorio(row) {
+    this.removeRelatorioFromProjectGQL.mutate({
+      relatorioId: row.id,
+      projId: this.projectFormService.edit_proj
+    }).subscribe(created => {
+    });
+    location.reload();
   }
 }

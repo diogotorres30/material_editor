@@ -7,7 +7,6 @@ import {
   AddReviewerToProjectGQL,
   NewProjectGQL
 } from "../../generated/graphql";
-import {FormOptionsService} from "./form-options.service";
 
 
 @Injectable({
@@ -15,19 +14,7 @@ import {FormOptionsService} from "./form-options.service";
 })
 export class ProjectFormService {
 
-  constructor(
-    private newProjectGQL: NewProjectGQL,
-    private addClientToProjectGQL: AddClientToProjectGQL,
-    private addAuditorToProjectGQL: AddAuditorToProjectGQL,
-    private addReviewerToProjectGQL: AddReviewerToProjectGQL,
-    private addProjectManagerToProjectGQL: AddProjectManagerToProjectGQL,
-    private formOptionsService: FormOptionsService
-  ) {
-  }
-
-
   form: FormGroup = new FormGroup({
-    // $key: new FormControl(null),
     name: new FormControl('', Validators.required),
     client: new FormControl(0/*, Validators.email*/),
     projectManager: new FormControl(0/*, [ Validators.required, Validators.minLength(8) ]*/),
@@ -40,10 +27,17 @@ export class ProjectFormService {
   edit_rels = []
   edit_proj: string
 
+  constructor(
+    private newProjectGQL: NewProjectGQL,
+    private addClientToProjectGQL: AddClientToProjectGQL,
+    private addAuditorToProjectGQL: AddAuditorToProjectGQL,
+    private addReviewerToProjectGQL: AddReviewerToProjectGQL,
+    private addProjectManagerToProjectGQL: AddProjectManagerToProjectGQL,
+  ) {
+  }
 
   initializeFormGroup() {
     this.form.setValue({
-      // $key: null,
       name: '',
       client: 0,
       projectManager: 0,
@@ -51,7 +45,6 @@ export class ProjectFormService {
       reviewer: 0,
     });
   }
-
 
   newProject(project) {
     this.newProjectGQL.mutate({
@@ -80,41 +73,6 @@ export class ProjectFormService {
     })
     location.reload();
   }
-
-  // populateProjectForm(project) {
-  //   let client_option
-  //   let reviewer_option
-  //   let auditor_option
-  //   let projectManager_option
-  //   try {
-  //     client_option = (this.formOptionsService.clientsArray.findIndex(el => el.name === project.client[0].name) + 1).toString()
-  //   } catch (e) {
-  //     client_option = ''
-  //   }
-  //   try {
-  //     reviewer_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.reviewer[0].name) + 1).toString()
-  //   } catch (e) {
-  //     reviewer_option = ''
-  //   }
-  //   try {
-  //     auditor_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.auditor[0].name) + 1).toString()
-  //   } catch (e) {
-  //     auditor_option = ''
-  //   }
-  //   try {
-  //     projectManager_option = (this.formOptionsService.usersArray.findIndex(el => el.name === project.projectManager[0].name) + 1).toString()
-  //   } catch (e) {
-  //     projectManager_option = ''
-  //   }
-  //
-  //   this.form.setValue({
-  //     name: project.name,
-  //     client: client_option,
-  //     projectManager: projectManager_option,
-  //     auditor: auditor_option,
-  //     reviewer: reviewer_option
-  //   })
-  // }
 
   editProject(project) {
     this.edit_auditors = project.auditor

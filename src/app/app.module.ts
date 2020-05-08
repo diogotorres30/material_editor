@@ -16,11 +16,13 @@ import {ProjectsComponent} from './projects/projects.component';
 import {NewProjectComponent} from './projects/newProject/newProject.component';
 import {GraphQLModule} from './graphql.module';
 import {ProjectTableComponent} from './projects/project-table/project-table.component';
-import {FormOptionsService} from "./shared/form-options.service";
+import {ProjectFormOptionsService} from "./shared/projectForm-options.service";
 import {UpdateProjectComponent} from './projects/update-project/update-project.component';
+import { NewRelatorioComponent } from './projects/new-relatorio/new-relatorio.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent],
+  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent, NewRelatorioComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -33,7 +35,7 @@ import {UpdateProjectComponent} from './projects/update-project/update-project.c
     GraphQLModule,
     FormsModule
   ],
-  providers: [ProjectFormService, FormOptionsService],
+  providers: [ProjectFormService, ProjectFormOptionsService, DatePipe],
   bootstrap: [AppComponent],
   entryComponents: [NewProjectComponent]
 })

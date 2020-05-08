@@ -85,8 +85,10 @@ mat-radio-group mat-radio-button {
 }
 
 .invisible-button {
-  background: transparent;
-  border: none !important;
+  background: white;
+  color: black;
+  cursor: pointer;
+  border: 2px solid #e7e7e7;
   padding: 1px;
 }
 

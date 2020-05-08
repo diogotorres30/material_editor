@@ -11,7 +11,7 @@
 
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="email">
@@ -33,7 +33,7 @@
         <mat-select placeholder=" + Add Auditor" [(value)]="selected">
           <mat-option>
             <mat-icon>add</mat-icon>
-            New Client
+            New Auditor
           </mat-option>
           <ng-container *ngFor="let user of formOptionsService.usersArray">
             <mat-option value="{{user.id}}">{{user.name}}</mat-option>
@@ -75,9 +75,28 @@
         </button>
       </mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="newReviewer">
+      <mat-footer-cell *matFooterCellDef colspan="3">
+        <mat-select placeholder=" + Add Reviewer" [(value)]="selected">
+          <mat-option>
+            <mat-icon>add</mat-icon>
+            New Reviewer
+          </mat-option>
+          <ng-container *ngFor="let user of formOptionsService.usersArray">
+            <mat-option value="{{user.id}}">{{user.name}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <button mat-icon-button (click)="addReviewerToProject(selected)">
+          <mat-icon>check</mat-icon>
+        </button>
+      </mat-footer-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="['reviewers']"></mat-header-row>
     <mat-header-row *matHeaderRowDef="reviewerDisplayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: reviewerDisplayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="['newReviewer']"></mat-footer-row>
   </mat-table>
   <!--------------------------------------Project Managers Table--------------------------------------------------->
   <mat-table [dataSource]="pmListData" matSort>
@@ -104,9 +123,28 @@
         </button>
       </mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="newProjectManager">
+      <mat-footer-cell *matFooterCellDef colspan="3">
+        <mat-select placeholder=" + Add Project Manager" [(value)]="selected">
+          <mat-option>
+            <mat-icon>add</mat-icon>
+            New Project Manager
+          </mat-option>
+          <ng-container *ngFor="let user of formOptionsService.usersArray">
+            <mat-option value="{{user.id}}">{{user.name}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <button mat-icon-button (click)="addProjectManagerToProject(selected)">
+          <mat-icon>check</mat-icon>
+        </button>
+      </mat-footer-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="['pms']"></mat-header-row>
     <mat-header-row *matHeaderRowDef="pmDisplayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: pmDisplayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="['newProjectManager']"></mat-footer-row>
   </mat-table>
   <!-----------------------------------------Reports Table--------------------------------------------------------->
   <mat-table [dataSource]="relListData" matSort>
@@ -118,7 +156,7 @@
 
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.id}}</mat-cell>
+      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="status">
@@ -144,9 +182,20 @@
         </button>
       </mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="newRelatorio">
+      <mat-footer-cell *matFooterCellDef colspan="5">
+        <button mat-icon-button (click)="createRelatorio()">
+          <mat-icon>add</mat-icon>
+          New Report
+        </button>
+      </mat-footer-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="['rels']"></mat-header-row>
     <mat-header-row *matHeaderRowDef="relDisplayedColumns"></mat-header-row>
     <mat-row *matRowDef="let row; columns: relDisplayedColumns;"></mat-row>
+    <mat-footer-row *matFooterRowDef="['newRelatorio']"></mat-footer-row>
   </mat-table>
 </div>
 
