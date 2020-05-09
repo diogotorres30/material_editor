@@ -1,0 +1,24 @@
+mutation createFinding(
+  $title: String!,
+  $description: String!,
+  $impact: String!,
+  $remediation: String,
+  $cvssVector: String,
+  $severity: String,
+  $technicalDetails: String,
+  $currentStatus: String,
+  $otherreferences: String,
+
+){
+  createFinding(
+    title: $title,
+    description: $description,
+    impact: $impact,
+    remediation: $remediation,
+    cvssVector: $cvssVector,
+    severity: $severity,
+    technicalDetails: $technicalDetails,
+    currentStatus: $currentStatus,
+    otherreferences: $otherreferences,
+  )
+}

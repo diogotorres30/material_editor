@@ -34,12 +34,15 @@ export type Client = {
 
 export type Finding = {
    __typename?: 'Finding';
-  _id: Scalars['ID'];
+  id: Scalars['ID'];
   title: Scalars['String'];
   description: Scalars['String'];
   impact: Scalars['String'];
-  score?: Maybe<Scalars['String']>;
+  remediation?: Maybe<Scalars['String']>;
+  cvssVector?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
+  technicalDetails?: Maybe<Scalars['String']>;
+  currentStatus?: Maybe<Scalars['String']>;
   otherreferences?: Maybe<Scalars['String']>;
 };
 
@@ -48,7 +51,7 @@ export type Mutation = {
   _empty?: Maybe<Scalars['Boolean']>;
   addUserToProject: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
-  createFinding: Finding;
+  createFinding: Scalars['Boolean'];
   addClientToProject: Scalars['Boolean'];
   newProject: Project;
   updateProject: Project;
@@ -81,9 +84,12 @@ export type MutationCreateFindingArgs = {
   title: Scalars['String'];
   description: Scalars['String'];
   impact: Scalars['String'];
-  score?: Maybe<Scalars['String']>;
+  remediation?: Maybe<Scalars['String']>;
+  cvssVector?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
-  otherReferences?: Maybe<Scalars['String']>;
+  technicalDetails?: Maybe<Scalars['String']>;
+  currentStatus?: Maybe<Scalars['String']>;
+  otherreferences?: Maybe<Scalars['String']>;
 };
 
 
@@ -204,7 +210,8 @@ export type Query = {
   _empty?: Maybe<Scalars['Boolean']>;
   fetchUsers?: Maybe<Array<User>>;
   fetchUser?: Maybe<User>;
-  findings: Array<Finding>;
+  fetchFindings?: Maybe<Array<Finding>>;
+  fetchFinding?: Maybe<Finding>;
   fetchClients?: Maybe<Array<Client>>;
   fetchClient?: Maybe<Client>;
   fetchProjects: Array<Project>;
@@ -221,6 +228,11 @@ export type Query = {
 
 
 export type QueryFetchUserArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryFetchFindingArgs = {
   id: Scalars['ID'];
 };
 
@@ -337,6 +349,24 @@ export type AddReviewerToProjectMutationVariables = {
 export type AddReviewerToProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'addReviewerToProject'>
+);
+
+export type CreateFindingMutationVariables = {
+  title: Scalars['String'];
+  description: Scalars['String'];
+  impact: Scalars['String'];
+  remediation?: Maybe<Scalars['String']>;
+  cvssVector?: Maybe<Scalars['String']>;
+  severity?: Maybe<Scalars['String']>;
+  technicalDetails?: Maybe<Scalars['String']>;
+  currentStatus?: Maybe<Scalars['String']>;
+  otherreferences?: Maybe<Scalars['String']>;
+};
+
+
+export type CreateFindingMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'createFinding'>
 );
 
 export type CreateRelatorioMutationVariables = {
@@ -519,6 +549,19 @@ export const AddReviewerToProjectDocument = gql`
   })
   export class AddReviewerToProjectGQL extends Apollo.Mutation<AddReviewerToProjectMutation, AddReviewerToProjectMutationVariables> {
     document = AddReviewerToProjectDocument;
+    
+  }
+export const CreateFindingDocument = gql`
+    mutation createFinding($title: String!, $description: String!, $impact: String!, $remediation: String, $cvssVector: String, $severity: String, $technicalDetails: String, $currentStatus: String, $otherreferences: String) {
+  createFinding(title: $title, description: $description, impact: $impact, remediation: $remediation, cvssVector: $cvssVector, severity: $severity, technicalDetails: $technicalDetails, currentStatus: $currentStatus, otherreferences: $otherreferences)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateFindingGQL extends Apollo.Mutation<CreateFindingMutation, CreateFindingMutationVariables> {
+    document = CreateFindingDocument;
     
   }
 export const CreateRelatorioDocument = gql`
