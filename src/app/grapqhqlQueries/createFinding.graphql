@@ -5,9 +5,7 @@ mutation createFinding(
   $remediation: String,
   $cvssVector: String,
   $severity: String,
-  $technicalDetails: String,
-  $currentStatus: String,
-  $otherreferences: String,
+  $otherReferences: String,
 
 ){
   createFinding(
@@ -17,8 +15,6 @@ mutation createFinding(
     remediation: $remediation,
     cvssVector: $cvssVector,
     severity: $severity,
-    technicalDetails: $technicalDetails,
-    currentStatus: $currentStatus,
-    otherreferences: $otherreferences,
+    otherReferences: $otherReferences,
   )
 }

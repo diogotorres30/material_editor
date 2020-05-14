@@ -1,0 +1,11 @@
+query fetchFindings{
+  fetchFindings{
+    title
+    description
+    impact
+    remediation
+    cvssVector
+    severity
+    otherReferences
+  }
+}

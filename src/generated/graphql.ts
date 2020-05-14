@@ -41,9 +41,7 @@ export type Finding = {
   remediation?: Maybe<Scalars['String']>;
   cvssVector?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
-  technicalDetails?: Maybe<Scalars['String']>;
-  currentStatus?: Maybe<Scalars['String']>;
-  otherreferences?: Maybe<Scalars['String']>;
+  otherReferences?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -87,9 +85,7 @@ export type MutationCreateFindingArgs = {
   remediation?: Maybe<Scalars['String']>;
   cvssVector?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
-  technicalDetails?: Maybe<Scalars['String']>;
-  currentStatus?: Maybe<Scalars['String']>;
-  otherreferences?: Maybe<Scalars['String']>;
+  otherReferences?: Maybe<Scalars['String']>;
 };
 
 
@@ -358,9 +354,7 @@ export type CreateFindingMutationVariables = {
   remediation?: Maybe<Scalars['String']>;
   cvssVector?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
-  technicalDetails?: Maybe<Scalars['String']>;
-  currentStatus?: Maybe<Scalars['String']>;
-  otherreferences?: Maybe<Scalars['String']>;
+  otherReferences?: Maybe<Scalars['String']>;
 };
 
 
@@ -391,6 +385,17 @@ export type DeleteProjectMutationVariables = {
 export type DeleteProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteProject'>
+);
+
+export type FetchFindingsQueryVariables = {};
+
+
+export type FetchFindingsQuery = (
+  { __typename?: 'Query' }
+  & { fetchFindings?: Maybe<Array<(
+    { __typename?: 'Finding' }
+    & Pick<Finding, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'severity' | 'otherReferences'>
+  )>> }
 );
 
 export type FetchClientsQueryVariables = {};
@@ -552,8 +557,8 @@ export const AddReviewerToProjectDocument = gql`
     
   }
 export const CreateFindingDocument = gql`
-    mutation createFinding($title: String!, $description: String!, $impact: String!, $remediation: String, $cvssVector: String, $severity: String, $technicalDetails: String, $currentStatus: String, $otherreferences: String) {
-  createFinding(title: $title, description: $description, impact: $impact, remediation: $remediation, cvssVector: $cvssVector, severity: $severity, technicalDetails: $technicalDetails, currentStatus: $currentStatus, otherreferences: $otherreferences)
+    mutation createFinding($title: String!, $description: String!, $impact: String!, $remediation: String, $cvssVector: String, $severity: String, $otherReferences: String) {
+  createFinding(title: $title, description: $description, impact: $impact, remediation: $remediation, cvssVector: $cvssVector, severity: $severity, otherReferences: $otherReferences)
 }
     `;
 
@@ -588,6 +593,27 @@ export const DeleteProjectDocument = gql`
   })
   export class DeleteProjectGQL extends Apollo.Mutation<DeleteProjectMutation, DeleteProjectMutationVariables> {
     document = DeleteProjectDocument;
+    
+  }
+export const FetchFindingsDocument = gql`
+    query fetchFindings {
+  fetchFindings {
+    title
+    description
+    impact
+    remediation
+    cvssVector
+    severity
+    otherReferences
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FetchFindingsGQL extends Apollo.Query<FetchFindingsQuery, FetchFindingsQueryVariables> {
+    document = FetchFindingsDocument;
     
   }
 export const FetchClientsDocument = gql`

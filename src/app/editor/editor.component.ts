@@ -2,7 +2,10 @@ import { Component, OnInit, Renderer2, ViewChild, ElementRef } from '@angular/co
 import { HttpService } from '../http.service';
 import { IIssue } from './issue';
 import { FormGroup, FormControl } from '@angular/forms';
-import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dialog';
+import {FetchFindingsGQL, Finding, Maybe} from "../../generated/graphql";
+import {MatTableDataSource} from "@angular/material/table";
+import {MatSort} from "@angular/material/sort";
+import {MatPaginator} from "@angular/material/paginator";
 
 @Component({
 	selector: 'app-editor',
@@ -10,7 +13,17 @@ import { throwMatDialogContentAlreadyAttachedError } from '@angular/material/dia
 	styleUrls: [ './editor.component.scss' ]
 })
 export class EditorComponent implements OnInit {
-	constructor(private _http: HttpService, private renderer: Renderer2) {}
+  localListData: Maybe<Array<{ __typename?: "Finding" } & Pick<Finding, "title" | "description" | "impact" | "remediation" | "cvssVector" | "severity" | "otherReferences">>>
+  listData: MatTableDataSource<any>;
+  displayedColumns: string[] = [
+    'title',
+    'actions'
+  ];
+  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchKey: string;
+
+	constructor(private _http: HttpService, private renderer: Renderer2, private fetchFindingsGQL: FetchFindingsGQL) {}
 	public issues = [];
 	public clicked_issues = [];
 	public print_issue: IIssue;
@@ -23,7 +36,7 @@ export class EditorComponent implements OnInit {
 		'Technical Details',
 		'Current Status'
 	];
-	
+
 	@ViewChild('sRef') section: ElementRef;
 
 	editorForm: FormGroup;
@@ -39,6 +52,16 @@ export class EditorComponent implements OnInit {
 	};
 
 	ngOnInit() {
+	  this.fetchFindingsGQL.watch().valueChanges.subscribe((result => {
+      this.localListData = result.data.fetchFindings;
+      this.listData = new MatTableDataSource(result.data.fetchFindings);
+      this.listData.sort = this.sort;
+      this.listData.paginator = this.paginator;
+	    console.log(result.data.fetchFindings[1])
+	    console.log(result.data.fetchFindings[0])
+    }))
+
+
 		this._http.getIssues().subscribe((data) => {
 			this.issues = data;
 			data.forEach((element) => {
@@ -53,6 +76,13 @@ export class EditorComponent implements OnInit {
 		});
 	}
 
+  applyFilter() {
+    this.listData.filter = this.searchKey.trim().toLowerCase();
+  }
+  onSearchClear() {
+    this.searchKey = "";
+    this.applyFilter();
+  }
 	ngAfterViewInit() {
 		this.pageHeight = this.section.nativeElement.offsetHeight;
 	}
@@ -62,19 +92,6 @@ export class EditorComponent implements OnInit {
 		// console.log(this.editorForm.get('editor').value);
 		this.show = false;
 	}
-	printIssue(i: IIssue) {
-		this.print_issue = i;
-		this.editorForm.get('editor').setValue(this.print_issue.technical_details);
-	}
-
-	// checkOverflow(element) {
-	// 	if (element.offsetHeight < element.scrollHeight || element.offsetWidth < element.scrollWidth) {
-	// 		this.editorContent = this.editorForm.get('editor').value;
-	// 		this.show = false;
-	// 	} else {
-	// 		return false;
-	// 	}
-	// }
 
 	pageGrowth(element) {
 		if (element.offsetHeight / this.pageHeight > 1) {
@@ -85,38 +102,6 @@ export class EditorComponent implements OnInit {
 
 	onDblClick() {
 		this.show = true;
-	} 
-
-	addElement(i: IIssue) {
-		// var sub_title, paragraph, form;
-		// var iter = 0;
-		// this.print_issue = i;
-		// this.editorForm.get('editor').setValue(this.print_issue.technical_details);
-		// console.log(this.print_issue.title);
-		// var title = this.renderer.createElement('h1');
-		// title.innerHTML = this.print_issue.title[0];
-		// this.renderer.appendChild(this.section.nativeElement, title);
-		// for (let leo in this.print_issue) {
-		// 	if (leo != 'title') {
-		// 		sub_title = this.renderer.createElement('h3');
-		// 		sub_title.innerHTML = this.subTitles[iter];
-		// 		iter++;
-		// 		this.renderer.appendChild(this.section.nativeElement, sub_title);
-		// 		paragraph = this.renderer.createElement(this.print_issue[leo][1]);
-		// 		if (this.print_issue[leo][1] == 'a') {
-		// 			this.renderer.setAttribute(paragraph, 'href', this.print_issue[leo][0]);
-		// 		}
-		// 		if (this.print_issue[leo][1] == 'div') {
-		// 			form = this.renderer.createElement('form');
-		// 			// this.renderer.setProperty(form, '*ngIf', 'show');
-		// 			// this.renderer.setProperty(form, '[formGroup]', 'editorFormGroup');
-		// 			// this.renderer.setProperty(form, '(ngSubmit)', 'onSubmit()');
-		// 			this.renderer.appendChild(paragraph, form);
-		// 		}
-		// 		paragraph.innerHTML = this.print_issue[leo][0];
-		// 		this.renderer.appendChild(this.section.nativeElement, paragraph);
-		// 	}
-		// 	// console.log(this.print_issue[leo]);
-		// }
 	}
+
 }

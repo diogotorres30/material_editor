@@ -4,7 +4,6 @@
             <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
         </button>
         <a mat-button [routerLink]="'/'" class="logo">Report Repository</a>
-        <!-- <span class="menu-spacer"></span> -->
         <div>
             <a mat-button [routerLink]="'/editor'"> Report Editor </a>
         </div>
@@ -12,11 +11,51 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-    <mat-sidenav #sidenav>
-        <mat-nav-list>
-            <a mat-list-item *ngFor="let issue of issues" (click)="printIssue(issue)">{{issue.title}}</a>
-            <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>
-        </mat-nav-list>
+    <mat-sidenav #sidenav mode="side">
+<!--        <mat-nav-list>-->
+<!--            <a mat-list-item *ngFor="let issue of issues" (click)="printIssue(issue)">{{issue.title}}</a>-->
+<!--            <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>-->
+<!--        </mat-nav-list>-->
+
+
+
+
+
+      <div class="search-div">
+        <mat-form-field class="search-form-field" floatLabel="never">
+          <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+      </div>
+      <div class="mat-elevation-z8">
+        <mat-table [dataSource]="listData" matSort>
+          <ng-container matColumnDef="title">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+            <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let row;let i = index;let element">
+              <button mat-icon-button >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" >
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageSize]="5" showFirstLastButtons></mat-paginator>
+      </div>
+
+
+
+
+
     </mat-sidenav>
     <mat-sidenav-content>
         <button type="button">Add</button>
