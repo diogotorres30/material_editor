@@ -57,8 +57,6 @@ export class EditorComponent implements OnInit {
       this.listData = new MatTableDataSource(result.data.fetchFindings);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
-	    console.log(result.data.fetchFindings[1])
-	    console.log(result.data.fetchFindings[0])
     }))
 
 
