@@ -20,9 +20,10 @@ import {ProjectFormOptionsService} from "./shared/projectForm-options.service";
 import {UpdateProjectComponent} from './projects/update-project/update-project.component';
 import { NewRelatorioComponent } from './projects/new-relatorio/new-relatorio.component';
 import { DatePipe } from '@angular/common';
+import { ReportEditorComponent } from './report-editor/report-editor.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent, NewRelatorioComponent],
+  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent, NewRelatorioComponent, ReportEditorComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

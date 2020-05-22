@@ -51,14 +51,12 @@
 
 
 
-
-
     </mat-sidenav>
     <mat-sidenav-content>
         <button type="button">Add</button>
         <section #sRef class="sheet" #focusPage>
-            <div *ngIf="print_issue">
-                <h1>{{print_issue.title}}</h1>
+            <div>
+                <h1>{{complexRelatorio.companyLogo}}</h1>
                 <h3>Description</h3>
                 <p>{{print_issue.description}}</p>
                 <h3>Impact</h3>

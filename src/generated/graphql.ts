@@ -13,6 +13,57 @@ export type Scalars = {
 
 
 
+export type Appendix = {
+   __typename?: 'Appendix';
+  tools?: Maybe<Array<Maybe<Scalars['String']>>>;
+  evidences?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type AssessmentDetailed = {
+   __typename?: 'AssessmentDetailed';
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  impact?: Maybe<Scalars['String']>;
+  remediation?: Maybe<Scalars['String']>;
+  cvssVector?: Maybe<Scalars['String']>;
+  otherReferences?: Maybe<Scalars['String']>;
+  technicalDetails?: Maybe<Scalars['String']>;
+  currentStatus?: Maybe<Scalars['String']>;
+};
+
+export type AssessmentDetails = {
+   __typename?: 'AssessmentDetails';
+  staticInformation?: Maybe<Scalars['String']>;
+  minorSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
+  lowSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
+  moderateSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
+  highSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
+  criticalSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
+};
+
+export type AssessmentInformation = {
+   __typename?: 'AssessmentInformation';
+  assessmentScope?: Maybe<AssessmentScope>;
+  organizationalAndTechnicalContacts?: Maybe<Array<Maybe<OrganizationalAndTechnicalContacts>>>;
+  constraints?: Maybe<Scalars['String']>;
+  proceduresAfterTheAssessment?: Maybe<Scalars['String']>;
+};
+
+export type AssessmentScope = {
+   __typename?: 'AssessmentScope';
+  executionPeriod?: Maybe<Scalars['String']>;
+  assetNames?: Maybe<Scalars['String']>;
+  assetsDescription?: Maybe<Scalars['String']>;
+  assetAddresses?: Maybe<Scalars['String']>;
+};
+
+export type AssessmentSummarized = {
+   __typename?: 'AssessmentSummarized';
+  vulnerability?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  details?: Maybe<Scalars['String']>;
+};
+
 export type Auditor = {
    __typename?: 'Auditor';
   id: Scalars['ID'];
@@ -25,11 +76,50 @@ export enum AuditorRole {
   Auditor = 'AUDITOR'
 }
 
+export type AuthorsAndReviewers = {
+   __typename?: 'AuthorsAndReviewers';
+  approvers?: Maybe<Array<Maybe<Scalars['String']>>>;
+  reviewers?: Maybe<Array<Maybe<Scalars['String']>>>;
+  authors?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type Client = {
    __typename?: 'Client';
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
+};
+
+export type ComplexRelatorio = {
+   __typename?: 'ComplexRelatorio';
+  id: Scalars['ID'];
+  companyLogo?: Maybe<Scalars['String']>;
+  reportTitle?: Maybe<Scalars['String']>;
+  targetCompany?: Maybe<Scalars['String']>;
+  classification?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['Float']>;
+  remarks?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
+  executiveSummary?: Maybe<ExecutiveSummary>;
+  introduction?: Maybe<Introduction>;
+  assessmentInformation?: Maybe<AssessmentInformation>;
+  summaryOfAssessmentResults?: Maybe<SummaryOfAssessmentResults>;
+  assessmentDetails?: Maybe<AssessmentDetails>;
+  appendix?: Maybe<Appendix>;
+};
+
+export type DocumentManagement = {
+   __typename?: 'DocumentManagement';
+  version?: Maybe<Scalars['Float']>;
+  date?: Maybe<Scalars['String']>;
+  editor?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+};
+
+export type ExecutiveSummary = {
+   __typename?: 'ExecutiveSummary';
+  summary?: Maybe<Scalars['String']>;
+  recommendations?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Finding = {
@@ -44,12 +134,25 @@ export type Finding = {
   otherReferences?: Maybe<Scalars['String']>;
 };
 
+export type Introduction = {
+   __typename?: 'Introduction';
+  documentInformation?: Maybe<Scalars['String']>;
+  responsibilityStatement?: Maybe<Scalars['String']>;
+  classification?: Maybe<Scalars['String']>;
+  documentOwner?: Maybe<Scalars['String']>;
+  authorsAndReviewers?: Maybe<AuthorsAndReviewers>;
+  documentManagement?: Maybe<Array<Maybe<DocumentManagement>>>;
+  documentStructure?: Maybe<Scalars['String']>;
+  disclaimer?: Maybe<Scalars['String']>;
+};
+
 export type Mutation = {
    __typename?: 'Mutation';
   _empty?: Maybe<Scalars['Boolean']>;
   addUserToProject: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
   createFinding: Scalars['Boolean'];
+  deleteAllFindings: Scalars['Boolean'];
   addClientToProject: Scalars['Boolean'];
   newProject: Project;
   updateProject: Project;
@@ -64,6 +167,8 @@ export type Mutation = {
   removeReviewerFromProject: Scalars['Boolean'];
   addProjectManagerToProject: Scalars['Boolean'];
   removeProjectManagerFromProject: Scalars['Boolean'];
+  createComplexRelatorio: Scalars['Boolean'];
+  updateExecutiveSummary: ComplexRelatorio;
 };
 
 
@@ -86,6 +191,11 @@ export type MutationCreateFindingArgs = {
   cvssVector?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
   otherReferences?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeleteAllFindingsArgs = {
+  id?: Maybe<Scalars['String']>;
 };
 
 
@@ -171,6 +281,31 @@ export type MutationRemoveProjectManagerFromProjectArgs = {
   projId: Scalars['ID'];
 };
 
+
+export type MutationCreateComplexRelatorioArgs = {
+  companyLogo?: Maybe<Scalars['String']>;
+  reportTitle?: Maybe<Scalars['String']>;
+  targetCompany?: Maybe<Scalars['String']>;
+  classification?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['Float']>;
+  remarks?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationUpdateExecutiveSummaryArgs = {
+  relId: Scalars['ID'];
+  summary?: Maybe<Scalars['String']>;
+  recommendations?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type OrganizationalAndTechnicalContacts = {
+   __typename?: 'OrganizationalAndTechnicalContacts';
+  role?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+  contact?: Maybe<Scalars['String']>;
+};
+
 export type Project = {
    __typename?: 'Project';
   id: Scalars['ID'];
@@ -220,6 +355,8 @@ export type Query = {
   fetchReviewer?: Maybe<User>;
   fetchProjectManagers?: Maybe<Array<User>>;
   fetchProjectManager?: Maybe<User>;
+  fetchComplexRelatorios?: Maybe<Array<ComplexRelatorio>>;
+  fetchComplexRelatorio: ComplexRelatorio;
 };
 
 
@@ -262,6 +399,11 @@ export type QueryFetchProjectManagerArgs = {
   id: Scalars['ID'];
 };
 
+
+export type QueryFetchComplexRelatorioArgs = {
+  id: Scalars['ID'];
+};
+
 export type Relatorio = {
    __typename?: 'Relatorio';
   id: Scalars['ID'];
@@ -294,6 +436,16 @@ export enum ReviewerRole {
 export type Subscription = {
    __typename?: 'Subscription';
   _empty?: Maybe<Scalars['Boolean']>;
+};
+
+export type SummaryOfAssessmentResults = {
+   __typename?: 'SummaryOfAssessmentResults';
+  staticInformation?: Maybe<Scalars['String']>;
+  minorSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
+  lowSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
+  moderateSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
+  criticalSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
+  highSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
 };
 
 export type User = {
@@ -385,6 +537,84 @@ export type DeleteProjectMutationVariables = {
 export type DeleteProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteProject'>
+);
+
+export type FetchComplexRelatorioQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type FetchComplexRelatorioQuery = (
+  { __typename?: 'Query' }
+  & { fetchComplexRelatorio: (
+    { __typename?: 'ComplexRelatorio' }
+    & Pick<ComplexRelatorio, 'id' | 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
+    & { executiveSummary?: Maybe<(
+      { __typename?: 'ExecutiveSummary' }
+      & Pick<ExecutiveSummary, 'summary' | 'recommendations'>
+    )>, introduction?: Maybe<(
+      { __typename?: 'Introduction' }
+      & Pick<Introduction, 'documentInformation' | 'responsibilityStatement' | 'classification' | 'documentOwner' | 'documentStructure' | 'disclaimer'>
+      & { authorsAndReviewers?: Maybe<(
+        { __typename?: 'AuthorsAndReviewers' }
+        & Pick<AuthorsAndReviewers, 'approvers' | 'reviewers' | 'authors'>
+      )>, documentManagement?: Maybe<Array<Maybe<(
+        { __typename?: 'DocumentManagement' }
+        & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>
+      )>>> }
+    )>, assessmentInformation?: Maybe<(
+      { __typename?: 'AssessmentInformation' }
+      & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'>
+      & { assessmentScope?: Maybe<(
+        { __typename?: 'AssessmentScope' }
+        & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>
+      )>, organizationalAndTechnicalContacts?: Maybe<Array<Maybe<(
+        { __typename?: 'OrganizationalAndTechnicalContacts' }
+        & Pick<OrganizationalAndTechnicalContacts, 'role' | 'name' | 'contact'>
+      )>>> }
+    )>, summaryOfAssessmentResults?: Maybe<(
+      { __typename?: 'SummaryOfAssessmentResults' }
+      & Pick<SummaryOfAssessmentResults, 'staticInformation'>
+      & { minorSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentSummarized' }
+        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+      )>>>, lowSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentSummarized' }
+        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+      )>>>, moderateSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentSummarized' }
+        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+      )>>>, criticalSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentSummarized' }
+        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+      )>>>, highSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentSummarized' }
+        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+      )>>> }
+    )>, assessmentDetails?: Maybe<(
+      { __typename?: 'AssessmentDetails' }
+      & Pick<AssessmentDetails, 'staticInformation'>
+      & { minorSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentDetailed' }
+        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+      )>>>, lowSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentDetailed' }
+        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+      )>>>, moderateSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentDetailed' }
+        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+      )>>>, criticalSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentDetailed' }
+        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+      )>>>, highSeverityVulnerabilities?: Maybe<Array<Maybe<(
+        { __typename?: 'AssessmentDetailed' }
+        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+      )>>> }
+    )>, appendix?: Maybe<(
+      { __typename?: 'Appendix' }
+      & Pick<Appendix, 'tools' | 'evidences'>
+    )> }
+  ) }
 );
 
 export type FetchFindingsQueryVariables = {};
@@ -593,6 +823,151 @@ export const DeleteProjectDocument = gql`
   })
   export class DeleteProjectGQL extends Apollo.Mutation<DeleteProjectMutation, DeleteProjectMutationVariables> {
     document = DeleteProjectDocument;
+    
+  }
+export const FetchComplexRelatorioDocument = gql`
+    query fetchComplexRelatorio($id: ID!) {
+  fetchComplexRelatorio(id: $id) {
+    id
+    companyLogo
+    reportTitle
+    targetCompany
+    classification
+    version
+    remarks
+    date
+    executiveSummary {
+      summary
+      recommendations
+    }
+    introduction {
+      documentInformation
+      responsibilityStatement
+      classification
+      documentOwner
+      authorsAndReviewers {
+        approvers
+        reviewers
+        authors
+      }
+      documentManagement {
+        version
+        date
+        editor
+        remarks
+      }
+      documentStructure
+      disclaimer
+    }
+    assessmentInformation {
+      assessmentScope {
+        executionPeriod
+        assetNames
+        assetsDescription
+        assetAddresses
+      }
+      organizationalAndTechnicalContacts {
+        role
+        name
+        contact
+      }
+      constraints
+      proceduresAfterTheAssessment
+    }
+    summaryOfAssessmentResults {
+      staticInformation
+      minorSeverityVulnerabilities {
+        vulnerability
+        description
+        details
+      }
+      lowSeverityVulnerabilities {
+        vulnerability
+        description
+        details
+      }
+      moderateSeverityVulnerabilities {
+        vulnerability
+        description
+        details
+      }
+      criticalSeverityVulnerabilities {
+        vulnerability
+        description
+        details
+      }
+      highSeverityVulnerabilities {
+        vulnerability
+        description
+        details
+      }
+    }
+    assessmentDetails {
+      staticInformation
+      minorSeverityVulnerabilities {
+        title
+        description
+        impact
+        remediation
+        cvssVector
+        otherReferences
+        technicalDetails
+        currentStatus
+      }
+      lowSeverityVulnerabilities {
+        title
+        description
+        impact
+        remediation
+        cvssVector
+        otherReferences
+        technicalDetails
+        currentStatus
+      }
+      moderateSeverityVulnerabilities {
+        title
+        description
+        impact
+        remediation
+        cvssVector
+        otherReferences
+        technicalDetails
+        currentStatus
+      }
+      criticalSeverityVulnerabilities {
+        title
+        description
+        impact
+        remediation
+        cvssVector
+        otherReferences
+        technicalDetails
+        currentStatus
+      }
+      highSeverityVulnerabilities {
+        title
+        description
+        impact
+        remediation
+        cvssVector
+        otherReferences
+        technicalDetails
+        currentStatus
+      }
+    }
+    appendix {
+      tools
+      evidences
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FetchComplexRelatorioGQL extends Apollo.Query<FetchComplexRelatorioQuery, FetchComplexRelatorioQueryVariables> {
+    document = FetchComplexRelatorioDocument;
     
   }
 export const FetchFindingsDocument = gql`
