@@ -2,7 +2,25 @@ import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core
 import {HttpService} from '../http.service';
 import {IIssue} from './issue';
 import {FormControl, FormGroup} from '@angular/forms';
-import {FetchComplexRelatorioGQL, FetchFindingsGQL, Finding, Maybe} from "../../generated/graphql";
+import {
+  Appendix,
+  AssessmentDetailed,
+  AssessmentDetails,
+  AssessmentInformation,
+  AssessmentScope,
+  AssessmentSummarized,
+  AuthorsAndReviewers,
+  ComplexRelatorio,
+  DocumentManagement,
+  ExecutiveSummary,
+  FetchComplexRelatorioGQL,
+  FetchFindingsGQL,
+  Finding,
+  Introduction,
+  Maybe,
+  OrganizationalAndTechnicalContacts,
+  SummaryOfAssessmentResults
+} from "../../generated/graphql";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
@@ -13,7 +31,11 @@ import {MatPaginator} from "@angular/material/paginator";
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
-  complexRelatorio: any
+  complexRelatorio: { __typename?: "ComplexRelatorio" } & Pick<ComplexRelatorio, "id" | "companyLogo" | "reportTitle" | "targetCompany" | "classification" | "version" | "remarks" | "date"> & {
+    executiveSummary?: Maybe<{ __typename?: "ExecutiveSummary" } & Pick<ExecutiveSummary, "summary" | "recommendations">>; introduction?: Maybe<{ __typename?: "Introduction" } & Pick<Introduction, "documentInformation" | "responsibilityStatement" | "classification" | "documentOwner" | "documentStructure" | "disclaimer"> & { authorsAndReviewers?: Maybe<{ __typename?: "AuthorsAndReviewers" } & Pick<AuthorsAndReviewers, "approvers" | "reviewers" | "authors">>; documentManagement?: Maybe<Array<Maybe<{ __typename?: "DocumentManagement" } & Pick<DocumentManagement, "version" | "date" | "editor" | "remarks">>>> }>; assessmentInformation?: Maybe<{ __typename?: "AssessmentInformation" } & Pick<AssessmentInformation, "constraints" | "proceduresAfterTheAssessment"> & { assessmentScope?: Maybe<{ __typename?: "AssessmentScope" } & Pick<AssessmentScope, "executionPeriod" | "assetNames" | "assetsDescription" | "assetAddresses">>; organizationalAndTechnicalContacts?: Maybe<Array<Maybe<{ __typename?: "OrganizationalAndTechnicalContacts" } & Pick<OrganizationalAndTechnicalContacts, "role" | "name" | "contact">>>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: "SummaryOfAssessmentResults" } & Pick<SummaryOfAssessmentResults, "staticInformation"> & { minorSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>>; lowSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>>; moderateSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>>; criticalSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>>; highSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>> }>; assessmentDetails?: Maybe<{ __typename?: "AssessmentDetails" } & Pick<AssessmentDetails, "staticInformation"> & {
+      minorSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>; lowSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>; moderateSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>; criticalSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>; highSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>
+    }>; appendix?: Maybe<{ __typename?: "Appendix" } & Pick<Appendix, "tools" | "evidences">>
+  }
   localListData: Maybe<Array<{ __typename?: "Finding" } & Pick<Finding, "title" | "description" | "impact" | "remediation" | "cvssVector" | "severity" | "otherReferences">>>
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = [
@@ -54,8 +76,9 @@ export class EditorComponent implements OnInit {
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     }))
-    this.fetchComplexRelatorioGQL.watch({id: "5ec5d760cc05a73968743096"}).valueChanges.subscribe(result => {
+    this.fetchComplexRelatorioGQL.watch({id: "5ec86ea2917df8bd2c3fa96d"}).valueChanges.subscribe(result => {
       this.complexRelatorio = result.data.fetchComplexRelatorio
+      console.log(result.data.fetchComplexRelatorio.introduction)
     })
 
 
