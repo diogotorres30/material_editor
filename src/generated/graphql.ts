@@ -97,7 +97,7 @@ export type ComplexRelatorio = {
   reportTitle?: Maybe<Scalars['String']>;
   targetCompany?: Maybe<Scalars['String']>;
   classification?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['Float']>;
+  version?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
   executiveSummary?: Maybe<ExecutiveSummary>;
@@ -110,10 +110,18 @@ export type ComplexRelatorio = {
 
 export type DocumentManagement = {
    __typename?: 'DocumentManagement';
-  version?: Maybe<Scalars['Float']>;
+  version?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
   editor?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
+};
+
+export type DocumentStructure = {
+   __typename?: 'DocumentStructure';
+  sectionsIntro?: Maybe<Scalars['String']>;
+  appendicesIntro?: Maybe<Scalars['String']>;
+  appendices?: Maybe<Array<Maybe<Scalars['String']>>>;
+  sections?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type ExecutiveSummary = {
@@ -142,8 +150,8 @@ export type Introduction = {
   documentOwner?: Maybe<Scalars['String']>;
   authorsAndReviewers?: Maybe<AuthorsAndReviewers>;
   documentManagement?: Maybe<Array<Maybe<DocumentManagement>>>;
-  documentStructure?: Maybe<Scalars['String']>;
-  disclaimer?: Maybe<Scalars['String']>;
+  documentStructure?: Maybe<DocumentStructure>;
+  disclaimer?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Mutation = {
@@ -287,7 +295,7 @@ export type MutationCreateComplexRelatorioArgs = {
   reportTitle?: Maybe<Scalars['String']>;
   targetCompany?: Maybe<Scalars['String']>;
   classification?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['Float']>;
+  version?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
 };
@@ -554,14 +562,17 @@ export type FetchComplexRelatorioQuery = (
       & Pick<ExecutiveSummary, 'summary' | 'recommendations'>
     )>, introduction?: Maybe<(
       { __typename?: 'Introduction' }
-      & Pick<Introduction, 'documentInformation' | 'responsibilityStatement' | 'classification' | 'documentOwner' | 'documentStructure' | 'disclaimer'>
+      & Pick<Introduction, 'documentInformation' | 'responsibilityStatement' | 'classification' | 'documentOwner' | 'disclaimer'>
       & { authorsAndReviewers?: Maybe<(
         { __typename?: 'AuthorsAndReviewers' }
         & Pick<AuthorsAndReviewers, 'approvers' | 'reviewers' | 'authors'>
       )>, documentManagement?: Maybe<Array<Maybe<(
         { __typename?: 'DocumentManagement' }
         & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>
-      )>>> }
+      )>>>, documentStructure?: Maybe<(
+        { __typename?: 'DocumentStructure' }
+        & Pick<DocumentStructure, 'sectionsIntro' | 'sections' | 'appendicesIntro' | 'appendices'>
+      )> }
     )>, assessmentInformation?: Maybe<(
       { __typename?: 'AssessmentInformation' }
       & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'>
@@ -856,7 +867,12 @@ export const FetchComplexRelatorioDocument = gql`
         editor
         remarks
       }
-      documentStructure
+      documentStructure {
+        sectionsIntro
+        sections
+        appendicesIntro
+        appendices
+      }
       disclaimer
     }
     assessmentInformation {

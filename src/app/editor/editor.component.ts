@@ -76,9 +76,8 @@ export class EditorComponent implements OnInit {
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     }))
-    this.fetchComplexRelatorioGQL.watch({id: "5ec86ea2917df8bd2c3fa96d"}).valueChanges.subscribe(result => {
+    this.fetchComplexRelatorioGQL.watch({id: "5ecc7434872ff1b959ade7ad"}).valueChanges.subscribe(result => {
       this.complexRelatorio = result.data.fetchComplexRelatorio
-      console.log(result.data.fetchComplexRelatorio.introduction)
     })
 
 

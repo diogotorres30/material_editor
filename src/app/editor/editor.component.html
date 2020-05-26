@@ -50,17 +50,18 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <button type="button">Add</button>
+    <!--    <section class="sheet" *ngFor="let sec of complexRelatorio">{{sec}}</section>-->
     <section #sRef class="sheet" #focusPage>
-      <div>
+      <div style="position:absolute;right:0; bottom:0;width: 40%; text-align: right;padding: 15%">
         <h1>{{complexRelatorio["companyLogo"]}}</h1>
-        <h1>{{complexRelatorio["reportTitle"]}}</h1>
-        <h1>{{complexRelatorio["targetCompany"]}}</h1>
-        <h1>{{complexRelatorio["classification"]}}</h1>
-        <h1>{{complexRelatorio["version"]}}</h1>
-        <h1>{{complexRelatorio["remarks"]}}</h1>
-        <h1>{{complexRelatorio["date"]}}</h1>
-<!--        <div class="myPageBreak"></div>-->
-<!--        <mat-divider></mat-divider>-->
+        <h1 style="word-wrap: normal;">{{complexRelatorio["reportTitle"]}}</h1>
+        Prepared by {{complexRelatorio.companyLogo}} for {{complexRelatorio["targetCompany"]}}<br>
+        {{complexRelatorio["classification"]}}<br>
+        {{complexRelatorio["version"]}}<br>
+        {{complexRelatorio["remarks"]}}<br>
+        {{complexRelatorio["date"]}}<br>
+        <!--        <div class="myPageBreak"></div>-->
+        <!--        <mat-divider></mat-divider>-->
 
 
         <!--                <div (dblclick)="onDblClick()" #editorDiv>-->
@@ -81,54 +82,135 @@
       Contents //TODO
     </section>
     <section class="sheet">
-      <h1>Executive Summary</h1>
+      <div>
+        <p style="float: left; width: 34%; text-align: left;">{{complexRelatorio.companyLogo}}</p>
+        <p style="float: left; width: 33%; text-align: center;">{{complexRelatorio.classification}}</p>
+        <p style="float: left; width: 33%; text-align: right;">{{complexRelatorio.targetCompany}}</p>
+      </div>
+
+      <mat-divider style="clear:both"></mat-divider>
+      <h1>1 Executive Summary</h1>
       <p>{{complexRelatorio.executiveSummary.summary}}</p>
-      <p *ngFor="let rec of complexRelatorio.executiveSummary.recommendations"> {{rec}}</p>
+      <ul>
+        <li *ngFor="let rec of complexRelatorio.executiveSummary.recommendations"> {{rec}}</li>
+      </ul>
+
 
     </section>
     <section class="sheet">
-      <h1>Introduction</h1>
-      <h3>Document Information</h3>
+      <h1>2 Introduction</h1>
+      <h3>2.1 Document Information</h3>
       <p>{{complexRelatorio.introduction.documentInformation}}</p>
-      <h3>Responsibility Statement</h3>
+      <h4>Responsibility Statement</h4>
       <p>{{complexRelatorio.introduction.responsibilityStatement}}</p>
-      <h3>Classification</h3>
+      <h4>Classification</h4>
       <p>{{complexRelatorio.introduction.classification}}</p>
-      <h3>Document Owner</h3>
+      <h4>Document Owner</h4>
       <p>{{complexRelatorio.introduction.documentOwner}}</p>
-      <h3>Authors and Reviewers</h3>
-      <p>{{complexRelatorio.introduction.authorsAndReviewers.authors}}</p>
-      <p>{{complexRelatorio.introduction.authorsAndReviewers.approvers}}</p>
-      <p>{{complexRelatorio.introduction.authorsAndReviewers.reviewers}}</p>
+      <h4>Authors and Reviewers</h4>
+      <table style="width: 100%">
+        <tr>
+          <th></th>
+          <th>Name</th>
+        </tr>
+        <tr>
+          <th>Author(s)</th>
+          <td>{{complexRelatorio.introduction.authorsAndReviewers.authors}}</td>
+        </tr>
+        <tr>
+          <th>Approver(s)</th>
+          <td>{{complexRelatorio.introduction.authorsAndReviewers.approvers}}</td>
+        </tr>
+        <tr>
+          <th>Reviewer(s)</th>
+          <td>{{complexRelatorio.introduction.authorsAndReviewers.reviewers}}</td>
+        </tr>
+      </table>
     </section>
     <section class="sheet">
-      <h3>Document Management</h3>
-      <p *ngFor="let ver of complexRelatorio.introduction.documentManagement"> {{ver.date}}</p>
+      <h4>Document Management</h4>
+      <table style="width: 100%">
+        <tr>
+          <th>Version</th>
+          <th>Name</th>
+          <th>Editor</th>
+          <th>Remarks</th>
+        </tr>
+        <tr *ngFor="let ver of complexRelatorio.introduction.documentManagement">
+          <td>{{ver.version}}</td>
+          <td>{{ver.date}}</td>
+          <td>{{ver.editor}}</td>
+          <td>{{ver.remarks}}</td>
+        </tr>
+      </table>
     </section>
     <section class="sheet">
-      <h3>Document Structure</h3>
-      <p>{{complexRelatorio.introduction.documentStructure}}</p>
+      <h3>2.2 Document Structure</h3>
+      <p>{{complexRelatorio.introduction.documentStructure.sectionsIntro}}</p>
+      <ul>
+        <li *ngFor="let sec of complexRelatorio.introduction.documentStructure.sections"> {{sec}}</li>
+      </ul>
+      <p>{{complexRelatorio.introduction.documentStructure.appendicesIntro}}</p>
+      <ul>
+        <li *ngFor="let app of complexRelatorio.introduction.documentStructure.appendices"> {{app}}</li>
+      </ul>
+    </section>
+
+    <section class="sheet">
+      <h3>2.3 Disclaimer</h3>
+      <p *ngFor="let par of complexRelatorio.introduction.disclaimer"> {{par}} </p>
+    </section>
+
+    <section class="sheet">
+      <h1>3 Assessment Information</h1>
+      <h3>3.1 Assessment Scope</h3>
+      <table style="width: 100%">
+        <tr>
+          <th>Execution period</th>
+          <td>{{complexRelatorio.assessmentInformation.assessmentScope.executionPeriod}}</td>
+        </tr>
+        <tr>
+          <th>Asset Name(s)</th>
+          <td>{{complexRelatorio.assessmentInformation.assessmentScope.assetNames}}</td>
+        </tr>
+        <tr>
+          <th>Asset(s) Description</th>
+          <td>{{complexRelatorio.assessmentInformation.assessmentScope.assetsDescription}}</td>
+        </tr>
+        <tr>
+          <th>Asset Address(es)/URL(s)</th>
+          <td>{{complexRelatorio.assessmentInformation.assessmentScope.assetAddresses}}</td>
+        </tr>
+      </table>
+      <h3>3.2 Organizational and Technical Contacts</h3>
+      <table style="width: 100%">
+        <tr>
+          <th></th>
+          <th>Name</th>
+          <th>Contact</th>
+        </tr>
+        <tr *ngFor="let cont of complexRelatorio.assessmentInformation.organizationalAndTechnicalContacts">
+          <th>{{cont.role}}</th>
+          <td>{{cont.name}}</td>
+          <td>{{cont.contact}}</td>
+        </tr>
+      </table>
     </section>
     <section class="sheet">
-      <h3>Disclaimer</h3>
-      <p>{{complexRelatorio.introduction.disclaimer}}</p>
-    </section>
-    <section class="sheet">
-      <h1>Assessment Information</h1>
-      <h3>Assessment Scope</h3>
-      <p>{{complexRelatorio.assessmentInformation.assessmentScope.executionPeriod}}</p>
-      <p>{{complexRelatorio.assessmentInformation.assessmentScope.assetNames}}</p>
-      <p>{{complexRelatorio.assessmentInformation.assessmentScope.assetsDescription}}</p>
-      <p>{{complexRelatorio.assessmentInformation.assessmentScope.assetAddresses}}</p>
-      <h3>Organizational and Technical Contacts</h3>
-      <p *ngFor="let contact of complexRelatorio.assessmentInformation.organizationalAndTechnicalContacts">
-        {{contact.role}} | {{contact.name}} | {{contact.contact}}
-      </p>
-    </section>
-    <section class="sheet">
-      <h3>Contraints</h3>
+      <h3>3 Contraints</h3>
       <p>{{complexRelatorio.assessmentInformation.constraints}}</p>
     </section>
+    <section class="sheet">
+      <h3>3.4 Procedures After the Assessment</h3>
+      {{complexRelatorio.assessmentInformation.proceduresAfterTheAssessment}}
+    </section>
+    <section class="sheet">
+      <h1>4 Summary of Assessment Results</h1>
+      {{complexRelatorio.summaryOfAssessmentResults.staticInformation}}
+    </section>
+    <section class="sheet"></section>
+    <section class="sheet"></section>
+    <section class="sheet"></section>
     <section class="sheet"></section>
 
     <router-outlet></router-outlet>
