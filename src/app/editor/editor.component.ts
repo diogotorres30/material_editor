@@ -10,7 +10,9 @@ import {
   AssessmentScope,
   AssessmentSummarized,
   AuthorsAndReviewers,
+  Availability,
   ComplexRelatorio,
+  DetailedIssue,
   DocumentManagement,
   ExecutiveSummary,
   FetchComplexRelatorioGQL,
@@ -19,7 +21,16 @@ import {
   Introduction,
   Maybe,
   OrganizationalAndTechnicalContacts,
-  SummaryOfAssessmentResults
+  StaticInformation,
+  SummaryOfAssessmentResults,
+  Integrity,
+  Confidentiality,
+  Scope,
+  DocumentStructure,
+  UserInteraction,
+  PrivilegesRequired,
+  AttackComplexity,
+  AttackVector, SummarizedIssue
 } from "../../generated/graphql";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
@@ -32,8 +43,10 @@ import {MatPaginator} from "@angular/material/paginator";
 })
 export class EditorComponent implements OnInit {
   complexRelatorio: { __typename?: "ComplexRelatorio" } & Pick<ComplexRelatorio, "id" | "companyLogo" | "reportTitle" | "targetCompany" | "classification" | "version" | "remarks" | "date"> & {
-    executiveSummary?: Maybe<{ __typename?: "ExecutiveSummary" } & Pick<ExecutiveSummary, "summary" | "recommendations">>; introduction?: Maybe<{ __typename?: "Introduction" } & Pick<Introduction, "documentInformation" | "responsibilityStatement" | "classification" | "documentOwner" | "documentStructure" | "disclaimer"> & { authorsAndReviewers?: Maybe<{ __typename?: "AuthorsAndReviewers" } & Pick<AuthorsAndReviewers, "approvers" | "reviewers" | "authors">>; documentManagement?: Maybe<Array<Maybe<{ __typename?: "DocumentManagement" } & Pick<DocumentManagement, "version" | "date" | "editor" | "remarks">>>> }>; assessmentInformation?: Maybe<{ __typename?: "AssessmentInformation" } & Pick<AssessmentInformation, "constraints" | "proceduresAfterTheAssessment"> & { assessmentScope?: Maybe<{ __typename?: "AssessmentScope" } & Pick<AssessmentScope, "executionPeriod" | "assetNames" | "assetsDescription" | "assetAddresses">>; organizationalAndTechnicalContacts?: Maybe<Array<Maybe<{ __typename?: "OrganizationalAndTechnicalContacts" } & Pick<OrganizationalAndTechnicalContacts, "role" | "name" | "contact">>>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: "SummaryOfAssessmentResults" } & Pick<SummaryOfAssessmentResults, "staticInformation"> & { minorSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>>; lowSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>>; moderateSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>>; criticalSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>>; highSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "vulnerability" | "description" | "details">>>> }>; assessmentDetails?: Maybe<{ __typename?: "AssessmentDetails" } & Pick<AssessmentDetails, "staticInformation"> & {
-      minorSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>; lowSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>; moderateSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>; criticalSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>; highSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>>
+    executiveSummary?: Maybe<{ __typename?: "ExecutiveSummary" } & Pick<ExecutiveSummary, "summary" | "recommendations">>; introduction?: Maybe<{ __typename?: "Introduction" } & Pick<Introduction, "documentInformation" | "responsibilityStatement" | "classification" | "documentOwner" | "disclaimer"> & { authorsAndReviewers?: Maybe<{ __typename?: "AuthorsAndReviewers" } & Pick<AuthorsAndReviewers, "approvers" | "reviewers" | "authors">>; documentManagement?: Maybe<Array<Maybe<{ __typename?: "DocumentManagement" } & Pick<DocumentManagement, "version" | "date" | "editor" | "remarks">>>>; documentStructure?: Maybe<{ __typename?: "DocumentStructure" } & Pick<DocumentStructure, "sectionsIntro" | "sections" | "appendicesIntro" | "appendices">> }>; assessmentInformation?: Maybe<{ __typename?: "AssessmentInformation" } & Pick<AssessmentInformation, "constraints" | "proceduresAfterTheAssessment"> & { assessmentScope?: Maybe<{ __typename?: "AssessmentScope" } & Pick<AssessmentScope, "executionPeriod" | "assetNames" | "assetsDescription" | "assetAddresses">>; organizationalAndTechnicalContacts?: Maybe<Array<Maybe<{ __typename?: "OrganizationalAndTechnicalContacts" } & Pick<OrganizationalAndTechnicalContacts, "role" | "name" | "contact">>>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: "SummaryOfAssessmentResults" } & {
+      staticInformation?: Maybe<{ __typename?: "StaticInformation" } & Pick<StaticInformation, "intro" | "critical" | "high" | "moderate" | "low" | "minor" | "cvss3"> & { cvss3Metrics?: Maybe<{ __typename?: "Cvss3Metrics" } & { availability?: Maybe<{ __typename?: "Availability" } & Pick<Availability, "intro" | "high" | "none" | "low">>; integrity?: Maybe<{ __typename?: "Integrity" } & Pick<Integrity, "intro" | "high" | "low" | "none">>; confidentiality?: Maybe<{ __typename?: "Confidentiality" } & Pick<Confidentiality, "intro" | "high" | "low" | "none">>; scope?: Maybe<{ __typename?: "Scope" } & Pick<Scope, "intro" | "changed" | "unchanged">>; userInteraction?: Maybe<{ __typename?: "UserInteraction" } & Pick<UserInteraction, "intro" | "none" | "required">>; privilegesRequired?: Maybe<{ __typename?: "PrivilegesRequired" } & Pick<PrivilegesRequired, "intro" | "none" | "high" | "low">>; attackComplexity?: Maybe<{ __typename?: "AttackComplexity" } & Pick<AttackComplexity, "intro" | "high" | "low">>; attackVector?: Maybe<{ __typename?: "AttackVector" } & Pick<AttackVector, "intro" | "network" | "adjacent" | "local" | "physical">> }> }>; minorSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "empty" | "notEmpty"> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: "SummarizedIssue" } & Pick<SummarizedIssue, "vulnerability" | "description" | "details">>>> }>>>; lowSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "empty" | "notEmpty"> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: "SummarizedIssue" } & Pick<SummarizedIssue, "vulnerability" | "description" | "details">>>> }>>>; moderateSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "empty" | "notEmpty"> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: "SummarizedIssue" } & Pick<SummarizedIssue, "vulnerability" | "description" | "details">>>> }>>>; criticalSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "empty" | "notEmpty"> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: "SummarizedIssue" } & Pick<SummarizedIssue, "vulnerability" | "description" | "details">>>> }>>>; highSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentSummarized" } & Pick<AssessmentSummarized, "empty" | "notEmpty"> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: "SummarizedIssue" } & Pick<SummarizedIssue, "vulnerability" | "description" | "details">>>> }>>>
+    }>; assessmentDetails?: Maybe<{ __typename?: "AssessmentDetails" } & Pick<AssessmentDetails, "intro"> & {
+      minorSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "empty"> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: "DetailedIssue" } & Pick<DetailedIssue, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>> }>>>; lowSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "empty"> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: "DetailedIssue" } & Pick<DetailedIssue, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>> }>>>; moderateSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "empty"> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: "DetailedIssue" } & Pick<DetailedIssue, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>> }>>>; criticalSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "empty"> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: "DetailedIssue" } & Pick<DetailedIssue, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>> }>>>; highSeverityVulnerabilities?: Maybe<Array<Maybe<{ __typename?: "AssessmentDetailed" } & Pick<AssessmentDetailed, "empty"> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: "DetailedIssue" } & Pick<DetailedIssue, "title" | "description" | "impact" | "remediation" | "cvssVector" | "otherReferences" | "technicalDetails" | "currentStatus">>>> }>>>
     }>; appendix?: Maybe<{ __typename?: "Appendix" } & Pick<Appendix, "tools" | "evidences">>
   }
   localListData: Maybe<Array<{ __typename?: "Finding" } & Pick<Finding, "title" | "description" | "impact" | "remediation" | "cvssVector" | "severity" | "otherReferences">>>
@@ -65,7 +78,7 @@ export class EditorComponent implements OnInit {
   editorStyle = {
     height: '800px'
   };
-
+  objectKeys = Object.keys;
   constructor(private _http: HttpService, private renderer: Renderer2, private fetchFindingsGQL: FetchFindingsGQL, private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL) {
   }
 
@@ -76,7 +89,7 @@ export class EditorComponent implements OnInit {
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     }))
-    this.fetchComplexRelatorioGQL.watch({id: "5ecc7434872ff1b959ade7ad"}).valueChanges.subscribe(result => {
+    this.fetchComplexRelatorioGQL.watch({id: "5ecdbc53998a09dc1599a317"}).valueChanges.subscribe(result => {
       this.complexRelatorio = result.data.fetchComplexRelatorio
     })
 
@@ -97,6 +110,13 @@ export class EditorComponent implements OnInit {
 
   applyFilter() {
     this.listData.filter = this.searchKey.trim().toLowerCase();
+  }
+  subset(arr){
+    return Object.keys(arr).splice(1,Object.keys(arr).length -2)
+  }
+  capitalizeAndInitials(a){
+    let final = a.charAt(0).toUpperCase() + a.slice(1) + ' (' + a.charAt(0).toUpperCase() + ')'
+    return final
   }
 
   onSearchClear() {

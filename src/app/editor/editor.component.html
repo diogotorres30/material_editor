@@ -206,10 +206,33 @@
     </section>
     <section class="sheet">
       <h1>4 Summary of Assessment Results</h1>
-      {{complexRelatorio.summaryOfAssessmentResults.staticInformation}}
+      <p *ngFor="let intro of complexRelatorio.summaryOfAssessmentResults.staticInformation.intro" >{{intro}}</p>
+      <h3>Critical</h3>
+      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.critical}}</p>
+      <h3>High</h3>
+      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.high}}</p>
+      <h3>Moderate</h3>
+      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.moderate}}</p>
+      <h3>Low</h3>
+      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.low}}</p>
+      <h3>Minor</h3>
+      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.minor}}</p>
     </section>
-    <section class="sheet"></section>
-    <section class="sheet"></section>
+    <section class="sheet">
+      <h3>CVSS 3.0</h3>
+      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3}}</p>
+      <h3>CVSS 3.3 Metrics</h3>
+      <h4>Attack Vector (AV)</h4>
+      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics.attackVector.intro}}</p>
+    </section>
+    <section class="sheet" *ngFor="let metric of objectKeys(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics)">
+      <table style="width: 100%">
+        <tr *ngFor="let vari of subset(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric])">
+          <th>{{capitalizeAndInitials(vari.toString())}}</th>
+          <td>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric][vari]}}</td>
+        </tr>
+      </table>
+    </section>
     <section class="sheet"></section>
     <section class="sheet"></section>
 

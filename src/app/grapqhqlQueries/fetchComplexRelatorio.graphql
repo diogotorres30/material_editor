@@ -52,84 +52,175 @@ query fetchComplexRelatorio($id: ID!){
       proceduresAfterTheAssessment
     }
     summaryOfAssessmentResults{
-      staticInformation
+      staticInformation{
+        intro
+        critical
+        high
+        moderate
+        low
+        minor
+        cvss3
+        cvss3Metrics{
+          availability{
+            intro
+            high
+            none
+            low
+          }
+          integrity{
+            intro
+            high
+            low
+            none
+          }
+          confidentiality{
+            intro
+            high
+            low
+            none
+          }
+          scope{
+            intro
+            changed
+            unchanged
+          }
+          userInteraction{
+            intro
+            none
+            required
+          }
+          privilegesRequired{
+            intro
+            none
+            high
+            low
+          }
+          attackComplexity{
+            intro
+            high
+            low
+          }
+          attackVector{
+            intro
+            network
+            adjacent
+            local
+            physical
+          }
+        }
+      }
       minorSeverityVulnerabilities{
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues{
+          vulnerability
+          description
+          details
+        }
       }
       lowSeverityVulnerabilities{
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues{
+          vulnerability
+          description
+          details
+        }
       }
       moderateSeverityVulnerabilities{
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues{
+          vulnerability
+          description
+          details
+        }
       }
       criticalSeverityVulnerabilities{
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues{
+          vulnerability
+          description
+          details
+        }
       }
       highSeverityVulnerabilities{
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues{
+          vulnerability
+          description
+          details
+        }
       }
     }
     assessmentDetails{
-      staticInformation
+      intro
       minorSeverityVulnerabilities{
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues{
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
       lowSeverityVulnerabilities{
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues{
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
       moderateSeverityVulnerabilities{
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues{
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
       criticalSeverityVulnerabilities{
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues{
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
       highSeverityVulnerabilities{
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues{
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
     }
     appendix{

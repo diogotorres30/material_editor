@@ -21,19 +21,13 @@ export type Appendix = {
 
 export type AssessmentDetailed = {
    __typename?: 'AssessmentDetailed';
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  impact?: Maybe<Scalars['String']>;
-  remediation?: Maybe<Scalars['String']>;
-  cvssVector?: Maybe<Scalars['String']>;
-  otherReferences?: Maybe<Scalars['String']>;
-  technicalDetails?: Maybe<Scalars['String']>;
-  currentStatus?: Maybe<Scalars['String']>;
+  empty?: Maybe<Scalars['String']>;
+  detailedIssues?: Maybe<Array<Maybe<DetailedIssue>>>;
 };
 
 export type AssessmentDetails = {
    __typename?: 'AssessmentDetails';
-  staticInformation?: Maybe<Scalars['String']>;
+  intro?: Maybe<Array<Maybe<Scalars['String']>>>;
   minorSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
   lowSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
   moderateSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
@@ -59,9 +53,25 @@ export type AssessmentScope = {
 
 export type AssessmentSummarized = {
    __typename?: 'AssessmentSummarized';
-  vulnerability?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  details?: Maybe<Scalars['String']>;
+  empty?: Maybe<Scalars['String']>;
+  notEmpty?: Maybe<Scalars['String']>;
+  summarizedIssues?: Maybe<Array<Maybe<SummarizedIssue>>>;
+};
+
+export type AttackComplexity = {
+   __typename?: 'AttackComplexity';
+  intro?: Maybe<Scalars['String']>;
+  low?: Maybe<Scalars['String']>;
+  high?: Maybe<Scalars['String']>;
+};
+
+export type AttackVector = {
+   __typename?: 'AttackVector';
+  intro?: Maybe<Scalars['String']>;
+  network?: Maybe<Scalars['String']>;
+  adjacent?: Maybe<Scalars['String']>;
+  local?: Maybe<Scalars['String']>;
+  physical?: Maybe<Scalars['String']>;
 };
 
 export type Auditor = {
@@ -81,6 +91,14 @@ export type AuthorsAndReviewers = {
   approvers?: Maybe<Array<Maybe<Scalars['String']>>>;
   reviewers?: Maybe<Array<Maybe<Scalars['String']>>>;
   authors?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+export type Availability = {
+   __typename?: 'Availability';
+  intro?: Maybe<Scalars['String']>;
+  high?: Maybe<Scalars['String']>;
+  low?: Maybe<Scalars['String']>;
+  none?: Maybe<Scalars['String']>;
 };
 
 export type Client = {
@@ -106,6 +124,38 @@ export type ComplexRelatorio = {
   summaryOfAssessmentResults?: Maybe<SummaryOfAssessmentResults>;
   assessmentDetails?: Maybe<AssessmentDetails>;
   appendix?: Maybe<Appendix>;
+};
+
+export type Confidentiality = {
+   __typename?: 'Confidentiality';
+  intro?: Maybe<Scalars['String']>;
+  high?: Maybe<Scalars['String']>;
+  low?: Maybe<Scalars['String']>;
+  none?: Maybe<Scalars['String']>;
+};
+
+export type Cvss3Metrics = {
+   __typename?: 'Cvss3Metrics';
+  availability?: Maybe<Availability>;
+  integrity?: Maybe<Integrity>;
+  confidentiality?: Maybe<Confidentiality>;
+  scope?: Maybe<Scope>;
+  userInteraction?: Maybe<UserInteraction>;
+  privilegesRequired?: Maybe<PrivilegesRequired>;
+  attackComplexity?: Maybe<AttackComplexity>;
+  attackVector?: Maybe<AttackVector>;
+};
+
+export type DetailedIssue = {
+   __typename?: 'DetailedIssue';
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  impact?: Maybe<Scalars['String']>;
+  remediation?: Maybe<Scalars['String']>;
+  cvssVector?: Maybe<Scalars['String']>;
+  otherReferences?: Maybe<Scalars['String']>;
+  technicalDetails?: Maybe<Scalars['String']>;
+  currentStatus?: Maybe<Scalars['String']>;
 };
 
 export type DocumentManagement = {
@@ -140,6 +190,14 @@ export type Finding = {
   cvssVector?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
   otherReferences?: Maybe<Scalars['String']>;
+};
+
+export type Integrity = {
+   __typename?: 'Integrity';
+  intro?: Maybe<Scalars['String']>;
+  high?: Maybe<Scalars['String']>;
+  low?: Maybe<Scalars['String']>;
+  none?: Maybe<Scalars['String']>;
 };
 
 export type Introduction = {
@@ -314,6 +372,14 @@ export type OrganizationalAndTechnicalContacts = {
   contact?: Maybe<Scalars['String']>;
 };
 
+export type PrivilegesRequired = {
+   __typename?: 'PrivilegesRequired';
+  intro?: Maybe<Scalars['String']>;
+  none?: Maybe<Scalars['String']>;
+  low?: Maybe<Scalars['String']>;
+  high?: Maybe<Scalars['String']>;
+};
+
 export type Project = {
    __typename?: 'Project';
   id: Scalars['ID'];
@@ -441,14 +507,40 @@ export enum ReviewerRole {
   Reviewer = 'REVIEWER'
 }
 
+export type Scope = {
+   __typename?: 'Scope';
+  intro?: Maybe<Scalars['String']>;
+  unchanged?: Maybe<Scalars['String']>;
+  changed?: Maybe<Scalars['String']>;
+};
+
+export type StaticInformation = {
+   __typename?: 'StaticInformation';
+  critical?: Maybe<Scalars['String']>;
+  high?: Maybe<Scalars['String']>;
+  moderate?: Maybe<Scalars['String']>;
+  low?: Maybe<Scalars['String']>;
+  minor?: Maybe<Scalars['String']>;
+  cvss3?: Maybe<Scalars['String']>;
+  cvss3Metrics?: Maybe<Cvss3Metrics>;
+  intro?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
 export type Subscription = {
    __typename?: 'Subscription';
   _empty?: Maybe<Scalars['Boolean']>;
 };
 
+export type SummarizedIssue = {
+   __typename?: 'SummarizedIssue';
+  vulnerability?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  details?: Maybe<Scalars['String']>;
+};
+
 export type SummaryOfAssessmentResults = {
    __typename?: 'SummaryOfAssessmentResults';
-  staticInformation?: Maybe<Scalars['String']>;
+  staticInformation?: Maybe<StaticInformation>;
   minorSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
   lowSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
   moderateSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
@@ -461,6 +553,13 @@ export type User = {
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
+};
+
+export type UserInteraction = {
+   __typename?: 'UserInteraction';
+  intro?: Maybe<Scalars['String']>;
+  none?: Maybe<Scalars['String']>;
+  required?: Maybe<Scalars['String']>;
 };
 
 export type AddAuditorToProjectMutationVariables = {
@@ -585,41 +684,111 @@ export type FetchComplexRelatorioQuery = (
       )>>> }
     )>, summaryOfAssessmentResults?: Maybe<(
       { __typename?: 'SummaryOfAssessmentResults' }
-      & Pick<SummaryOfAssessmentResults, 'staticInformation'>
-      & { minorSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      & { staticInformation?: Maybe<(
+        { __typename?: 'StaticInformation' }
+        & Pick<StaticInformation, 'intro' | 'critical' | 'high' | 'moderate' | 'low' | 'minor' | 'cvss3'>
+        & { cvss3Metrics?: Maybe<(
+          { __typename?: 'Cvss3Metrics' }
+          & { availability?: Maybe<(
+            { __typename?: 'Availability' }
+            & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>
+          )>, integrity?: Maybe<(
+            { __typename?: 'Integrity' }
+            & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>
+          )>, confidentiality?: Maybe<(
+            { __typename?: 'Confidentiality' }
+            & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>
+          )>, scope?: Maybe<(
+            { __typename?: 'Scope' }
+            & Pick<Scope, 'intro' | 'changed' | 'unchanged'>
+          )>, userInteraction?: Maybe<(
+            { __typename?: 'UserInteraction' }
+            & Pick<UserInteraction, 'intro' | 'none' | 'required'>
+          )>, privilegesRequired?: Maybe<(
+            { __typename?: 'PrivilegesRequired' }
+            & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>
+          )>, attackComplexity?: Maybe<(
+            { __typename?: 'AttackComplexity' }
+            & Pick<AttackComplexity, 'intro' | 'high' | 'low'>
+          )>, attackVector?: Maybe<(
+            { __typename?: 'AttackVector' }
+            & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>
+          )> }
+        )> }
+      )>, minorSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
+        & { summarizedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'SummarizedIssue' }
+          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
+        )>>> }
       )>>>, lowSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
+        & { summarizedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'SummarizedIssue' }
+          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
+        )>>> }
       )>>>, moderateSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
+        & { summarizedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'SummarizedIssue' }
+          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
+        )>>> }
       )>>>, criticalSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
+        & { summarizedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'SummarizedIssue' }
+          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
+        )>>> }
       )>>>, highSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'vulnerability' | 'description' | 'details'>
+        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
+        & { summarizedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'SummarizedIssue' }
+          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
+        )>>> }
       )>>> }
     )>, assessmentDetails?: Maybe<(
       { __typename?: 'AssessmentDetails' }
-      & Pick<AssessmentDetails, 'staticInformation'>
+      & Pick<AssessmentDetails, 'intro'>
       & { minorSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        & Pick<AssessmentDetailed, 'empty'>
+        & { detailedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'DetailedIssue' }
+          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        )>>> }
       )>>>, lowSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        & Pick<AssessmentDetailed, 'empty'>
+        & { detailedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'DetailedIssue' }
+          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        )>>> }
       )>>>, moderateSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        & Pick<AssessmentDetailed, 'empty'>
+        & { detailedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'DetailedIssue' }
+          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        )>>> }
       )>>>, criticalSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        & Pick<AssessmentDetailed, 'empty'>
+        & { detailedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'DetailedIssue' }
+          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        )>>> }
       )>>>, highSeverityVulnerabilities?: Maybe<Array<Maybe<(
         { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        & Pick<AssessmentDetailed, 'empty'>
+        & { detailedIssues?: Maybe<Array<Maybe<(
+          { __typename?: 'DetailedIssue' }
+          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+        )>>> }
       )>>> }
     )>, appendix?: Maybe<(
       { __typename?: 'Appendix' }
@@ -891,84 +1060,175 @@ export const FetchComplexRelatorioDocument = gql`
       proceduresAfterTheAssessment
     }
     summaryOfAssessmentResults {
-      staticInformation
+      staticInformation {
+        intro
+        critical
+        high
+        moderate
+        low
+        minor
+        cvss3
+        cvss3Metrics {
+          availability {
+            intro
+            high
+            none
+            low
+          }
+          integrity {
+            intro
+            high
+            low
+            none
+          }
+          confidentiality {
+            intro
+            high
+            low
+            none
+          }
+          scope {
+            intro
+            changed
+            unchanged
+          }
+          userInteraction {
+            intro
+            none
+            required
+          }
+          privilegesRequired {
+            intro
+            none
+            high
+            low
+          }
+          attackComplexity {
+            intro
+            high
+            low
+          }
+          attackVector {
+            intro
+            network
+            adjacent
+            local
+            physical
+          }
+        }
+      }
       minorSeverityVulnerabilities {
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues {
+          vulnerability
+          description
+          details
+        }
       }
       lowSeverityVulnerabilities {
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues {
+          vulnerability
+          description
+          details
+        }
       }
       moderateSeverityVulnerabilities {
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues {
+          vulnerability
+          description
+          details
+        }
       }
       criticalSeverityVulnerabilities {
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues {
+          vulnerability
+          description
+          details
+        }
       }
       highSeverityVulnerabilities {
-        vulnerability
-        description
-        details
+        empty
+        notEmpty
+        summarizedIssues {
+          vulnerability
+          description
+          details
+        }
       }
     }
     assessmentDetails {
-      staticInformation
+      intro
       minorSeverityVulnerabilities {
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues {
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
       lowSeverityVulnerabilities {
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues {
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
       moderateSeverityVulnerabilities {
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues {
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
       criticalSeverityVulnerabilities {
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues {
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
       highSeverityVulnerabilities {
-        title
-        description
-        impact
-        remediation
-        cvssVector
-        otherReferences
-        technicalDetails
-        currentStatus
+        empty
+        detailedIssues {
+          title
+          description
+          impact
+          remediation
+          cvssVector
+          otherReferences
+          technicalDetails
+          currentStatus
+        }
       }
     }
     appendix {
