@@ -6,9 +6,17 @@
 // 	size: A4;
 // }
 
+body {
+  counter-reset: page;
+}
+
+section::after {
+  counter-increment: page;
+  content: "Page " counter(page);
+}
 .sheet {
 	width: 210mm;
-	min-height: 296mm;
+	height: 296mm;
 	overflow: visible;
 	position: relative;
 	box-sizing: border-box;

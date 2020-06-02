@@ -21,9 +21,11 @@ import {UpdateProjectComponent} from './projects/update-project/update-project.c
 import { NewRelatorioComponent } from './projects/new-relatorio/new-relatorio.component';
 import { DatePipe } from '@angular/common';
 import { ReportEditorComponent } from './report-editor/report-editor.component';
+import { HeaderComponent } from './editor/header/header.component';
+import { FooterComponent } from './editor/footer/footer.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent, NewRelatorioComponent, ReportEditorComponent],
+  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent, NewRelatorioComponent, ReportEditorComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

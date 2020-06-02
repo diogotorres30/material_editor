@@ -1,13 +1,15 @@
 query fetchComplexRelatorio($id: ID!){
   fetchComplexRelatorio(id: $id){
     id
-    companyLogo
-    reportTitle
-    targetCompany
-    classification
-    version
-    remarks
-    date
+    cover{
+      companyLogo
+      reportTitle
+      targetCompany
+      classification
+      version
+      remarks
+      date
+    }
     executiveSummary{
       summary
       recommendations

@@ -28,11 +28,11 @@ export type AssessmentDetailed = {
 export type AssessmentDetails = {
    __typename?: 'AssessmentDetails';
   intro?: Maybe<Array<Maybe<Scalars['String']>>>;
-  minorSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
-  lowSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
-  moderateSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
-  highSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
-  criticalSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentDetailed>>>;
+  minorSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
+  lowSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
+  moderateSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
+  highSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
+  criticalSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
 };
 
 export type AssessmentInformation = {
@@ -111,13 +111,7 @@ export type Client = {
 export type ComplexRelatorio = {
    __typename?: 'ComplexRelatorio';
   id: Scalars['ID'];
-  companyLogo?: Maybe<Scalars['String']>;
-  reportTitle?: Maybe<Scalars['String']>;
-  targetCompany?: Maybe<Scalars['String']>;
-  classification?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
-  remarks?: Maybe<Scalars['String']>;
-  date?: Maybe<Scalars['String']>;
+  cover?: Maybe<Cover>;
   executiveSummary?: Maybe<ExecutiveSummary>;
   introduction?: Maybe<Introduction>;
   assessmentInformation?: Maybe<AssessmentInformation>;
@@ -132,6 +126,17 @@ export type Confidentiality = {
   high?: Maybe<Scalars['String']>;
   low?: Maybe<Scalars['String']>;
   none?: Maybe<Scalars['String']>;
+};
+
+export type Cover = {
+   __typename?: 'Cover';
+  companyLogo?: Maybe<Scalars['String']>;
+  reportTitle?: Maybe<Scalars['String']>;
+  targetCompany?: Maybe<Scalars['String']>;
+  classification?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
 };
 
 export type Cvss3Metrics = {
@@ -541,11 +546,11 @@ export type SummarizedIssue = {
 export type SummaryOfAssessmentResults = {
    __typename?: 'SummaryOfAssessmentResults';
   staticInformation?: Maybe<StaticInformation>;
-  minorSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
-  lowSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
-  moderateSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
-  criticalSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
-  highSeverityVulnerabilities?: Maybe<Array<Maybe<AssessmentSummarized>>>;
+  minorSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
+  lowSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
+  moderateSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
+  criticalSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
+  highSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
 };
 
 export type User = {
@@ -655,8 +660,11 @@ export type FetchComplexRelatorioQuery = (
   { __typename?: 'Query' }
   & { fetchComplexRelatorio: (
     { __typename?: 'ComplexRelatorio' }
-    & Pick<ComplexRelatorio, 'id' | 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
-    & { executiveSummary?: Maybe<(
+    & Pick<ComplexRelatorio, 'id'>
+    & { cover?: Maybe<(
+      { __typename?: 'Cover' }
+      & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
+    )>, executiveSummary?: Maybe<(
       { __typename?: 'ExecutiveSummary' }
       & Pick<ExecutiveSummary, 'summary' | 'recommendations'>
     )>, introduction?: Maybe<(
@@ -715,81 +723,81 @@ export type FetchComplexRelatorioQuery = (
             & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>
           )> }
         )> }
-      )>, minorSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, minorSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentSummarized' }
         & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
         & { summarizedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'SummarizedIssue' }
           & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
         )>>> }
-      )>>>, lowSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, lowSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentSummarized' }
         & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
         & { summarizedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'SummarizedIssue' }
           & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
         )>>> }
-      )>>>, moderateSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, moderateSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentSummarized' }
         & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
         & { summarizedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'SummarizedIssue' }
           & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
         )>>> }
-      )>>>, criticalSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, criticalSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentSummarized' }
         & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
         & { summarizedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'SummarizedIssue' }
           & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
         )>>> }
-      )>>>, highSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, highSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentSummarized' }
         & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
         & { summarizedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'SummarizedIssue' }
           & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
         )>>> }
-      )>>> }
+      )> }
     )>, assessmentDetails?: Maybe<(
       { __typename?: 'AssessmentDetails' }
       & Pick<AssessmentDetails, 'intro'>
-      & { minorSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      & { minorSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentDetailed' }
         & Pick<AssessmentDetailed, 'empty'>
         & { detailedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'DetailedIssue' }
           & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
         )>>> }
-      )>>>, lowSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, lowSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentDetailed' }
         & Pick<AssessmentDetailed, 'empty'>
         & { detailedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'DetailedIssue' }
           & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
         )>>> }
-      )>>>, moderateSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, moderateSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentDetailed' }
         & Pick<AssessmentDetailed, 'empty'>
         & { detailedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'DetailedIssue' }
           & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
         )>>> }
-      )>>>, criticalSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, criticalSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentDetailed' }
         & Pick<AssessmentDetailed, 'empty'>
         & { detailedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'DetailedIssue' }
           & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
         )>>> }
-      )>>>, highSeverityVulnerabilities?: Maybe<Array<Maybe<(
+      )>, highSeverityVulnerabilities?: Maybe<(
         { __typename?: 'AssessmentDetailed' }
         & Pick<AssessmentDetailed, 'empty'>
         & { detailedIssues?: Maybe<Array<Maybe<(
           { __typename?: 'DetailedIssue' }
           & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
         )>>> }
-      )>>> }
+      )> }
     )>, appendix?: Maybe<(
       { __typename?: 'Appendix' }
       & Pick<Appendix, 'tools' | 'evidences'>
@@ -1009,13 +1017,15 @@ export const FetchComplexRelatorioDocument = gql`
     query fetchComplexRelatorio($id: ID!) {
   fetchComplexRelatorio(id: $id) {
     id
-    companyLogo
-    reportTitle
-    targetCompany
-    classification
-    version
-    remarks
-    date
+    cover {
+      companyLogo
+      reportTitle
+      targetCompany
+      classification
+      version
+      remarks
+      date
+    }
     executiveSummary {
       summary
       recommendations

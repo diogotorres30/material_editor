@@ -1,3 +1,4 @@
+<body>
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <button mat-icon-button>
@@ -53,13 +54,13 @@
     <!--    <section class="sheet" *ngFor="let sec of complexRelatorio">{{sec}}</section>-->
     <section #sRef class="sheet" #focusPage>
       <div style="position:absolute;right:0; bottom:0;width: 40%; text-align: right;padding: 15%">
-        <h1>{{complexRelatorio["companyLogo"]}}</h1>
-        <h1 style="word-wrap: normal;">{{complexRelatorio["reportTitle"]}}</h1>
-        Prepared by {{complexRelatorio.companyLogo}} for {{complexRelatorio["targetCompany"]}}<br>
-        {{complexRelatorio["classification"]}}<br>
-        {{complexRelatorio["version"]}}<br>
-        {{complexRelatorio["remarks"]}}<br>
-        {{complexRelatorio["date"]}}<br>
+        <h1>{{complexRelatorio.cover["companyLogo"]}}</h1>
+        <h1 style="word-wrap: normal;">{{complexRelatorio.cover["reportTitle"]}}</h1>
+        Prepared by {{complexRelatorio.cover["companyLogo"]}} for {{complexRelatorio.cover["targetCompany"]}}<br>
+        {{complexRelatorio.cover["classification"]}}<br>
+        {{complexRelatorio.cover["version"]}}<br>
+        {{complexRelatorio.cover["remarks"]}}<br>
+        {{complexRelatorio.cover["date"]}}<br>
         <!--        <div class="myPageBreak"></div>-->
         <!--        <mat-divider></mat-divider>-->
 
@@ -82,19 +83,13 @@
       Contents //TODO
     </section>
     <section class="sheet">
-      <div>
-        <p style="float: left; width: 34%; text-align: left;">{{complexRelatorio.companyLogo}}</p>
-        <p style="float: left; width: 33%; text-align: center;">{{complexRelatorio.classification}}</p>
-        <p style="float: left; width: 33%; text-align: right;">{{complexRelatorio.targetCompany}}</p>
-      </div>
-
-      <mat-divider style="clear:both"></mat-divider>
+      <app-header></app-header>
+      <app-footer></app-footer>
       <h1>1 Executive Summary</h1>
       <p>{{complexRelatorio.executiveSummary.summary}}</p>
       <ul>
         <li *ngFor="let rec of complexRelatorio.executiveSummary.recommendations"> {{rec}}</li>
       </ul>
-
 
     </section>
     <section class="sheet">
@@ -197,7 +192,7 @@
       </table>
     </section>
     <section class="sheet">
-      <h3>3 Contraints</h3>
+      <h3>3 Constraints</h3>
       <p>{{complexRelatorio.assessmentInformation.constraints}}</p>
     </section>
     <section class="sheet">
@@ -206,7 +201,7 @@
     </section>
     <section class="sheet">
       <h1>4 Summary of Assessment Results</h1>
-      <p *ngFor="let intro of complexRelatorio.summaryOfAssessmentResults.staticInformation.intro" >{{intro}}</p>
+      <p *ngFor="let intro of complexRelatorio.summaryOfAssessmentResults.staticInformation.intro">{{intro}}</p>
       <h3>Critical</h3>
       <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.critical}}</p>
       <h3>High</h3>
@@ -221,22 +216,91 @@
     <section class="sheet">
       <h3>CVSS 3.0</h3>
       <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3}}</p>
-      <h3>CVSS 3.3 Metrics</h3>
-      <h4>Attack Vector (AV)</h4>
-      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics.attackVector.intro}}</p>
+      <h3>CVSS 3.0 Metrics</h3>
+
+      <div
+        *ngFor="let metric of objectKeys(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics).reverse().splice(1,1)">
+        <h4>{{capitalizeAndInitials(metric.toString())}}</h4>
+        <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric]["intro"]}}</p>
+        <table style="width: 100%">
+          <tr
+            *ngFor="let vari of subset(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric])">
+            <th>{{capitalizeAndInitials(vari.toString())}}</th>
+            <td>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric][vari]}}</td>
+          </tr>
+        </table>
+      </div>
+
     </section>
-    <section class="sheet" *ngFor="let metric of objectKeys(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics)">
+    <section class="sheet"
+             *ngFor="let metric of objectKeys(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics).reverse().splice(2,7)">
+      <h4>{{capitalizeAndInitials(metric.toString())}}</h4>
+      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric]["intro"]}}</p>
       <table style="width: 100%">
-        <tr *ngFor="let vari of subset(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric])">
+        <tr
+          *ngFor="let vari of subset(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric])">
           <th>{{capitalizeAndInitials(vari.toString())}}</th>
           <td>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric][vari]}}</td>
         </tr>
       </table>
     </section>
-    <section class="sheet"></section>
-    <section class="sheet"></section>
+
+    <section class="sheet"
+             *ngFor="let vul of objectKeys(complexRelatorio.summaryOfAssessmentResults).reverse().splice(1,5);let i = index">
+      <h3>{{'4.' + (i + 1).toString() + ' ' + capitalize(vul)}}</h3>
+      <p
+        *ngIf="complexRelatorio.summaryOfAssessmentResults[vul]['summarizedIssues'].length < 1; else emptyParagraph">{{complexRelatorio.summaryOfAssessmentResults[vul]['empty']}}</p>
+      <ng-template #emptyParagraph>
+        <p>{{complexRelatorio.summaryOfAssessmentResults[vul]['notEmpty']}}</p>
+        <table style="width: 100%">
+          <tr>
+            <th>Vulnerability</th>
+            <th>Description</th>
+            <th>Details</th>
+          </tr>
+          <tr *ngFor="let issue of complexRelatorio.summaryOfAssessmentResults[vul]['summarizedIssues']">
+            <td>{{issue['vulnerability']}}</td>
+            <td>{{issue['description']}}</td>
+            <td>{{issue['details']}}</td>
+          </tr>
+        </table>
+      </ng-template>
+
+    </section>
+    <section class="sheet">
+      <h1>5 Assessment Details</h1>
+      <p>{{complexRelatorio.assessmentDetails.intro}}</p>
+    </section>
+    <section class="sheet"
+             *ngFor="let vul of objectKeys(complexRelatorio.assessmentDetails).reverse().splice(1,5);let i = index">
+      <h3>{{'5.' + (i + 1).toString() + ' ' + capitalize(vul)}}</h3>
+      <p
+        *ngIf="complexRelatorio.assessmentDetails[vul]['detailedIssues'].length < 1; else emptyParagraph">{{complexRelatorio.assessmentDetails[vul]['empty']}}</p>
+      <ng-template #emptyParagraph>
+        <div *ngFor="let issue of complexRelatorio.assessmentDetails[vul]['detailedIssues']; let j = index">
+          <h4>{{'5.' + (i + 1).toString() + '.' + (j + 1).toString() + ' ' + issue['title']}}</h4>
+          <mat-divider></mat-divider>
+          <h4>Description</h4>
+          <p>{{issue['description']}}</p>
+          <h4>Impact</h4>
+          <p>{{issue['impact']}}</p>
+          <h4>Remediation</h4>
+          <p>{{issue['remediation']}}</p>
+          <h4>CVSS Vector</h4>
+          <a href="{{'https://www.first.org/cvss/calculator/3.0#'+issue['cvssVector']}}">{{issue['cvssVector']}}</a>
+          <h4>Other references</h4>
+          <a href="{{issue['otherReferences']}}">{{issue['otherReferences']}}</a>
+        </div>
+      </ng-template>
+    </section>
+    <section class="sheet">
+      <h1>6 Appendix</h1>
+
+    </section>
 
     <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
 <router-outlet></router-outlet>
+
+</body>
