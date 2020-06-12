@@ -112,7 +112,16 @@ snack-bar-container.notification {
   flex-direction: column;
 }
 
-table, th, td {
+table.bordered, table.bordered th, table.bordered td {
   border: 1px solid black;
   border-collapse: collapse;
 }
+
+table.contents{
+  width: 100%;
+}
+table.contents th{
+  text-align: left;
+}
+
+

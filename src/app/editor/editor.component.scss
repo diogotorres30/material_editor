@@ -10,46 +10,62 @@ body {
   counter-reset: page;
 }
 
-section::after {
+app-footer::after {
   counter-increment: page;
   content: "Page " counter(page);
 }
+
 .sheet {
-	width: 210mm;
-	height: 296mm;
-	overflow: visible;
-	position: relative;
-	box-sizing: border-box;
-	page-break-after: always;
-	font-family: Roboto, "Helvetica Neue", sans-serif;
-	background: white;
-	box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);
-	margin: 5mm auto;
-	padding: 10mm;
+  width: 210mm;
+  height: 296mm;
+  overflow: visible;
+  position: relative;
+  box-sizing: border-box;
+  page-break-after: always;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: white;
+  box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);
+  margin: 0mm auto;
+  padding: 10mm;
 }
 
 @media screen {
-	.myPageBreak {
-		margin: 10px 0 0 0;
-		padding: 10px 0;
-		border-top: 1px dotted #c5c5c5;
-	}
+  .myPageBreak {
+    margin: 10px 0 0 0;
+    padding: 10px 0;
+    border-top: 1px dotted #c5c5c5;
+  }
 }
+
 @media print {
-	.myPageBreak {
-		page-break-before: always;
-		padding: 0;
-		margin: 0;
-		border: none;
-	}
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  .sideNav,
+  .toolBar {
+    display: none;
+  }
+  .myPageBreak {
+    page-break-before: always;
+    padding: 0;
+    margin: 0;
+    border: none;
+  }
 }
 
 p {
-	overflow-wrap: break-word;
-	word-wrap: break-word;
-	hyphens: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 section {
-	color: black;
+  color: black;
+}
+
+.footerDiv {
+  position: absolute;
+  bottom: 0;
+  width: 190mm;
 }

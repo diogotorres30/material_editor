@@ -1,5 +1,5 @@
-<body>
-<mat-toolbar color="primary">
+<body id="home">
+<mat-toolbar color="primary" class="toolBar">
   <mat-toolbar-row>
     <button mat-icon-button>
       <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
@@ -12,7 +12,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="side">
+  <mat-sidenav #sidenav mode="side" class="sideNav">
     <!--        <mat-nav-list>-->
     <!--            <a mat-list-item *ngFor="let issue of issues" (click)="printIssue(issue)">{{issue.title}}</a>-->
     <!--            <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>-->
@@ -79,20 +79,90 @@
         <!--                </div>-->
       </div>
     </section>
-    <section class="sheet">
-      Contents //TODO
+    <section class="sheet" id="tableContents">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
+      <h1>Contents</h1>
+      <table class="contents" id="initialContents">
+        <tr>
+          <th>1</th>
+          <th>Executive Summary</th>
+          <th>2</th>
+        </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr>
+          <th>2</th>
+          <th>Introduction</th>
+          <th>3</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td>2.1 Document Introduction</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>2.2 Document Structure</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>2.3 Disclaimer</td>
+          <td>6</td>
+        </tr>
+        <tr></tr>
+        <tr></tr>
+        <tr>
+          <th>3</th>
+          <th>Assessment Information</th>
+          <th>7</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td>3.1 Assessment Scope</td>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>3.2 Organizational and Technical Contacts</td>
+          <td>7</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>3.3 Constraints</td>
+          <td>8</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>3.4 Procedures After the Assessment</td>
+          <td>9</td>
+        </tr>
+        <tr></tr>
+        <tr></tr>
+      </table>
+      <table class="contents" id="summarizedVulnerabilities"></table>
+      <table class="contents" id="detailedVulnerabilities"></table>
     </section>
     <section class="sheet">
       <app-header></app-header>
-      <app-footer></app-footer>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
+
       <h1>1 Executive Summary</h1>
       <p>{{complexRelatorio.executiveSummary.summary}}</p>
       <ul>
         <li *ngFor="let rec of complexRelatorio.executiveSummary.recommendations"> {{rec}}</li>
       </ul>
-
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h1>2 Introduction</h1>
       <h3>2.1 Document Information</h3>
       <p>{{complexRelatorio.introduction.documentInformation}}</p>
@@ -103,7 +173,7 @@
       <h4>Document Owner</h4>
       <p>{{complexRelatorio.introduction.documentOwner}}</p>
       <h4>Authors and Reviewers</h4>
-      <table style="width: 100%">
+      <table style="width: 100%" class="bordered">
         <tr>
           <th></th>
           <th>Name</th>
@@ -123,8 +193,12 @@
       </table>
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h4>Document Management</h4>
-      <table style="width: 100%">
+      <table style="width: 100%" class="bordered">
         <tr>
           <th>Version</th>
           <th>Name</th>
@@ -140,6 +214,10 @@
       </table>
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h3>2.2 Document Structure</h3>
       <p>{{complexRelatorio.introduction.documentStructure.sectionsIntro}}</p>
       <ul>
@@ -152,14 +230,22 @@
     </section>
 
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h3>2.3 Disclaimer</h3>
       <p *ngFor="let par of complexRelatorio.introduction.disclaimer"> {{par}} </p>
     </section>
 
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h1>3 Assessment Information</h1>
       <h3>3.1 Assessment Scope</h3>
-      <table style="width: 100%">
+      <table style="width: 100%" class="bordered">
         <tr>
           <th>Execution period</th>
           <td>{{complexRelatorio.assessmentInformation.assessmentScope.executionPeriod}}</td>
@@ -178,7 +264,7 @@
         </tr>
       </table>
       <h3>3.2 Organizational and Technical Contacts</h3>
-      <table style="width: 100%">
+      <table style="width: 100%" class="bordered">
         <tr>
           <th></th>
           <th>Name</th>
@@ -192,14 +278,26 @@
       </table>
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h3>3 Constraints</h3>
       <p>{{complexRelatorio.assessmentInformation.constraints}}</p>
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h3>3.4 Procedures After the Assessment</h3>
       {{complexRelatorio.assessmentInformation.proceduresAfterTheAssessment}}
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h1>4 Summary of Assessment Results</h1>
       <p *ngFor="let intro of complexRelatorio.summaryOfAssessmentResults.staticInformation.intro">{{intro}}</p>
       <h3>Critical</h3>
@@ -214,6 +312,10 @@
       <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.minor}}</p>
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h3>CVSS 3.0</h3>
       <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3}}</p>
       <h3>CVSS 3.0 Metrics</h3>
@@ -222,7 +324,7 @@
         *ngFor="let metric of objectKeys(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics).reverse().splice(1,1)">
         <h4>{{capitalizeAndInitials(metric.toString())}}</h4>
         <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric]["intro"]}}</p>
-        <table style="width: 100%">
+        <table style="width: 100%" class="bordered">
           <tr
             *ngFor="let vari of subset(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric])">
             <th>{{capitalizeAndInitials(vari.toString())}}</th>
@@ -234,9 +336,13 @@
     </section>
     <section class="sheet"
              *ngFor="let metric of objectKeys(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics).reverse().splice(2,7)">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h4>{{capitalizeAndInitials(metric.toString())}}</h4>
       <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric]["intro"]}}</p>
-      <table style="width: 100%">
+      <table style="width: 100%" class="bordered">
         <tr
           *ngFor="let vari of subset(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric])">
           <th>{{capitalizeAndInitials(vari.toString())}}</th>
@@ -247,12 +353,16 @@
 
     <section class="sheet"
              *ngFor="let vul of objectKeys(complexRelatorio.summaryOfAssessmentResults).reverse().splice(1,5);let i = index">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h3>{{'4.' + (i + 1).toString() + ' ' + capitalize(vul)}}</h3>
       <p
         *ngIf="complexRelatorio.summaryOfAssessmentResults[vul]['summarizedIssues'].length < 1; else emptyParagraph">{{complexRelatorio.summaryOfAssessmentResults[vul]['empty']}}</p>
       <ng-template #emptyParagraph>
         <p>{{complexRelatorio.summaryOfAssessmentResults[vul]['notEmpty']}}</p>
-        <table style="width: 100%">
+        <table style="width: 100%" class="bordered">
           <tr>
             <th>Vulnerability</th>
             <th>Description</th>
@@ -268,11 +378,19 @@
 
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h1>5 Assessment Details</h1>
       <p>{{complexRelatorio.assessmentDetails.intro}}</p>
     </section>
     <section class="sheet"
              *ngFor="let vul of objectKeys(complexRelatorio.assessmentDetails).reverse().splice(1,5);let i = index">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h3>{{'5.' + (i + 1).toString() + ' ' + capitalize(vul)}}</h3>
       <p
         *ngIf="complexRelatorio.assessmentDetails[vul]['detailedIssues'].length < 1; else emptyParagraph">{{complexRelatorio.assessmentDetails[vul]['empty']}}</p>
@@ -294,6 +412,10 @@
       </ng-template>
     </section>
     <section class="sheet">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <h1>6 Appendix</h1>
 
     </section>

@@ -72,7 +72,7 @@ export class EditorComponent implements OnInit {
     height: '800px'
   };
   objectKeys = Object.keys;
-  sectionCounter = 1
+  sectionCounter = 0
 
   constructor(private _http: HttpService, private renderer: Renderer2, private fetchFindingsGQL: FetchFindingsGQL, private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL) {
   }
@@ -96,6 +96,69 @@ export class EditorComponent implements OnInit {
       //   // secCnt[pag].setAttribute('class','sheet')
       //   // secCnt[pag].style = "width: 210mm; min-height: 296mm;overflow: visible;position: relative;box-sizing: border-box;page-break-after: always;font-family: Roboto, \"Helvetica Neue\", sans-serif;background: white;box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);margin: 5mm auto;padding: 10mm;"
       // }
+      let vulCounter = 1
+      let subVulCounter = 1
+      let auxRow = document.createElement("tr")
+      this.createRow("4", "Summary of Assessment Results", "10", "summarizedVulnerabilities")
+
+      let vuls = Object.keys(result.data.fetchComplexRelatorio.summaryOfAssessmentResults).reverse().splice(1, 5)
+      let indexCount = 19
+      for (let vul of vuls) {
+        this.createTdRow("", "4." + vulCounter + " " + this.capitalize(vul), indexCount.toString(), "summarizedVulnerabilities")
+        if (result.data.fetchComplexRelatorio.summaryOfAssessmentResults[vul]["summarizedIssues"].length > 0) {
+          indexCount = indexCount + result.data.fetchComplexRelatorio.summaryOfAssessmentResults[vul]["summarizedIssues"].length
+        } else {
+          indexCount++
+        }
+        vulCounter++
+      }
+
+      vulCounter = 1
+      this.createRow("5","Assessment Details",indexCount.toString(), "detailedVulnerabilities")
+      indexCount++
+
+      vuls = Object.keys(result.data.fetchComplexRelatorio.assessmentDetails).reverse().splice(1, 5)
+      for (let vul of vuls) {
+        this.createTdRow("","5." + vulCounter + " " + this.capitalize(vul),indexCount.toString(),"detailedVulnerabilities")
+        if (result.data.fetchComplexRelatorio.assessmentDetails[vul]["detailedIssues"].length < 1) {
+          indexCount++
+        }
+
+        for (let subIssue of result.data.fetchComplexRelatorio.assessmentDetails[vul]['detailedIssues']) {
+          this.createTdRow("","5." + vulCounter + "." + subVulCounter + " " + subIssue.title,indexCount.toString(),"detailedVulnerabilities")
+          indexCount += 2
+          subVulCounter++
+        }
+        vulCounter++
+      }
+
+      // document.getElementById("initialContents")
+      // let phrase = document.createElement("p")
+      // for (let i = 0; i < 40; i++) {
+      //   phrase = document.createElement("p")
+      //   phrase.textContent = i.toString()
+      //   phrase.setAttribute("id", i.toString() + "AAA")
+      //   document.getElementById("tableContents").appendChild(phrase)
+      //   console.log(phrase.offsetTop)
+      //
+      //   if (phrase.offsetTop > 970) {
+      //     let newContentsPage = document.createElement("section")
+      //     newContentsPage.setAttribute("class", "sheet")
+      //     newContentsPage.style.cssText = "width: 210mm; min-height: 296mm;overflow: visible;position: relative;box-sizing: border-box;page-break-after: always;font-family: Roboto, \"Helvetica Neue\", sans-serif;background: white;box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);margin: 5mm auto;padding: 10mm;"
+      //     newContentsPage.setAttribute("id", "contentsPage2")
+      //     newContentsPage.textContent = "JKL"
+      //     document.getElementById("tableContents").insertAdjacentElement("afterend", newContentsPage)
+      //     for (let j = i; j < 40; j++) {
+      //       phrase = document.createElement("p")
+      //       phrase.textContent = j.toString()
+      //       phrase.setAttribute("id", i.toString() + "AAA")
+      //       document.getElementById("contentsPage2").appendChild(phrase)
+      //     }
+      //     break
+      //   }
+      // }
+
+
     })
 
 
@@ -111,6 +174,34 @@ export class EditorComponent implements OnInit {
     this.editorForm = new FormGroup({
       editor: new FormControl(null)
     });
+  }
+
+  createRow(sec, title, pageNum, target) {
+    let row = document.createElement("tr")
+    row.appendChild(this.createTh(sec))
+    row.appendChild(this.createTh(title))
+    row.appendChild(this.createTh(pageNum))
+    document.getElementById(target).appendChild(row)
+  }
+
+  createTdRow(a, title, pageNum, target) {
+    let row = document.createElement("tr")
+    row.appendChild(this.createTd(a))
+    row.appendChild(this.createTd(title))
+    row.appendChild(this.createTd(pageNum))
+    document.getElementById(target).appendChild(row)
+  }
+
+  createTd(content) {
+    let td = document.createElement("td")
+    td.textContent = content
+    return td
+  }
+
+  createTh(content) {
+    let th = document.createElement("th")
+    th.textContent = content
+    return th
   }
 
   applyFilter() {
