@@ -86,24 +86,25 @@ export class EditorComponent implements OnInit {
     }))
     this.fetchComplexRelatorioGQL.watch({id: "5ed1b407e7c2b5f41f1e2138"}).valueChanges.subscribe(result => {
       this.complexRelatorio = result.data.fetchComplexRelatorio
-      // let secCnt = {}
-      // for (let i=0;i<300;i++) {
-      //   let ppp = document.createElement("p")
-      //   ppp.textContent = "LALALALLALALLALALA"
-      //   document.getElementById("mememe").appendChild(ppp)
-      //   console.log(this.pageGrowth(ppp))
-      //   // secCnt[pag] = document.createElement("section")
-      //   // secCnt[pag].setAttribute('class','sheet')
-      //   // secCnt[pag].style = "width: 210mm; min-height: 296mm;overflow: visible;position: relative;box-sizing: border-box;page-break-after: always;font-family: Roboto, \"Helvetica Neue\", sans-serif;background: white;box-shadow: 0 .5mm 2mm rgba(0, 0, 0, .3);margin: 5mm auto;padding: 10mm;"
-      // }
+
       let vulCounter = 1
       let subVulCounter = 1
-      let auxRow = document.createElement("tr")
+
+      this.createRow("1", "Executive Summary", "2", "initialContents")
+      this.createRow("2", "Introduction", "3", "initialContents")
+      this.createTdRow("", "2.1 Document Information", "3", "initialContents")
+      this.createTdRow("", "2.2 Document Structure", "5", "initialContents")
+      this.createTdRow("", "2.3 Disclaimer", "6", "initialContents")
+      this.createRow("3", "Assessment Information", "7", "initialContents")
+      this.createTdRow("", "3.1 Assessment Scope", "7", "initialContents")
+      this.createTdRow("", "3.2 Organizational and Technical Contacts", "7", "initialContents")
+      this.createTdRow("", "3.3 Constraints", "8", "initialContents")
+      this.createTdRow("", "3.4 Procedures After the Assessment", "9", "initialContents")
       this.createRow("4", "Summary of Assessment Results", "10", "summarizedVulnerabilities")
 
-      let vuls = Object.keys(result.data.fetchComplexRelatorio.summaryOfAssessmentResults).reverse().splice(1, 5)
+      let severities = Object.keys(result.data.fetchComplexRelatorio.summaryOfAssessmentResults).reverse().splice(1, 5)
       let indexCount = 19
-      for (let vul of vuls) {
+      for (let vul of severities) {
         this.createTdRow("", "4." + vulCounter + " " + this.capitalize(vul), indexCount.toString(), "summarizedVulnerabilities")
         if (result.data.fetchComplexRelatorio.summaryOfAssessmentResults[vul]["summarizedIssues"].length > 0) {
           indexCount = indexCount + result.data.fetchComplexRelatorio.summaryOfAssessmentResults[vul]["summarizedIssues"].length
@@ -117,8 +118,8 @@ export class EditorComponent implements OnInit {
       this.createRow("5","Assessment Details",indexCount.toString(), "detailedVulnerabilities")
       indexCount++
 
-      vuls = Object.keys(result.data.fetchComplexRelatorio.assessmentDetails).reverse().splice(1, 5)
-      for (let vul of vuls) {
+      severities = Object.keys(result.data.fetchComplexRelatorio.assessmentDetails).reverse().splice(1, 5)
+      for (let vul of severities) {
         this.createTdRow("","5." + vulCounter + " " + this.capitalize(vul),indexCount.toString(),"detailedVulnerabilities")
         if (result.data.fetchComplexRelatorio.assessmentDetails[vul]["detailedIssues"].length < 1) {
           indexCount++

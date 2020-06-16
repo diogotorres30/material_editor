@@ -31,7 +31,7 @@
       <mat-table [dataSource]="listData" matSort>
         <ng-container matColumnDef="title">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.title}}</mat-cell>
+          <mat-cell *matCellDef="let element">{{element.title + element.id}}</mat-cell>
         </ng-container>
         <ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef></mat-header-cell>
@@ -50,7 +50,7 @@
 
   </mat-sidenav>
   <mat-sidenav-content>
-    <button type="button">Add</button>
+<!--    <button type="button">Add</button>-->
     <!--    <section class="sheet" *ngFor="let sec of complexRelatorio">{{sec}}</section>-->
     <section #sRef class="sheet" #focusPage>
       <div style="position:absolute;right:0; bottom:0;width: 40%; text-align: right;padding: 15%">
@@ -86,62 +86,6 @@
       </div>
       <h1>Contents</h1>
       <table class="contents" id="initialContents">
-        <tr>
-          <th>1</th>
-          <th>Executive Summary</th>
-          <th>2</th>
-        </tr>
-        <tr></tr>
-        <tr></tr>
-        <tr>
-          <th>2</th>
-          <th>Introduction</th>
-          <th>3</th>
-        </tr>
-        <tr>
-          <td></td>
-          <td>2.1 Document Introduction</td>
-          <td>3</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>2.2 Document Structure</td>
-          <td>5</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>2.3 Disclaimer</td>
-          <td>6</td>
-        </tr>
-        <tr></tr>
-        <tr></tr>
-        <tr>
-          <th>3</th>
-          <th>Assessment Information</th>
-          <th>7</th>
-        </tr>
-        <tr>
-          <td></td>
-          <td>3.1 Assessment Scope</td>
-          <td>7</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>3.2 Organizational and Technical Contacts</td>
-          <td>7</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>3.3 Constraints</td>
-          <td>8</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>3.4 Procedures After the Assessment</td>
-          <td>9</td>
-        </tr>
-        <tr></tr>
-        <tr></tr>
       </table>
       <table class="contents" id="summarizedVulnerabilities"></table>
       <table class="contents" id="detailedVulnerabilities"></table>
