@@ -238,7 +238,7 @@ export type Mutation = {
   removeReviewerFromProject: Scalars['Boolean'];
   addProjectManagerToProject: Scalars['Boolean'];
   removeProjectManagerFromProject: Scalars['Boolean'];
-  createComplexRelatorio: Scalars['Boolean'];
+  createComplexRelatorio: ComplexRelatorio;
   updateExecutiveSummary: ComplexRelatorio;
 };
 
@@ -302,6 +302,7 @@ export type MutationCreateRelatorioArgs = {
   status?: Maybe<Scalars['String']>;
   revDeadline?: Maybe<Scalars['String']>;
   delDeadline?: Maybe<Scalars['String']>;
+  complexRelatorioId?: Maybe<Scalars['ID']>;
   projId: Scalars['ID'];
 };
 
@@ -490,6 +491,7 @@ export type Relatorio = {
   status: RelatorioStatus;
   revDeadline?: Maybe<Scalars['String']>;
   delDeadline?: Maybe<Scalars['String']>;
+  complexRelatorioId?: Maybe<Scalars['ID']>;
 };
 
 export enum RelatorioStatus {
@@ -611,6 +613,25 @@ export type AddReviewerToProjectMutation = (
   & Pick<Mutation, 'addReviewerToProject'>
 );
 
+export type CreateComplexRelatorioMutationVariables = {
+  companyLogo?: Maybe<Scalars['String']>;
+  reportTitle?: Maybe<Scalars['String']>;
+  targetCompany?: Maybe<Scalars['String']>;
+  classification?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
+};
+
+
+export type CreateComplexRelatorioMutation = (
+  { __typename?: 'Mutation' }
+  & { createComplexRelatorio: (
+    { __typename?: 'ComplexRelatorio' }
+    & Pick<ComplexRelatorio, 'id'>
+  ) }
+);
+
 export type CreateFindingMutationVariables = {
   title: Scalars['String'];
   description: Scalars['String'];
@@ -633,6 +654,7 @@ export type CreateRelatorioMutationVariables = {
   revDeadline?: Maybe<Scalars['String']>;
   delDeadline?: Maybe<Scalars['String']>;
   projId: Scalars['ID'];
+  complexRelatorioId?: Maybe<Scalars['ID']>;
 };
 
 
@@ -837,7 +859,7 @@ export type FetchProjectsQuery = (
     & Pick<Project, 'id' | 'name' | 'status'>
     & { relatorios?: Maybe<Array<(
       { __typename?: 'Relatorio' }
-      & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline'>
+      & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
     )>>, auditor?: Maybe<Array<(
       { __typename?: 'Auditor' }
       & Pick<Auditor, 'id' | 'name' | 'email' | 'role'>
@@ -974,6 +996,21 @@ export const AddReviewerToProjectDocument = gql`
     document = AddReviewerToProjectDocument;
     
   }
+export const CreateComplexRelatorioDocument = gql`
+    mutation createComplexRelatorio($companyLogo: String, $reportTitle: String, $targetCompany: String, $classification: String, $version: String, $remarks: String, $date: String) {
+  createComplexRelatorio(companyLogo: $companyLogo, reportTitle: $reportTitle, targetCompany: $targetCompany, classification: $classification, version: $version, remarks: $remarks, date: $date) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateComplexRelatorioGQL extends Apollo.Mutation<CreateComplexRelatorioMutation, CreateComplexRelatorioMutationVariables> {
+    document = CreateComplexRelatorioDocument;
+    
+  }
 export const CreateFindingDocument = gql`
     mutation createFinding($title: String!, $description: String!, $impact: String!, $remediation: String, $cvssVector: String, $severity: String, $otherReferences: String) {
   createFinding(title: $title, description: $description, impact: $impact, remediation: $remediation, cvssVector: $cvssVector, severity: $severity, otherReferences: $otherReferences)
@@ -988,8 +1025,8 @@ export const CreateFindingDocument = gql`
     
   }
 export const CreateRelatorioDocument = gql`
-    mutation createRelatorio($name: String!, $status: String, $revDeadline: String, $delDeadline: String, $projId: ID!) {
-  createRelatorio(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline, projId: $projId)
+    mutation createRelatorio($name: String!, $status: String, $revDeadline: String, $delDeadline: String, $projId: ID!, $complexRelatorioId: ID) {
+  createRelatorio(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline, projId: $projId, complexRelatorioId: $complexRelatorioId)
 }
     `;
 
@@ -1306,6 +1343,7 @@ export const FetchProjectsDocument = gql`
       status
       revDeadline
       delDeadline
+      complexRelatorioId
     }
     auditor {
       id

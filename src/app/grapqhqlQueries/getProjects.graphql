@@ -9,6 +9,7 @@ query fetchProjects {
       status
       revDeadline
       delDeadline
+      complexRelatorioId
     }
     auditor{
       id

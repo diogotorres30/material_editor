@@ -1,3 +1,15 @@
-mutation createRelatorio($name: String!, $status: String, $revDeadline: String, $delDeadline: String, $projId: ID!){
-  createRelatorio(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline, projId: $projId)
+mutation createRelatorio(
+  $name: String!,
+  $status: String,
+  $revDeadline: String,
+  $delDeadline: String,
+  $projId: ID!,
+  $complexRelatorioId: ID){
+  createRelatorio(
+    name: $name,
+    status: $status,
+    revDeadline: $revDeadline,
+    delDeadline: $delDeadline,
+    projId: $projId,
+    complexRelatorioId: $complexRelatorioId)
 }

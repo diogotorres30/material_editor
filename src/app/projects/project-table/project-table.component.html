@@ -27,7 +27,7 @@
     <ng-container matColumnDef="relatorios">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Reports</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button class="invisible-button" *ngFor="let rel of element.relatorios">{{rel['name']}}</button>
+        <button class="invisible-button" *ngFor="let rel of element.relatorios">{{rel['name'] + ' ' + rel['complexRelatorioId']}}</button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="auditor">

@@ -1,0 +1,20 @@
+mutation createComplexRelatorio(
+  $companyLogo: String,
+  $reportTitle: String,
+  $targetCompany: String,
+  $classification: String,
+  $version: String,
+  $remarks: String,
+  $date: String
+){
+  createComplexRelatorio(
+    companyLogo: $companyLogo,
+    reportTitle: $reportTitle,
+    targetCompany: $targetCompany,
+    classification: $classification,
+    version: $version,
+    remarks: $remarks,
+    date: $date){
+    id
+  }
+}
