@@ -9,10 +9,6 @@
         </mat-form-field>
         <mat-form-field>
           <mat-select formControlName="client" placeholder="Client">
-            <mat-option>
-              <mat-icon>add</mat-icon>
-              New Client
-            </mat-option>
             <ng-container *ngFor="let client of formOptionsService.clientsArray">
               <mat-option value="{{client.id}}">{{client.name}}</mat-option>
             </ng-container>

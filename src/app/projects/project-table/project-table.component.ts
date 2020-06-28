@@ -1,10 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {Router} from "@angular/router";
 import {ProjectFormService} from 'src/app/shared/projectForm.service';
+import {NewRelatorioFormService} from "../../shared/new-relatorio-form.service";
 import {Apollo} from 'apollo-angular';
 import {
   Auditor,
   Client,
-  CreateRelatorioGQL,
   DeleteProjectGQL,
   FetchProjectsGQL,
   Maybe,
@@ -13,12 +14,11 @@ import {
   Relatorio,
   Reviewer
 } from "../../../generated/graphql";
-
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {NewProjectComponent} from "../newProject/newProject.component";
+import {NewProjectComponent} from "../new-project/new-project.component";
 import {UpdateProjectComponent} from "../update-project/update-project.component";
 
 @Component({
@@ -52,8 +52,10 @@ export class ProjectTableComponent implements OnInit {
     private apollo: Apollo,
     private fetchProjectsGQL: FetchProjectsGQL,
     private deleteProjectGQL: DeleteProjectGQL,
-    private createRelatorioGQL: CreateRelatorioGQL,
-    private dialog: MatDialog) {
+    private dialog: MatDialog,
+    private relatorioFormService: NewRelatorioFormService,
+    private router: Router
+  ) {
   }
 
   ngOnInit() {
@@ -63,6 +65,11 @@ export class ProjectTableComponent implements OnInit {
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     })
+  }
+
+  openInEditor(relId) {
+    this.relatorioFormService.showRelatorioId = relId
+    this.router.navigate(['/editor']).then(r => {})
   }
 
   flatten(messy: [], target) {
@@ -108,8 +115,5 @@ export class ProjectTableComponent implements OnInit {
     this.listData.filter = this.searchKey.trim().toLowerCase();
   }
 
-  printThis(message: string) {
-    console.log(message)
-  }
 
 }

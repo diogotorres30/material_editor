@@ -1,4 +1,4 @@
-<form [formGroup]="relatorioFormService.form" class="normal-form" (submit)="onSubmit()">
+<form [formGroup]="newRelatorioFormService.form" class="normal-form" (submit)="onSubmit()">
   <mat-grid-list cols="2" rowHeight="300px">
     <mat-grid-tile>
       <div class="controllers-container">
@@ -24,7 +24,7 @@
         </mat-form-field>
         <div class="button-row">
           <button mat-raised-button color="primary" type="submit"
-                  [disabled]="relatorioFormService.form.invalid">Submit
+                  [disabled]="newRelatorioFormService.form.invalid">Submit
           </button>
           <button mat-raised-button color="warn">Clear</button>
         </div>

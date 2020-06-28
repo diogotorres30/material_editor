@@ -1,0 +1,12 @@
+mutation createClient(
+  $name: String!,
+  $email: String!
+){
+  createClient(
+    name: $name,
+    email: $email,
+  ){
+    name
+    email
+  }
+}

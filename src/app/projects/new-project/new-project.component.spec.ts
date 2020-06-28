@@ -1,6 +1,6 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {NewProjectComponent} from './newProject.component';
+import {NewProjectComponent} from './new-project.component';
 
 describe('ProjectComponent', () => {
   let component: NewProjectComponent;

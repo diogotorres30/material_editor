@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatDialogRef} from "@angular/material/dialog";
-import {RelatorioFormService} from '../../shared/relatorio-form.service';
+import {NewRelatorioFormService} from '../../shared/new-relatorio-form.service';
 
 @Component({
   selector: 'app-new-relatorio',
@@ -10,29 +10,29 @@ import {RelatorioFormService} from '../../shared/relatorio-form.service';
 export class NewRelatorioComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<NewRelatorioComponent>,
-              public relatorioFormService: RelatorioFormService) { }
+              public newRelatorioFormService: NewRelatorioFormService) { }
 
   ngOnInit(): void {
   }
 
   onSubmit() {
-    if (this.relatorioFormService.form.valid) {
-      this.relatorioFormService.newRelatorio(this.relatorioFormService.form.value);
-      this.relatorioFormService.form.reset();
-      this.relatorioFormService.initializeFormGroup();
+    if (this.newRelatorioFormService.form.valid) {
+      this.newRelatorioFormService.newRelatorio(this.newRelatorioFormService.form.value);
+      this.newRelatorioFormService.form.reset();
+      this.newRelatorioFormService.initializeFormGroup();
     }
   }
 
   onClose() {
-    this.relatorioFormService.form.reset();
-    this.relatorioFormService.initializeFormGroup();
+    this.newRelatorioFormService.form.reset();
+    this.newRelatorioFormService.initializeFormGroup();
     this.dialogRef.close();
   }
 
 
   onClear() {
-    this.relatorioFormService.form.reset();
-    this.relatorioFormService.initializeFormGroup();
+    this.newRelatorioFormService.form.reset();
+    this.newRelatorioFormService.initializeFormGroup();
   }
 
 }

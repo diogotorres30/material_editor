@@ -27,12 +27,17 @@
     <ng-container matColumnDef="relatorios">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Reports</mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <button class="invisible-button" *ngFor="let rel of element.relatorios">{{rel['name'] + ' ' + rel['complexRelatorioId']}}</button>
+        <button class="invisible-button" (dblclick)="openInEditor(rel['complexRelatorioId'])"
+                *ngFor="let rel of element.relatorios">{{rel['name'] + ' ' + rel['complexRelatorioId']}}</button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="auditor">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Auditor</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{flatten(element.auditor, 'name')}}</mat-cell>
+      <mat-cell *matCellDef="let element">{{flatten(element.auditor, 'name')}}
+        <button mat-icon-button>
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="reviewer">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Reviewer</mat-header-cell>

@@ -1,17 +1,19 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {MatTableDataSource} from "@angular/material/table";
 import {ProjectFormService} from "../../shared/projectForm.service";
 import {
-  AddAuditorToProjectGQL, AddProjectManagerToProjectGQL,
-  AddReviewerToProjectGQL, CreateRelatorioGQL,
+  AddAuditorToProjectGQL,
+  AddProjectManagerToProjectGQL,
+  AddReviewerToProjectGQL,
   RemoveAuditorFromProjectGQL,
-  RemoveProjectManagerFromProjectGQL, RemoveRelatorioFromProjectGQL,
+  RemoveProjectManagerFromProjectGQL,
+  RemoveRelatorioFromProjectGQL,
   RemoveReviewerFromProjectGQL
 } from "../../../generated/graphql";
 import {ProjectFormOptionsService} from "../../shared/projectForm-options.service";
 import {NewRelatorioComponent} from "../new-relatorio/new-relatorio.component";
-import {RelatorioFormService} from "../../shared/relatorio-form.service";
+import {NewRelatorioFormService} from "../../shared/new-relatorio-form.service";
 
 @Component({
   selector: 'app-update-project',
@@ -22,8 +24,7 @@ export class UpdateProjectComponent implements OnInit {
   private auxString: string;
 
   constructor(
-    public dialogRef: MatDialogRef<UpdateProjectComponent>,
-    private relatorioFormService: RelatorioFormService,
+    private newRelatorioFormService: NewRelatorioFormService,
     private projectFormService: ProjectFormService,
     public formOptionsService: ProjectFormOptionsService,
     private removeAuditorFromProjectGQL: RemoveAuditorFromProjectGQL,
@@ -33,7 +34,6 @@ export class UpdateProjectComponent implements OnInit {
     private addReviewerToProjectGQL: AddReviewerToProjectGQL,
     private addProjectManagerToProjectGQL: AddProjectManagerToProjectGQL,
     private removeRelatorioFromProjectGQL: RemoveRelatorioFromProjectGQL,
-    private createRelatorioGQL: CreateRelatorioGQL,
     private dialog: MatDialog
   ) {
   }
@@ -119,7 +119,7 @@ export class UpdateProjectComponent implements OnInit {
     // }).subscribe((created) => {
     //   // location.reload();
     // });
-    this.relatorioFormService.initializeFormGroup();
+    this.newRelatorioFormService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = "80%";

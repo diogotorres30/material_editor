@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RelatorioFormService } from './relatorio-form.service';
+import { NewUserFormService } from './new-user-form.service';
 
-describe('RelatorioFormService', () => {
-  let service: RelatorioFormService;
+describe('NewUserFormService', () => {
+  let service: NewUserFormService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(RelatorioFormService);
+    service = TestBed.inject(NewUserFormService);
   });
 
   it('should be created', () => {

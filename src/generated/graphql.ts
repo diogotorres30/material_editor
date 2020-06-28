@@ -220,16 +220,21 @@ export type Introduction = {
 export type Mutation = {
    __typename?: 'Mutation';
   _empty?: Maybe<Scalars['Boolean']>;
+  createUser: User;
   addUserToProject: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
+  updateUser: User;
   createFinding: Scalars['Boolean'];
   deleteAllFindings: Scalars['Boolean'];
   addClientToProject: Scalars['Boolean'];
+  createClient: Client;
+  deleteClient: Scalars['Boolean'];
+  updateClient: Client;
   newProject: Project;
   updateProject: Project;
   deleteProject: Scalars['Boolean'];
   addUser: Scalars['Boolean'];
-  createRelatorio: Scalars['Boolean'];
+  addRelatorioToProject: Scalars['Boolean'];
   deleteRelatorio: Scalars['Boolean'];
   removeRelatorioFromProject: Scalars['Boolean'];
   addAuditorToProject: Scalars['Boolean'];
@@ -243,6 +248,12 @@ export type Mutation = {
 };
 
 
+export type MutationCreateUserArgs = {
+  name: Scalars['String'];
+  email?: Maybe<Scalars['String']>;
+};
+
+
 export type MutationAddUserToProjectArgs = {
   userId: Scalars['ID'];
   projId: Scalars['ID'];
@@ -250,7 +261,14 @@ export type MutationAddUserToProjectArgs = {
 
 
 export type MutationDeleteUserArgs = {
-  username: Scalars['String'];
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateUserArgs = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  email: Scalars['String'];
 };
 
 
@@ -276,6 +294,24 @@ export type MutationAddClientToProjectArgs = {
 };
 
 
+export type MutationCreateClientArgs = {
+  name: Scalars['String'];
+  email: Scalars['String'];
+};
+
+
+export type MutationDeleteClientArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateClientArgs = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+};
+
+
 export type MutationNewProjectArgs = {
   name: Scalars['String'];
 };
@@ -297,12 +333,12 @@ export type MutationAddUserArgs = {
 };
 
 
-export type MutationCreateRelatorioArgs = {
+export type MutationAddRelatorioToProjectArgs = {
   name: Scalars['String'];
   status?: Maybe<Scalars['String']>;
   revDeadline?: Maybe<Scalars['String']>;
   delDeadline?: Maybe<Scalars['String']>;
-  complexRelatorioId?: Maybe<Scalars['ID']>;
+  complexRelatorioId?: Maybe<Scalars['String']>;
   projId: Scalars['ID'];
 };
 
@@ -491,7 +527,7 @@ export type Relatorio = {
   status: RelatorioStatus;
   revDeadline?: Maybe<Scalars['String']>;
   delDeadline?: Maybe<Scalars['String']>;
-  complexRelatorioId?: Maybe<Scalars['ID']>;
+  complexRelatorioId?: Maybe<Scalars['String']>;
 };
 
 export enum RelatorioStatus {
@@ -602,6 +638,21 @@ export type AddProjectManagerToProjectMutation = (
   & Pick<Mutation, 'addProjectManagerToProject'>
 );
 
+export type AddRelatorioToProjectMutationVariables = {
+  name: Scalars['String'];
+  status?: Maybe<Scalars['String']>;
+  revDeadline?: Maybe<Scalars['String']>;
+  delDeadline?: Maybe<Scalars['String']>;
+  projId: Scalars['ID'];
+  complexRelatorioId?: Maybe<Scalars['String']>;
+};
+
+
+export type AddRelatorioToProjectMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'addRelatorioToProject'>
+);
+
 export type AddReviewerToProjectMutationVariables = {
   userId: Scalars['ID'];
   projId: Scalars['ID'];
@@ -611,6 +662,20 @@ export type AddReviewerToProjectMutationVariables = {
 export type AddReviewerToProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'addReviewerToProject'>
+);
+
+export type CreateClientMutationVariables = {
+  name: Scalars['String'];
+  email: Scalars['String'];
+};
+
+
+export type CreateClientMutation = (
+  { __typename?: 'Mutation' }
+  & { createClient: (
+    { __typename?: 'Client' }
+    & Pick<Client, 'name' | 'email'>
+  ) }
 );
 
 export type CreateComplexRelatorioMutationVariables = {
@@ -648,19 +713,28 @@ export type CreateFindingMutation = (
   & Pick<Mutation, 'createFinding'>
 );
 
-export type CreateRelatorioMutationVariables = {
+export type CreateUserMutationVariables = {
   name: Scalars['String'];
-  status?: Maybe<Scalars['String']>;
-  revDeadline?: Maybe<Scalars['String']>;
-  delDeadline?: Maybe<Scalars['String']>;
-  projId: Scalars['ID'];
-  complexRelatorioId?: Maybe<Scalars['ID']>;
+  email: Scalars['String'];
 };
 
 
-export type CreateRelatorioMutation = (
+export type CreateUserMutation = (
   { __typename?: 'Mutation' }
-  & Pick<Mutation, 'createRelatorio'>
+  & { createUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'name' | 'email'>
+  ) }
+);
+
+export type DeleteClientMutationVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type DeleteClientMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteClient'>
 );
 
 export type DeleteProjectMutationVariables = {
@@ -671,6 +745,27 @@ export type DeleteProjectMutationVariables = {
 export type DeleteProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteProject'>
+);
+
+export type DeleteUserMutationVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type DeleteUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteUser'>
+);
+
+export type FetchClientsQueryVariables = {};
+
+
+export type FetchClientsQuery = (
+  { __typename?: 'Query' }
+  & { fetchClients?: Maybe<Array<(
+    { __typename?: 'Client' }
+    & Pick<Client, 'id' | 'name' | 'email'>
+  )>> }
 );
 
 export type FetchComplexRelatorioQueryVariables = {
@@ -838,17 +933,6 @@ export type FetchFindingsQuery = (
   )>> }
 );
 
-export type FetchClientsQueryVariables = {};
-
-
-export type FetchClientsQuery = (
-  { __typename?: 'Query' }
-  & { fetchClients?: Maybe<Array<(
-    { __typename?: 'Client' }
-    & Pick<Client, 'id' | 'name' | 'email'>
-  )>> }
-);
-
 export type FetchProjectsQueryVariables = {};
 
 
@@ -871,7 +955,7 @@ export type FetchProjectsQuery = (
       & Pick<ProjectManager, 'id' | 'name' | 'email' | 'role'>
     )>>, client?: Maybe<Array<(
       { __typename?: 'Client' }
-      & Pick<Client, 'name' | 'email'>
+      & Pick<Client, 'id' | 'name' | 'email'>
     )>> }
   )> }
 );
@@ -944,6 +1028,36 @@ export type RemoveReviewerFromProjectMutation = (
   & Pick<Mutation, 'removeReviewerFromProject'>
 );
 
+export type UpdateClientMutationVariables = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+};
+
+
+export type UpdateClientMutation = (
+  { __typename?: 'Mutation' }
+  & { updateClient: (
+    { __typename?: 'Client' }
+    & Pick<Client, 'id' | 'name' | 'email'>
+  ) }
+);
+
+export type UpdateUserMutationVariables = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  email: Scalars['String'];
+};
+
+
+export type UpdateUserMutation = (
+  { __typename?: 'Mutation' }
+  & { updateUser: (
+    { __typename?: 'User' }
+    & Pick<User, 'id' | 'name' | 'email'>
+  ) }
+);
+
 export const AddAuditorToProjectDocument = gql`
     mutation addAuditorToProject($userId: ID!, $projId: ID!) {
   addAuditorToProject(userId: $userId, projId: $projId)
@@ -983,6 +1097,19 @@ export const AddProjectManagerToProjectDocument = gql`
     document = AddProjectManagerToProjectDocument;
     
   }
+export const AddRelatorioToProjectDocument = gql`
+    mutation addRelatorioToProject($name: String!, $status: String, $revDeadline: String, $delDeadline: String, $projId: ID!, $complexRelatorioId: String) {
+  addRelatorioToProject(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline, projId: $projId, complexRelatorioId: $complexRelatorioId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddRelatorioToProjectGQL extends Apollo.Mutation<AddRelatorioToProjectMutation, AddRelatorioToProjectMutationVariables> {
+    document = AddRelatorioToProjectDocument;
+    
+  }
 export const AddReviewerToProjectDocument = gql`
     mutation addReviewerToProject($userId: ID!, $projId: ID!) {
   addReviewerToProject(userId: $userId, projId: $projId)
@@ -994,6 +1121,22 @@ export const AddReviewerToProjectDocument = gql`
   })
   export class AddReviewerToProjectGQL extends Apollo.Mutation<AddReviewerToProjectMutation, AddReviewerToProjectMutationVariables> {
     document = AddReviewerToProjectDocument;
+    
+  }
+export const CreateClientDocument = gql`
+    mutation createClient($name: String!, $email: String!) {
+  createClient(name: $name, email: $email) {
+    name
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateClientGQL extends Apollo.Mutation<CreateClientMutation, CreateClientMutationVariables> {
+    document = CreateClientDocument;
     
   }
 export const CreateComplexRelatorioDocument = gql`
@@ -1024,17 +1167,33 @@ export const CreateFindingDocument = gql`
     document = CreateFindingDocument;
     
   }
-export const CreateRelatorioDocument = gql`
-    mutation createRelatorio($name: String!, $status: String, $revDeadline: String, $delDeadline: String, $projId: ID!, $complexRelatorioId: ID) {
-  createRelatorio(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline, projId: $projId, complexRelatorioId: $complexRelatorioId)
+export const CreateUserDocument = gql`
+    mutation createUser($name: String!, $email: String!) {
+  createUser(name: $name, email: $email) {
+    name
+    email
+  }
 }
     `;
 
   @Injectable({
     providedIn: 'root'
   })
-  export class CreateRelatorioGQL extends Apollo.Mutation<CreateRelatorioMutation, CreateRelatorioMutationVariables> {
-    document = CreateRelatorioDocument;
+  export class CreateUserGQL extends Apollo.Mutation<CreateUserMutation, CreateUserMutationVariables> {
+    document = CreateUserDocument;
+    
+  }
+export const DeleteClientDocument = gql`
+    mutation deleteClient($id: ID!) {
+  deleteClient(id: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteClientGQL extends Apollo.Mutation<DeleteClientMutation, DeleteClientMutationVariables> {
+    document = DeleteClientDocument;
     
   }
 export const DeleteProjectDocument = gql`
@@ -1048,6 +1207,36 @@ export const DeleteProjectDocument = gql`
   })
   export class DeleteProjectGQL extends Apollo.Mutation<DeleteProjectMutation, DeleteProjectMutationVariables> {
     document = DeleteProjectDocument;
+    
+  }
+export const DeleteUserDocument = gql`
+    mutation deleteUser($id: ID!) {
+  deleteUser(id: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteUserGQL extends Apollo.Mutation<DeleteUserMutation, DeleteUserMutationVariables> {
+    document = DeleteUserDocument;
+    
+  }
+export const FetchClientsDocument = gql`
+    query fetchClients {
+  fetchClients {
+    id
+    name
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FetchClientsGQL extends Apollo.Query<FetchClientsQuery, FetchClientsQueryVariables> {
+    document = FetchClientsDocument;
     
   }
 export const FetchComplexRelatorioDocument = gql`
@@ -1314,23 +1503,6 @@ export const FetchFindingsDocument = gql`
     document = FetchFindingsDocument;
     
   }
-export const FetchClientsDocument = gql`
-    query fetchClients {
-  fetchClients {
-    id
-    name
-    email
-  }
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class FetchClientsGQL extends Apollo.Query<FetchClientsQuery, FetchClientsQueryVariables> {
-    document = FetchClientsDocument;
-    
-  }
 export const FetchProjectsDocument = gql`
     query fetchProjects {
   fetchProjects {
@@ -1364,6 +1536,7 @@ export const FetchProjectsDocument = gql`
       role
     }
     client {
+      id
       name
       email
     }
@@ -1461,5 +1634,39 @@ export const RemoveReviewerFromProjectDocument = gql`
   })
   export class RemoveReviewerFromProjectGQL extends Apollo.Mutation<RemoveReviewerFromProjectMutation, RemoveReviewerFromProjectMutationVariables> {
     document = RemoveReviewerFromProjectDocument;
+    
+  }
+export const UpdateClientDocument = gql`
+    mutation updateClient($id: ID!, $name: String!, $email: String!) {
+  updateClient(id: $id, name: $name, email: $email) {
+    id
+    name
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateClientGQL extends Apollo.Mutation<UpdateClientMutation, UpdateClientMutationVariables> {
+    document = UpdateClientDocument;
+    
+  }
+export const UpdateUserDocument = gql`
+    mutation updateUser($id: ID!, $name: String!, $email: String!) {
+  updateUser(id: $id, name: $name, email: $email) {
+    id
+    name
+    email
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateUserGQL extends Apollo.Mutation<UpdateUserMutation, UpdateUserMutationVariables> {
+    document = UpdateUserDocument;
     
   }

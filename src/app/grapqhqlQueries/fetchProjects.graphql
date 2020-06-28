@@ -30,6 +30,7 @@ query fetchProjects {
       role
     }
     client{
+      id
       name
       email
     }

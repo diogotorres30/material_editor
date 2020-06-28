@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {HttpService} from '../http.service';
+import {NewRelatorioFormService} from "../shared/new-relatorio-form.service";
 import {IIssue} from './issue';
 import {FormControl, FormGroup} from '@angular/forms';
 import {
@@ -74,7 +75,12 @@ export class EditorComponent implements OnInit {
   objectKeys = Object.keys;
   sectionCounter = 0
 
-  constructor(private _http: HttpService, private renderer: Renderer2, private fetchFindingsGQL: FetchFindingsGQL, private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL) {
+  constructor(
+    private _http: HttpService,
+    private relatorioFormService: NewRelatorioFormService,
+    private renderer: Renderer2,
+    private fetchFindingsGQL: FetchFindingsGQL,
+    private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL) {
   }
 
   ngOnInit() {
@@ -84,7 +90,7 @@ export class EditorComponent implements OnInit {
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     }))
-    this.fetchComplexRelatorioGQL.watch({id: "5ed1b407e7c2b5f41f1e2138"}).valueChanges.subscribe(result => {
+    this.fetchComplexRelatorioGQL.watch({id: this.relatorioFormService.showRelatorioId}).valueChanges.subscribe(result => {
       this.complexRelatorio = result.data.fetchComplexRelatorio
 
       let vulCounter = 1
@@ -115,18 +121,18 @@ export class EditorComponent implements OnInit {
       }
 
       vulCounter = 1
-      this.createRow("5","Assessment Details",indexCount.toString(), "detailedVulnerabilities")
+      this.createRow("5", "Assessment Details", indexCount.toString(), "detailedVulnerabilities")
       indexCount++
 
       severities = Object.keys(result.data.fetchComplexRelatorio.assessmentDetails).reverse().splice(1, 5)
       for (let vul of severities) {
-        this.createTdRow("","5." + vulCounter + " " + this.capitalize(vul),indexCount.toString(),"detailedVulnerabilities")
+        this.createTdRow("", "5." + vulCounter + " " + this.capitalize(vul), indexCount.toString(), "detailedVulnerabilities")
         if (result.data.fetchComplexRelatorio.assessmentDetails[vul]["detailedIssues"].length < 1) {
           indexCount++
         }
 
         for (let subIssue of result.data.fetchComplexRelatorio.assessmentDetails[vul]['detailedIssues']) {
-          this.createTdRow("","5." + vulCounter + "." + subVulCounter + " " + subIssue.title,indexCount.toString(),"detailedVulnerabilities")
+          this.createTdRow("", "5." + vulCounter + "." + subVulCounter + " " + subIssue.title, indexCount.toString(), "detailedVulnerabilities")
           indexCount += 2
           subVulCounter++
         }
