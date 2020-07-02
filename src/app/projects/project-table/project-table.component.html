@@ -34,9 +34,6 @@
     <ng-container matColumnDef="auditor">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Auditor</mat-header-cell>
       <mat-cell *matCellDef="let element">{{flatten(element.auditor, 'name')}}
-        <button mat-icon-button>
-          <mat-icon>add</mat-icon>
-        </button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="reviewer">

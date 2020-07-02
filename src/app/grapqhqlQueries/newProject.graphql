@@ -1,6 +1,7 @@
-mutation newProject($name: String!){
-  newProject(name: $name){
+mutation newProject($name: String!, $status: String!){
+  newProject(name: $name, status: $status){
     id
     name
+    status
   }
 }

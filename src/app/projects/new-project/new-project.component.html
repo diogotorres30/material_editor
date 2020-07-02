@@ -2,51 +2,52 @@
   <mat-grid-list cols="2" rowHeight="300px">
     <mat-grid-tile>
       <div class="controllers-container">
-<!--        <input type="hidden" formControlName="$key">-->
+        <!--        <input type="hidden" formControlName="$key">-->
         <mat-form-field>
           <input formControlName="name" matInput placeholder="Name*">
           <mat-error>This field is mandatory.</mat-error>
         </mat-form-field>
         <mat-form-field>
-          <mat-select formControlName="client" placeholder="Client">
+          <mat-label>Status</mat-label>
+          <mat-select formControlName="status">
+            <ng-container *ngFor="let stat of statuses">
+              <mat-option value="{{stat.value}}">{{stat.viewValue}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Client</mat-label>
+          <mat-select formControlName="client">
             <ng-container *ngFor="let client of formOptionsService.clientsArray">
               <mat-option value="{{client.id}}">{{client.name}}</mat-option>
             </ng-container>
           </mat-select>
         </mat-form-field>
-        <mat-form-field>
-          <mat-select formControlName="projectManager" placeholder="Project Manager">
-            <mat-option>
-              <mat-icon>add</mat-icon>
-              New User
-            </mat-option>
-            <ng-container *ngFor="let user of formOptionsService.usersArray">
-              <mat-option value="{{user.id}}">{{user.name}}</mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
+
 
       </div>
     </mat-grid-tile>
     <mat-grid-tile>
       <div class="controllers-container">
         <mat-form-field>
-          <mat-select formControlName="auditor" placeholder="Auditor">
-            <mat-option>
-              <mat-icon>add</mat-icon>
-              New User
-            </mat-option>
+          <mat-label>Project Manager</mat-label>
+          <mat-select formControlName="projectManager" multiple>
             <ng-container *ngFor="let user of formOptionsService.usersArray">
               <mat-option value="{{user.id}}">{{user.name}}</mat-option>
             </ng-container>
           </mat-select>
         </mat-form-field>
         <mat-form-field>
-          <mat-select formControlName="reviewer" placeholder="Reviewer">
-            <mat-option>
-              <mat-icon>add</mat-icon>
-              New User
-            </mat-option>
+          <mat-label>Auditor</mat-label>
+          <mat-select formControlName="auditor" multiple>
+            <ng-container *ngFor="let user of formOptionsService.usersArray">
+              <mat-option value="{{user}}">{{user.name}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Reviewer</mat-label>
+          <mat-select formControlName="reviewer" multiple>
             <ng-container *ngFor="let user of formOptionsService.usersArray">
               <mat-option value="{{user.id}}">{{user.name}}</mat-option>
             </ng-container>

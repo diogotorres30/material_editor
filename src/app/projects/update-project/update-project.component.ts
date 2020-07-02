@@ -46,7 +46,9 @@ export class UpdateProjectComponent implements OnInit {
   pmDisplayedColumns: string[] = ['name', 'email', 'actions'];
   relListData: MatTableDataSource<any>;
   relDisplayedColumns: string[] = ['name', 'status', 'revDeadline', 'delDeadline', 'actions'];
-  selected: any;
+  selectedAuditor: any;
+  selectedReviewer: any;
+  selectedPM: any;
 
   ngOnInit() {
     this.auditorListData = new MatTableDataSource<any>(this.projectFormService.edit_auditors);

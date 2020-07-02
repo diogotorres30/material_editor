@@ -314,6 +314,7 @@ export type MutationUpdateClientArgs = {
 
 export type MutationNewProjectArgs = {
   name: Scalars['String'];
+  status: Scalars['String'];
 };
 
 
@@ -355,7 +356,7 @@ export type MutationRemoveRelatorioFromProjectArgs = {
 
 
 export type MutationAddAuditorToProjectArgs = {
-  userId: Scalars['ID'];
+  userIds?: Maybe<Array<Scalars['ID']>>;
   projId: Scalars['ID'];
 };
 
@@ -467,6 +468,7 @@ export type Query = {
   getRelatorio: Relatorio;
   fetchAuditors?: Maybe<Array<User>>;
   fetchAuditor?: Maybe<User>;
+  fetchAuditorsFromProject?: Maybe<Array<Auditor>>;
   fetchReviewers?: Maybe<Array<User>>;
   fetchReviewer?: Maybe<User>;
   fetchProjectManagers?: Maybe<Array<User>>;
@@ -502,6 +504,11 @@ export type QueryGetRelatorioArgs = {
 
 
 export type QueryFetchAuditorArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryFetchAuditorsFromProjectArgs = {
   id: Scalars['ID'];
 };
 
@@ -606,7 +613,7 @@ export type UserInteraction = {
 };
 
 export type AddAuditorToProjectMutationVariables = {
-  userId: Scalars['ID'];
+  userIds?: Maybe<Array<Scalars['ID']>>;
   projId: Scalars['ID'];
 };
 
@@ -973,6 +980,7 @@ export type FetchUsersQuery = (
 
 export type NewProjectMutationVariables = {
   name: Scalars['String'];
+  status: Scalars['String'];
 };
 
 
@@ -980,7 +988,7 @@ export type NewProjectMutation = (
   { __typename?: 'Mutation' }
   & { newProject: (
     { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'name'>
+    & Pick<Project, 'id' | 'name' | 'status'>
   ) }
 );
 
@@ -1059,8 +1067,8 @@ export type UpdateUserMutation = (
 );
 
 export const AddAuditorToProjectDocument = gql`
-    mutation addAuditorToProject($userId: ID!, $projId: ID!) {
-  addAuditorToProject(userId: $userId, projId: $projId)
+    mutation addAuditorToProject($userIds: [ID!], $projId: ID!) {
+  addAuditorToProject(userIds: $userIds, projId: $projId)
 }
     `;
 
@@ -1569,10 +1577,11 @@ export const FetchUsersDocument = gql`
     
   }
 export const NewProjectDocument = gql`
-    mutation newProject($name: String!) {
-  newProject(name: $name) {
+    mutation newProject($name: String!, $status: String!) {
+  newProject(name: $name, status: $status) {
     id
     name
+    status
   }
 }
     `;

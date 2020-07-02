@@ -1,202 +1,195 @@
-<div class="mat-elevation-z8">
-  <!-----------------------------------------Auditors Table--------------------------------------------------------->
 
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>Reports and Team</mat-panel-title>
+  </mat-expansion-panel-header>
+  <div class="mat-elevation-z8">
+    <!-----------------------------------------Auditors Table--------------------------------------------------------->
+    <mat-table [dataSource]="auditorListData" matSort>
+      <ng-container matColumnDef="auditors">
+        <mat-header-cell *matHeaderCellDef colspan="3" [ngClass]="'edit-titles'">
+          Auditors
+        </mat-header-cell>
+      </ng-container>
 
-  <mat-table [dataSource]="auditorListData" matSort>
-    <ng-container matColumnDef="auditors">
-      <mat-header-cell *matHeaderCellDef colspan="3" [ngClass]="'edit-titles'">
-        Auditors
-      </mat-header-cell>
-    </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row;let i = index;let element">
+          <button mat-icon-button color="warn" (click)="removeAuditor(row)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let row;let i = index;let element">
-        <button mat-icon-button color="warn" (click)="removeAuditor(row)">
-          <mat-icon>delete_outline</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
+      <ng-container matColumnDef="newAuditor">
+        <mat-footer-cell *matFooterCellDef colspan="3">
+          <mat-select placeholder=" + Add Auditor" [(value)]="selectedAuditor">
+            <ng-container *ngFor="let user of formOptionsService.usersArray">
+              <mat-option value="{{user.id}}">{{user.name}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <button mat-icon-button (click)="addAuditorToProject(selectedAuditor)">
+            <mat-icon>check</mat-icon>
+          </button>
+        </mat-footer-cell>
+      </ng-container>
 
-    <ng-container matColumnDef="newAuditor">
-      <mat-footer-cell *matFooterCellDef colspan="3">
-        <mat-select placeholder=" + Add Auditor" [(value)]="selected">
-          <mat-option>
+      <mat-header-row *matHeaderRowDef="['auditors']"></mat-header-row>
+      <mat-header-row *matHeaderRowDef="auditorDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: auditorDisplayedColumns;"></mat-row>
+      <mat-footer-row *matFooterRowDef="['newAuditor']"></mat-footer-row>
+    </mat-table>
+    <!-----------------------------------------Reviewers Table--------------------------------------------------------->
+    <mat-table [dataSource]="reviewerListData" matSort>
+      <ng-container matColumnDef="reviewers">
+        <mat-header-cell *matHeaderCellDef colspan="3" [ngClass]="'edit-titles'">
+          Reviewers
+        </mat-header-cell>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row;let i = index;let element">
+          <button mat-icon-button color="warn" (click)="removeReviewer(row)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="newReviewer">
+        <mat-footer-cell *matFooterCellDef colspan="3">
+          <mat-select placeholder=" + Add Reviewer" [(value)]="selectedReviewer">
+            <ng-container *ngFor="let user of formOptionsService.usersArray">
+              <mat-option value="{{user.id}}">{{user.name}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <button mat-icon-button (click)="addReviewerToProject(selectedReviewer)">
+            <mat-icon>check</mat-icon>
+          </button>
+        </mat-footer-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['reviewers']"></mat-header-row>
+      <mat-header-row *matHeaderRowDef="reviewerDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: reviewerDisplayedColumns;"></mat-row>
+      <mat-footer-row *matFooterRowDef="['newReviewer']"></mat-footer-row>
+    </mat-table>
+    <!--------------------------------------Project Managers Table--------------------------------------------------->
+    <mat-table [dataSource]="pmListData" matSort>
+      <ng-container matColumnDef="pms">
+        <mat-header-cell *matHeaderCellDef colspan="3" [ngClass]="'edit-titles'">
+          Project Managers
+        </mat-header-cell>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row;let i = index;let element">
+          <button mat-icon-button color="warn" (click)="removePM(row)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="newProjectManager">
+        <mat-footer-cell *matFooterCellDef colspan="3">
+          <mat-select placeholder=" + Add Project Manager" [(value)]="selectedPM">
+            <ng-container *ngFor="let user of formOptionsService.usersArray">
+              <mat-option value="{{user.id}}">{{user.name}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <button mat-icon-button (click)="addProjectManagerToProject(selectedPM)">
+            <mat-icon>check</mat-icon>
+          </button>
+        </mat-footer-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="['pms']"></mat-header-row>
+      <mat-header-row *matHeaderRowDef="pmDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: pmDisplayedColumns;"></mat-row>
+      <mat-footer-row *matFooterRowDef="['newProjectManager']"></mat-footer-row>
+    </mat-table>
+    <!-----------------------------------------Reports Table--------------------------------------------------------->
+    <mat-table [dataSource]="relListData" matSort>
+      <ng-container matColumnDef="rels">
+        <mat-header-cell *matHeaderCellDef colspan="5" [ngClass]="'edit-titles'">
+          Reports
+        </mat-header-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.status}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="revDeadline">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Review Deadline</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.revDeadline}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="delDeadline">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Delivery Deadline</mat-header-cell>
+        <mat-cell *matCellDef="let element">{{element.delDeadline}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef></mat-header-cell>
+        <mat-cell *matCellDef="let row;let i = index;let element">
+          <button mat-icon-button color="warn" (click)="removeRelatorio(row)">
+            <mat-icon>delete_outline</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="newRelatorio">
+        <mat-footer-cell *matFooterCellDef colspan="5">
+          <button mat-icon-button (click)="createRelatorio()">
             <mat-icon>add</mat-icon>
-            New Auditor
-          </mat-option>
-          <ng-container *ngFor="let user of formOptionsService.usersArray">
-            <mat-option value="{{user.id}}">{{user.name}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <button mat-icon-button (click)="addAuditorToProject(selected)">
-          <mat-icon>check</mat-icon>
-        </button>
-      </mat-footer-cell>
-    </ng-container>
+            New Report
+          </button>
+        </mat-footer-cell>
+      </ng-container>
 
-    <mat-header-row *matHeaderRowDef="['auditors']"></mat-header-row>
-    <mat-header-row *matHeaderRowDef="auditorDisplayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: auditorDisplayedColumns;"></mat-row>
-    <mat-footer-row *matFooterRowDef="['newAuditor']"></mat-footer-row>
-  </mat-table>
-  <!-----------------------------------------Reviewers Table--------------------------------------------------------->
-  <mat-table [dataSource]="reviewerListData" matSort>
-    <ng-container matColumnDef="reviewers">
-      <mat-header-cell *matHeaderCellDef colspan="3" [ngClass]="'edit-titles'">
-        Reviewers
-      </mat-header-cell>
-    </ng-container>
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let row;let i = index;let element">
-        <button mat-icon-button color="warn" (click)="removeReviewer(row)">
-          <mat-icon>delete_outline</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="newReviewer">
-      <mat-footer-cell *matFooterCellDef colspan="3">
-        <mat-select placeholder=" + Add Reviewer" [(value)]="selected">
-          <mat-option>
-            <mat-icon>add</mat-icon>
-            New Reviewer
-          </mat-option>
-          <ng-container *ngFor="let user of formOptionsService.usersArray">
-            <mat-option value="{{user.id}}">{{user.name}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <button mat-icon-button (click)="addReviewerToProject(selected)">
-          <mat-icon>check</mat-icon>
-        </button>
-      </mat-footer-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="['reviewers']"></mat-header-row>
-    <mat-header-row *matHeaderRowDef="reviewerDisplayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: reviewerDisplayedColumns;"></mat-row>
-    <mat-footer-row *matFooterRowDef="['newReviewer']"></mat-footer-row>
-  </mat-table>
-  <!--------------------------------------Project Managers Table--------------------------------------------------->
-  <mat-table [dataSource]="pmListData" matSort>
-    <ng-container matColumnDef="pms">
-      <mat-header-cell *matHeaderCellDef colspan="3" [ngClass]="'edit-titles'">
-        Project Managers
-      </mat-header-cell>
-    </ng-container>
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="email">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let row;let i = index;let element">
-        <button mat-icon-button color="warn" (click)="removePM(row)">
-          <mat-icon>delete_outline</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="newProjectManager">
-      <mat-footer-cell *matFooterCellDef colspan="3">
-        <mat-select placeholder=" + Add Project Manager" [(value)]="selected">
-          <mat-option>
-            <mat-icon>add</mat-icon>
-            New Project Manager
-          </mat-option>
-          <ng-container *ngFor="let user of formOptionsService.usersArray">
-            <mat-option value="{{user.id}}">{{user.name}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <button mat-icon-button (click)="addProjectManagerToProject(selected)">
-          <mat-icon>check</mat-icon>
-        </button>
-      </mat-footer-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="['pms']"></mat-header-row>
-    <mat-header-row *matHeaderRowDef="pmDisplayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: pmDisplayedColumns;"></mat-row>
-    <mat-footer-row *matFooterRowDef="['newProjectManager']"></mat-footer-row>
-  </mat-table>
-  <!-----------------------------------------Reports Table--------------------------------------------------------->
-  <mat-table [dataSource]="relListData" matSort>
-    <ng-container matColumnDef="rels">
-      <mat-header-cell *matHeaderCellDef colspan="5" [ngClass]="'edit-titles'">
-        Reports
-      </mat-header-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="status">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.status}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="revDeadline">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Review Deadline</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.revDeadline}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="delDeadline">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>Delivery Deadline</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.delDeadline}}</mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let row;let i = index;let element">
-        <button mat-icon-button color="warn" (click)="removeRelatorio(row)">
-          <mat-icon>delete_outline</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="newRelatorio">
-      <mat-footer-cell *matFooterCellDef colspan="5">
-        <button mat-icon-button (click)="createRelatorio()">
-          <mat-icon>add</mat-icon>
-          New Report
-        </button>
-      </mat-footer-cell>
-    </ng-container>
-
-    <mat-header-row *matHeaderRowDef="['rels']"></mat-header-row>
-    <mat-header-row *matHeaderRowDef="relDisplayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: relDisplayedColumns;"></mat-row>
-    <mat-footer-row *matFooterRowDef="['newRelatorio']"></mat-footer-row>
-  </mat-table>
-</div>
+      <mat-header-row *matHeaderRowDef="['rels']"></mat-header-row>
+      <mat-header-row *matHeaderRowDef="relDisplayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: relDisplayedColumns;"></mat-row>
+      <mat-footer-row *matFooterRowDef="['newRelatorio']"></mat-footer-row>
+    </mat-table>
+  </div>
 
 
+
+</mat-expansion-panel>

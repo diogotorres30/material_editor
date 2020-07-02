@@ -1,12 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig, MatDialogRef} from "@angular/material/dialog";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 
 import {ProjectFormService} from '../../shared/projectForm.service';
 import {ProjectFormOptionsService} from '../../shared/projectForm-options.service';
 // import {NewClientFormService} from "../../shared/new-client-form.service";
 // import {NewClientComponent} from "../new-client/new-client.component";
 import {NotificationService} from "../../shared/notification.service";
-import {NewRelatorioComponent} from "../new-relatorio/new-relatorio.component";
+
+interface Status {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-project',
@@ -15,6 +19,11 @@ import {NewRelatorioComponent} from "../new-relatorio/new-relatorio.component";
 })
 export class NewProjectComponent implements OnInit {
 
+  statuses: Status[] = [
+    { value: 'OPEN', viewValue: 'Open' },
+    { value: 'INPROGRESS', viewValue: 'In Progress' },
+    { value: 'CLOSED', viewValue: 'Closed' }
+  ];
 
   constructor(
     public projectFormService: ProjectFormService,
