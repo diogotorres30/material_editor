@@ -1,3 +1,4 @@
+<script src="new-project.component.ts"></script>
 <form [formGroup]="projectFormService.form" class="normal-form" (submit)="onSubmit()">
   <mat-grid-list cols="2" rowHeight="300px">
     <mat-grid-tile>
@@ -41,7 +42,7 @@
           <mat-label>Auditor</mat-label>
           <mat-select formControlName="auditor" multiple>
             <ng-container *ngFor="let user of formOptionsService.usersArray">
-              <mat-option value="{{user}}">{{user.name}}</mat-option>
+              <mat-option value="{{user.id}}">{{user.name}}</mat-option>
             </ng-container>
           </mat-select>
         </mat-form-field>
@@ -66,7 +67,7 @@
           <button mat-raised-button color="primary" type="submit"
                   [disabled]="projectFormService.form.invalid">Submit
           </button>
-          <button mat-raised-button color="warn">Clear</button>
+          <button mat-raised-button color="warn" type="reset">Clear</button>
         </div>
       </div>
     </mat-grid-tile>

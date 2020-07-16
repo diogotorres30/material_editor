@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CreateUserGQL, UpdateUserGQL} from "../../generated/graphql";
+import {CreateUserGQL, DeleteUserGQL, UpdateUserGQL} from "../../generated/graphql";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,8 @@ export class NewUserFormService {
   userId : string;
   constructor(
     private createUserGQL : CreateUserGQL,
-    private updateUserGQL: UpdateUserGQL
+    private updateUserGQL: UpdateUserGQL,
+    private deleteUserGQL: DeleteUserGQL
   ) { }
 
   initializeFormGroup() {
@@ -24,11 +25,18 @@ export class NewUserFormService {
     });
   }
 
-  updateUserFormGroup(name,email){
+  updateUserFormGroup(user){
     this.form.setValue({
-      name:name,
-      email:email
+      name:user.name,
+      email:user.email
     })
+  }
+
+  deleteUser(id){
+    this.deleteUserGQL.mutate({
+      id:id
+    }).subscribe(result => {});
+    location.reload();
   }
 
   newUser(user) {

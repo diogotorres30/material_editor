@@ -82,4 +82,5 @@ export class NewProjectComponent implements OnInit {
     this.projectFormService.form.reset();
     this.projectFormService.initializeFormGroup();
   }
+
 }

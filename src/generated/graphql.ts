@@ -237,12 +237,9 @@ export type Mutation = {
   addRelatorioToProject: Scalars['Boolean'];
   deleteRelatorio: Scalars['Boolean'];
   removeRelatorioFromProject: Scalars['Boolean'];
-  addAuditorToProject: Scalars['Boolean'];
-  removeAuditorFromProject: Scalars['Boolean'];
-  addReviewerToProject: Scalars['Boolean'];
-  removeReviewerFromProject: Scalars['Boolean'];
-  addProjectManagerToProject: Scalars['Boolean'];
-  removeProjectManagerFromProject: Scalars['Boolean'];
+  updateProjectAuditors: Scalars['Boolean'];
+  updateProjectReviewers: Scalars['Boolean'];
+  updateProjectPMs: Scalars['Boolean'];
   createComplexRelatorio: ComplexRelatorio;
   updateExecutiveSummary: ComplexRelatorio;
 };
@@ -315,12 +312,21 @@ export type MutationUpdateClientArgs = {
 export type MutationNewProjectArgs = {
   name: Scalars['String'];
   status: Scalars['String'];
+  clientId: Scalars['ID'];
+  auditorIds?: Maybe<Array<Scalars['ID']>>;
+  revIds?: Maybe<Array<Scalars['ID']>>;
+  pmIds?: Maybe<Array<Scalars['ID']>>;
 };
 
 
 export type MutationUpdateProjectArgs = {
   id: Scalars['ID'];
   name: Scalars['String'];
+  status: Scalars['String'];
+  clientId: Scalars['ID'];
+  auditorIds?: Maybe<Array<Scalars['ID']>>;
+  revIds?: Maybe<Array<Scalars['ID']>>;
+  pmIds?: Maybe<Array<Scalars['ID']>>;
 };
 
 
@@ -355,38 +361,20 @@ export type MutationRemoveRelatorioFromProjectArgs = {
 };
 
 
-export type MutationAddAuditorToProjectArgs = {
+export type MutationUpdateProjectAuditorsArgs = {
   userIds?: Maybe<Array<Scalars['ID']>>;
   projId: Scalars['ID'];
 };
 
 
-export type MutationRemoveAuditorFromProjectArgs = {
-  auditorId: Scalars['ID'];
+export type MutationUpdateProjectReviewersArgs = {
+  userId?: Maybe<Array<Scalars['ID']>>;
   projId: Scalars['ID'];
 };
 
 
-export type MutationAddReviewerToProjectArgs = {
-  userId: Scalars['ID'];
-  projId: Scalars['ID'];
-};
-
-
-export type MutationRemoveReviewerFromProjectArgs = {
-  reviewerId: Scalars['ID'];
-  projId: Scalars['ID'];
-};
-
-
-export type MutationAddProjectManagerToProjectArgs = {
-  userId: Scalars['ID'];
-  projId: Scalars['ID'];
-};
-
-
-export type MutationRemoveProjectManagerFromProjectArgs = {
-  projectManagerId: Scalars['ID'];
+export type MutationUpdateProjectPMsArgs = {
+  userId?: Maybe<Array<Scalars['ID']>>;
   projId: Scalars['ID'];
 };
 
@@ -612,17 +600,6 @@ export type UserInteraction = {
   required?: Maybe<Scalars['String']>;
 };
 
-export type AddAuditorToProjectMutationVariables = {
-  userIds?: Maybe<Array<Scalars['ID']>>;
-  projId: Scalars['ID'];
-};
-
-
-export type AddAuditorToProjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addAuditorToProject'>
-);
-
 export type AddClientToProjectMutationVariables = {
   clientId: Scalars['ID'];
   projId: Scalars['ID'];
@@ -632,17 +609,6 @@ export type AddClientToProjectMutationVariables = {
 export type AddClientToProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'addClientToProject'>
-);
-
-export type AddProjectManagerToProjectMutationVariables = {
-  userId: Scalars['ID'];
-  projId: Scalars['ID'];
-};
-
-
-export type AddProjectManagerToProjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addProjectManagerToProject'>
 );
 
 export type AddRelatorioToProjectMutationVariables = {
@@ -658,17 +624,6 @@ export type AddRelatorioToProjectMutationVariables = {
 export type AddRelatorioToProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'addRelatorioToProject'>
-);
-
-export type AddReviewerToProjectMutationVariables = {
-  userId: Scalars['ID'];
-  projId: Scalars['ID'];
-};
-
-
-export type AddReviewerToProjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addReviewerToProject'>
 );
 
 export type CreateClientMutationVariables = {
@@ -940,6 +895,35 @@ export type FetchFindingsQuery = (
   )>> }
 );
 
+export type FetchProjectQueryVariables = {
+  id: Scalars['ID'];
+};
+
+
+export type FetchProjectQuery = (
+  { __typename?: 'Query' }
+  & { fetchProject?: Maybe<(
+    { __typename?: 'Project' }
+    & Pick<Project, 'id' | 'name' | 'status'>
+    & { relatorios?: Maybe<Array<(
+      { __typename?: 'Relatorio' }
+      & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
+    )>>, auditor?: Maybe<Array<(
+      { __typename?: 'Auditor' }
+      & Pick<Auditor, 'id' | 'name' | 'email' | 'role'>
+    )>>, reviewer?: Maybe<Array<(
+      { __typename?: 'Reviewer' }
+      & Pick<Reviewer, 'id' | 'name' | 'email' | 'role'>
+    )>>, projectManager?: Maybe<Array<(
+      { __typename?: 'ProjectManager' }
+      & Pick<ProjectManager, 'id' | 'name' | 'email' | 'role'>
+    )>>, client?: Maybe<Array<(
+      { __typename?: 'Client' }
+      & Pick<Client, 'id' | 'name' | 'email'>
+    )>> }
+  )> }
+);
+
 export type FetchProjectsQueryVariables = {};
 
 
@@ -981,6 +965,10 @@ export type FetchUsersQuery = (
 export type NewProjectMutationVariables = {
   name: Scalars['String'];
   status: Scalars['String'];
+  clientId: Scalars['ID'];
+  auditorIds?: Maybe<Array<Scalars['ID']>>;
+  revIds?: Maybe<Array<Scalars['ID']>>;
+  pmIds?: Maybe<Array<Scalars['ID']>>;
 };
 
 
@@ -989,29 +977,23 @@ export type NewProjectMutation = (
   & { newProject: (
     { __typename?: 'Project' }
     & Pick<Project, 'id' | 'name' | 'status'>
+    & { relatorios?: Maybe<Array<(
+      { __typename?: 'Relatorio' }
+      & Pick<Relatorio, 'name'>
+    )>>, auditor?: Maybe<Array<(
+      { __typename?: 'Auditor' }
+      & Pick<Auditor, 'name'>
+    )>>, reviewer?: Maybe<Array<(
+      { __typename?: 'Reviewer' }
+      & Pick<Reviewer, 'name'>
+    )>>, projectManager?: Maybe<Array<(
+      { __typename?: 'ProjectManager' }
+      & Pick<ProjectManager, 'name'>
+    )>>, client?: Maybe<Array<(
+      { __typename?: 'Client' }
+      & Pick<Client, 'id' | 'name' | 'email'>
+    )>> }
   ) }
-);
-
-export type RemoveAuditorFromProjectMutationVariables = {
-  auditorId: Scalars['ID'];
-  projId: Scalars['ID'];
-};
-
-
-export type RemoveAuditorFromProjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeAuditorFromProject'>
-);
-
-export type RemoveProjectManagerFromProjectMutationVariables = {
-  projectManagerId: Scalars['ID'];
-  projId: Scalars['ID'];
-};
-
-
-export type RemoveProjectManagerFromProjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeProjectManagerFromProject'>
 );
 
 export type RemoveRelatorioFromProjectMutationVariables = {
@@ -1023,17 +1005,6 @@ export type RemoveRelatorioFromProjectMutationVariables = {
 export type RemoveRelatorioFromProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'removeRelatorioFromProject'>
-);
-
-export type RemoveReviewerFromProjectMutationVariables = {
-  reviewerId: Scalars['ID'];
-  projId: Scalars['ID'];
-};
-
-
-export type RemoveReviewerFromProjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'removeReviewerFromProject'>
 );
 
 export type UpdateClientMutationVariables = {
@@ -1051,6 +1022,74 @@ export type UpdateClientMutation = (
   ) }
 );
 
+export type UpdateProjectMutationVariables = {
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  status: Scalars['String'];
+  clientId: Scalars['ID'];
+  auditorIds?: Maybe<Array<Scalars['ID']>>;
+  revIds?: Maybe<Array<Scalars['ID']>>;
+  pmIds?: Maybe<Array<Scalars['ID']>>;
+};
+
+
+export type UpdateProjectMutation = (
+  { __typename?: 'Mutation' }
+  & { updateProject: (
+    { __typename?: 'Project' }
+    & Pick<Project, 'id' | 'name' | 'status'>
+    & { relatorios?: Maybe<Array<(
+      { __typename?: 'Relatorio' }
+      & Pick<Relatorio, 'name'>
+    )>>, auditor?: Maybe<Array<(
+      { __typename?: 'Auditor' }
+      & Pick<Auditor, 'name'>
+    )>>, reviewer?: Maybe<Array<(
+      { __typename?: 'Reviewer' }
+      & Pick<Reviewer, 'name'>
+    )>>, projectManager?: Maybe<Array<(
+      { __typename?: 'ProjectManager' }
+      & Pick<ProjectManager, 'name'>
+    )>>, client?: Maybe<Array<(
+      { __typename?: 'Client' }
+      & Pick<Client, 'id' | 'name' | 'email'>
+    )>> }
+  ) }
+);
+
+export type UpdateProjectAuditorsMutationVariables = {
+  userIds?: Maybe<Array<Scalars['ID']>>;
+  projId: Scalars['ID'];
+};
+
+
+export type UpdateProjectAuditorsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updateProjectAuditors'>
+);
+
+export type UpdateProjectPMsMutationVariables = {
+  userId?: Maybe<Array<Scalars['ID']>>;
+  projId: Scalars['ID'];
+};
+
+
+export type UpdateProjectPMsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updateProjectPMs'>
+);
+
+export type UpdateProjectReviewersMutationVariables = {
+  userIds?: Maybe<Array<Scalars['ID']>>;
+  projId: Scalars['ID'];
+};
+
+
+export type UpdateProjectReviewersMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'updateProjectReviewers'>
+);
+
 export type UpdateUserMutationVariables = {
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -1066,19 +1105,6 @@ export type UpdateUserMutation = (
   ) }
 );
 
-export const AddAuditorToProjectDocument = gql`
-    mutation addAuditorToProject($userIds: [ID!], $projId: ID!) {
-  addAuditorToProject(userIds: $userIds, projId: $projId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddAuditorToProjectGQL extends Apollo.Mutation<AddAuditorToProjectMutation, AddAuditorToProjectMutationVariables> {
-    document = AddAuditorToProjectDocument;
-    
-  }
 export const AddClientToProjectDocument = gql`
     mutation addClientToProject($clientId: ID!, $projId: ID!) {
   addClientToProject(clientId: $clientId, projId: $projId)
@@ -1092,19 +1118,6 @@ export const AddClientToProjectDocument = gql`
     document = AddClientToProjectDocument;
     
   }
-export const AddProjectManagerToProjectDocument = gql`
-    mutation addProjectManagerToProject($userId: ID!, $projId: ID!) {
-  addProjectManagerToProject(userId: $userId, projId: $projId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddProjectManagerToProjectGQL extends Apollo.Mutation<AddProjectManagerToProjectMutation, AddProjectManagerToProjectMutationVariables> {
-    document = AddProjectManagerToProjectDocument;
-    
-  }
 export const AddRelatorioToProjectDocument = gql`
     mutation addRelatorioToProject($name: String!, $status: String, $revDeadline: String, $delDeadline: String, $projId: ID!, $complexRelatorioId: String) {
   addRelatorioToProject(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline, projId: $projId, complexRelatorioId: $complexRelatorioId)
@@ -1116,19 +1129,6 @@ export const AddRelatorioToProjectDocument = gql`
   })
   export class AddRelatorioToProjectGQL extends Apollo.Mutation<AddRelatorioToProjectMutation, AddRelatorioToProjectMutationVariables> {
     document = AddRelatorioToProjectDocument;
-    
-  }
-export const AddReviewerToProjectDocument = gql`
-    mutation addReviewerToProject($userId: ID!, $projId: ID!) {
-  addReviewerToProject(userId: $userId, projId: $projId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddReviewerToProjectGQL extends Apollo.Mutation<AddReviewerToProjectMutation, AddReviewerToProjectMutationVariables> {
-    document = AddReviewerToProjectDocument;
     
   }
 export const CreateClientDocument = gql`
@@ -1511,6 +1511,54 @@ export const FetchFindingsDocument = gql`
     document = FetchFindingsDocument;
     
   }
+export const FetchProjectDocument = gql`
+    query fetchProject($id: ID!) {
+  fetchProject(id: $id) {
+    id
+    name
+    status
+    relatorios {
+      id
+      name
+      status
+      revDeadline
+      delDeadline
+      complexRelatorioId
+    }
+    auditor {
+      id
+      name
+      email
+      role
+    }
+    reviewer {
+      id
+      name
+      email
+      role
+    }
+    projectManager {
+      id
+      name
+      email
+      role
+    }
+    client {
+      id
+      name
+      email
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FetchProjectGQL extends Apollo.Query<FetchProjectQuery, FetchProjectQueryVariables> {
+    document = FetchProjectDocument;
+    
+  }
 export const FetchProjectsDocument = gql`
     query fetchProjects {
   fetchProjects {
@@ -1577,11 +1625,28 @@ export const FetchUsersDocument = gql`
     
   }
 export const NewProjectDocument = gql`
-    mutation newProject($name: String!, $status: String!) {
-  newProject(name: $name, status: $status) {
+    mutation newProject($name: String!, $status: String!, $clientId: ID!, $auditorIds: [ID!], $revIds: [ID!], $pmIds: [ID!]) {
+  newProject(name: $name, status: $status, clientId: $clientId, auditorIds: $auditorIds, revIds: $revIds, pmIds: $pmIds) {
     id
     name
     status
+    relatorios {
+      name
+    }
+    auditor {
+      name
+    }
+    reviewer {
+      name
+    }
+    projectManager {
+      name
+    }
+    client {
+      id
+      name
+      email
+    }
   }
 }
     `;
@@ -1591,32 +1656,6 @@ export const NewProjectDocument = gql`
   })
   export class NewProjectGQL extends Apollo.Mutation<NewProjectMutation, NewProjectMutationVariables> {
     document = NewProjectDocument;
-    
-  }
-export const RemoveAuditorFromProjectDocument = gql`
-    mutation removeAuditorFromProject($auditorId: ID!, $projId: ID!) {
-  removeAuditorFromProject(auditorId: $auditorId, projId: $projId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RemoveAuditorFromProjectGQL extends Apollo.Mutation<RemoveAuditorFromProjectMutation, RemoveAuditorFromProjectMutationVariables> {
-    document = RemoveAuditorFromProjectDocument;
-    
-  }
-export const RemoveProjectManagerFromProjectDocument = gql`
-    mutation removeProjectManagerFromProject($projectManagerId: ID!, $projId: ID!) {
-  removeProjectManagerFromProject(projectManagerId: $projectManagerId, projId: $projId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RemoveProjectManagerFromProjectGQL extends Apollo.Mutation<RemoveProjectManagerFromProjectMutation, RemoveProjectManagerFromProjectMutationVariables> {
-    document = RemoveProjectManagerFromProjectDocument;
     
   }
 export const RemoveRelatorioFromProjectDocument = gql`
@@ -1630,19 +1669,6 @@ export const RemoveRelatorioFromProjectDocument = gql`
   })
   export class RemoveRelatorioFromProjectGQL extends Apollo.Mutation<RemoveRelatorioFromProjectMutation, RemoveRelatorioFromProjectMutationVariables> {
     document = RemoveRelatorioFromProjectDocument;
-    
-  }
-export const RemoveReviewerFromProjectDocument = gql`
-    mutation removeReviewerFromProject($reviewerId: ID!, $projId: ID!) {
-  removeReviewerFromProject(reviewerId: $reviewerId, projId: $projId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class RemoveReviewerFromProjectGQL extends Apollo.Mutation<RemoveReviewerFromProjectMutation, RemoveReviewerFromProjectMutationVariables> {
-    document = RemoveReviewerFromProjectDocument;
     
   }
 export const UpdateClientDocument = gql`
@@ -1660,6 +1686,79 @@ export const UpdateClientDocument = gql`
   })
   export class UpdateClientGQL extends Apollo.Mutation<UpdateClientMutation, UpdateClientMutationVariables> {
     document = UpdateClientDocument;
+    
+  }
+export const UpdateProjectDocument = gql`
+    mutation updateProject($id: ID!, $name: String!, $status: String!, $clientId: ID!, $auditorIds: [ID!], $revIds: [ID!], $pmIds: [ID!]) {
+  updateProject(id: $id, name: $name, status: $status, clientId: $clientId, auditorIds: $auditorIds, revIds: $revIds, pmIds: $pmIds) {
+    id
+    name
+    status
+    relatorios {
+      name
+    }
+    auditor {
+      name
+    }
+    reviewer {
+      name
+    }
+    projectManager {
+      name
+    }
+    client {
+      id
+      name
+      email
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateProjectGQL extends Apollo.Mutation<UpdateProjectMutation, UpdateProjectMutationVariables> {
+    document = UpdateProjectDocument;
+    
+  }
+export const UpdateProjectAuditorsDocument = gql`
+    mutation updateProjectAuditors($userIds: [ID!], $projId: ID!) {
+  updateProjectAuditors(userIds: $userIds, projId: $projId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateProjectAuditorsGQL extends Apollo.Mutation<UpdateProjectAuditorsMutation, UpdateProjectAuditorsMutationVariables> {
+    document = UpdateProjectAuditorsDocument;
+    
+  }
+export const UpdateProjectPMsDocument = gql`
+    mutation updateProjectPMs($userId: [ID!], $projId: ID!) {
+  updateProjectPMs(userId: $userId, projId: $projId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateProjectPMsGQL extends Apollo.Mutation<UpdateProjectPMsMutation, UpdateProjectPMsMutationVariables> {
+    document = UpdateProjectPMsDocument;
+    
+  }
+export const UpdateProjectReviewersDocument = gql`
+    mutation updateProjectReviewers($userIds: [ID!], $projId: ID!) {
+  updateProjectReviewers(userId: $userIds, projId: $projId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateProjectReviewersGQL extends Apollo.Mutation<UpdateProjectReviewersMutation, UpdateProjectReviewersMutationVariables> {
+    document = UpdateProjectReviewersDocument;
     
   }
 export const UpdateUserDocument = gql`

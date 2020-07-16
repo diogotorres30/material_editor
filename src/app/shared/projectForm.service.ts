@@ -1,19 +1,14 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {
-  AddAuditorToProjectGQL,
-  AddClientToProjectGQL,
-  AddProjectManagerToProjectGQL,
-  AddReviewerToProjectGQL,
-  NewProjectGQL
-} from "../../generated/graphql";
+import {AddClientToProjectGQL, NewProjectGQL, UpdateProjectGQL} from "../../generated/graphql";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectFormService {
-
+  updating: boolean = false;
+  projId: string;
   form: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     status: new FormControl('', Validators.required),
@@ -31,9 +26,7 @@ export class ProjectFormService {
   constructor(
     private newProjectGQL: NewProjectGQL,
     private addClientToProjectGQL: AddClientToProjectGQL,
-    private addAuditorToProjectGQL: AddAuditorToProjectGQL,
-    private addReviewerToProjectGQL: AddReviewerToProjectGQL,
-    private addProjectManagerToProjectGQL: AddProjectManagerToProjectGQL,
+    private updateProjectGQL: UpdateProjectGQL
   ) {
   }
 
@@ -48,44 +41,41 @@ export class ProjectFormService {
     });
   }
 
+  updateProjectFormGroup(proj) {
+    proj.auditor.map(a => a.id)
+    this.form.setValue({
+      name: proj.name,
+      status: proj.status,
+      client: proj.client[0]['id'],
+      projectManager: proj.projectManager.map(a => a.id),
+      auditor: proj.auditor.map(a => a.id),
+      reviewer: proj.reviewer.map(a => a.id)
+    })
+  }
+
   newProject(project) {
     this.newProjectGQL.mutate({
       name: project.name,
-      status: project.status
+      status: project.status,
+      clientId: project.client,
+      auditorIds: project.auditor,
+      revIds: project.reviewer,
+      pmIds: project.projectManager
     }).subscribe(result => {
-      this.addClientToProjectGQL.mutate({
-        clientId: project.client,
-        projId: result.data.newProject.id
-      }).subscribe(created => {
-      });
-      console.log(project.auditor)
-      this.addAuditorToProjectGQL.mutate({
-        userIds: project.auditor,
-        projId: result.data.newProject.id
-      }).subscribe(created => {
-      });
-
-      for (let revId of project.reviewer) {
-        this.addReviewerToProjectGQL.mutate({
-          userId: revId,
-          projId: result.data.newProject.id
-        }).subscribe(created => {
-        });
-      }
-
-
-      for (let pmId of project.projectManager) {
-        this.addProjectManagerToProjectGQL.mutate({
-          userId: pmId,
-          projId: result.data.newProject.id
-        }).subscribe(created => {
-        });
-      }
-
     })
     location.reload();
   }
 
+  updateProject(proj) {
+    this.updateProjectGQL.mutate({
+      id: this.projId,
+      name: proj.name,
+      status: proj.status,
+      clientId: proj.client[0]
+    }).subscribe(result => {
+      }
+    )
+  }
 
   editProject(project) {
     this.edit_auditors = project.auditor

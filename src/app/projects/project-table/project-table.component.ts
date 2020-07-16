@@ -19,7 +19,7 @@ import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {NewProjectComponent} from "../new-project/new-project.component";
-import {UpdateProjectComponent} from "../update-project/update-project.component";
+import {RepositoryComponent} from "../../repository/repository.component";
 
 @Component({
   selector: 'app-project-table',
@@ -28,7 +28,7 @@ import {UpdateProjectComponent} from "../update-project/update-project.component
 })
 export class ProjectTableComponent implements OnInit {
 
-  localListData: Array<{ __typename?: "Project" } & Pick<Project, "id" | "name" | "status"> & { relatorios?: Maybe<Array<{ __typename?: "Relatorio" } & Pick<Relatorio, "id" | "name" | "status" | "revDeadline" | "delDeadline">>>; auditor?: Maybe<Array<{ __typename?: "Auditor" } & Pick<Auditor, "id" | "name" | "email" | "role">>>; reviewer?: Maybe<Array<{ __typename?: "Reviewer" } & Pick<Reviewer, "id" | "name" | "email" | "role">>>; projectManager?: Maybe<Array<{ __typename?: "ProjectManager" } & Pick<ProjectManager, "id" | "name" | "email" | "role">>>; client?: Maybe<Array<{ __typename?: "Client" } & Pick<Client, "name" | "email">>> }>
+  localListData: Array<{ __typename?: "Project" } & Pick<Project, "id" | "name" | "status"> & { relatorios?: Maybe<Array<{ __typename?: "Relatorio" } & Pick<Relatorio, "id" | "name" | "status" | "revDeadline" | "delDeadline" | "complexRelatorioId">>>; auditor?: Maybe<Array<{ __typename?: "Auditor" } & Pick<Auditor, "id" | "name" | "email" | "role">>>; reviewer?: Maybe<Array<{ __typename?: "Reviewer" } & Pick<Reviewer, "id" | "name" | "email" | "role">>>; projectManager?: Maybe<Array<{ __typename?: "ProjectManager" } & Pick<ProjectManager, "id" | "name" | "email" | "role">>>; client?: Maybe<Array<{ __typename?: "Client" } & Pick<Client, "id" | "name" | "email">>> }>
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = [
     'id',
@@ -48,13 +48,14 @@ export class ProjectTableComponent implements OnInit {
   auxString: string;
 
   constructor(
-    private service: ProjectFormService,
+    private projectFormService: ProjectFormService,
     private apollo: Apollo,
     private fetchProjectsGQL: FetchProjectsGQL,
     private deleteProjectGQL: DeleteProjectGQL,
     private dialog: MatDialog,
     private relatorioFormService: NewRelatorioFormService,
-    private router: Router
+    private router: Router,
+    private repositoryComponent: RepositoryComponent
   ) {
   }
 
@@ -69,7 +70,8 @@ export class ProjectTableComponent implements OnInit {
 
   openInEditor(relId) {
     this.relatorioFormService.showRelatorioId = relId
-    this.router.navigate(['/editor']).then(r => {})
+    this.router.navigate(['/editor']).then(r => {
+    })
   }
 
   flatten(messy: [], target) {
@@ -88,7 +90,7 @@ export class ProjectTableComponent implements OnInit {
   }
 
   createProject() {
-    this.service.initializeFormGroup();
+    this.projectFormService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
     // dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
@@ -96,23 +98,31 @@ export class ProjectTableComponent implements OnInit {
     this.dialog.open(NewProjectComponent, dialogConfig);
   }
 
-  onSearchClear() {
-    this.searchKey = "";
-    this.applyFilter();
+  createRelatorio() {
   }
 
-  onEdit(project) {
-    // this.service.populateProjectForm(project);
-    this.service.editProject(project);
+  openProjectRelatorios(id) {
+    this.repositoryComponent.activeTab = 3
+  }
+
+  updateProject(project) {
+    this.projectFormService.updating = true;
+    this.projectFormService.projId = project.id;
+    this.projectFormService.updateProjectFormGroup(project);
     const dialogConfig = new MatDialogConfig();
     // dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "60%";
-    this.dialog.open(UpdateProjectComponent, dialogConfig);
+    dialogConfig.width = "80%";
+    this.dialog.open(NewProjectComponent, dialogConfig);
   }
 
   applyFilter() {
     this.listData.filter = this.searchKey.trim().toLowerCase();
+  }
+
+  onSearchClear() {
+    this.searchKey = "";
+    this.applyFilter();
   }
 
 

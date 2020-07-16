@@ -1,0 +1,3 @@
+mutation updateProjectPMs($userId: [ID!], $projId: ID!){
+  updateProjectPMs(userId: $userId, projId: $projId)
+}

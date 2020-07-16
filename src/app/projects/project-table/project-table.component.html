@@ -18,7 +18,11 @@
     </ng-container>
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{element.name}}</mat-cell>
+      <mat-cell *matCellDef="let element">
+        <button class="invisible-button" (dblclick)="openProjectRelatorios(element.id)">
+                {{element.name}}
+        </button>
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Status</mat-header-cell>
@@ -28,7 +32,10 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>Reports</mat-header-cell>
       <mat-cell *matCellDef="let element">
         <button class="invisible-button" (dblclick)="openInEditor(rel['complexRelatorioId'])"
-                *ngFor="let rel of element.relatorios">{{rel['name'] + ' ' + rel['complexRelatorioId']}}</button>
+                *ngFor="let rel of element.relatorios">{{rel['name']}}</button>
+        <button mat-icon-button (click)="createRelatorio()">
+          <mat-icon>add</mat-icon>
+        </button>
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="auditor">
@@ -46,16 +53,16 @@
     </ng-container>
     <ng-container matColumnDef="client">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Client</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{flatten(element.client, 'name')}}</mat-cell>
+      <mat-cell *matCellDef="let element">{{element.client[0]['name']}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="clientEmail">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Client Email</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{flatten(element.client, 'email')}}</mat-cell>
+      <mat-cell *matCellDef="let element">{{element.client[0]['email']}}</mat-cell>
     </ng-container>
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row;let i = index;let element">
-        <button mat-icon-button (click)="onEdit(row)">
+        <button mat-icon-button (click)="updateProject(row)">
           <mat-icon>edit</mat-icon>
         </button>
         <button mat-icon-button color="warn" (click)="deleteProject(element.id)">

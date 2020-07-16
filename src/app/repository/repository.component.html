@@ -1,4 +1,4 @@
-<mat-tab-group>
+<mat-tab-group [selectedIndex]="activeTab">
   <mat-tab label="Projects">
     <app-projects></app-projects>
   </mat-tab>
@@ -7,6 +7,9 @@
   </mat-tab>
   <mat-tab label="Users">
     <app-users-table></app-users-table>
+  </mat-tab>
+  <mat-tab label="Reports">
+    <app-relatorios-table></app-relatorios-table>
   </mat-tab>
 
 </mat-tab-group>

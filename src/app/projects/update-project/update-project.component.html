@@ -25,7 +25,7 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let row;let i = index;let element">
-          <button mat-icon-button color="warn" (click)="removeAuditor(row)">
+          <button mat-icon-button color="warn">
             <mat-icon>delete_outline</mat-icon>
           </button>
         </mat-cell>
@@ -38,7 +38,7 @@
               <mat-option value="{{user.id}}">{{user.name}}</mat-option>
             </ng-container>
           </mat-select>
-          <button mat-icon-button (click)="addAuditorToProject(selectedAuditor)">
+          <button mat-icon-button>
             <mat-icon>check</mat-icon>
           </button>
         </mat-footer-cell>
@@ -69,7 +69,7 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let row;let i = index;let element">
-          <button mat-icon-button color="warn" (click)="removeReviewer(row)">
+          <button mat-icon-button color="warn">
             <mat-icon>delete_outline</mat-icon>
           </button>
         </mat-cell>
@@ -82,7 +82,7 @@
               <mat-option value="{{user.id}}">{{user.name}}</mat-option>
             </ng-container>
           </mat-select>
-          <button mat-icon-button (click)="addReviewerToProject(selectedReviewer)">
+          <button mat-icon-button>
             <mat-icon>check</mat-icon>
           </button>
         </mat-footer-cell>
@@ -113,7 +113,7 @@
       <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let row;let i = index;let element">
-          <button mat-icon-button color="warn" (click)="removePM(row)">
+          <button mat-icon-button color="warn" >
             <mat-icon>delete_outline</mat-icon>
           </button>
         </mat-cell>
@@ -126,7 +126,7 @@
               <mat-option value="{{user.id}}">{{user.name}}</mat-option>
             </ng-container>
           </mat-select>
-          <button mat-icon-button (click)="addProjectManagerToProject(selectedPM)">
+          <button mat-icon-button>
             <mat-icon>check</mat-icon>
           </button>
         </mat-footer-cell>

@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./repository.component.scss']
 })
 export class RepositoryComponent implements OnInit {
+  public activeTab= 2;
 
   constructor() { }
 

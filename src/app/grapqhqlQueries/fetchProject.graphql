@@ -1,0 +1,38 @@
+query fetchProject($id: ID!) {
+  fetchProject(id: $id){
+    id
+    name
+    status
+    relatorios{
+      id
+      name
+      status
+      revDeadline
+      delDeadline
+      complexRelatorioId
+    }
+    auditor{
+      id
+      name
+      email
+      role
+    }
+    reviewer{
+      id
+      name
+      email
+      role
+    }
+    projectManager{
+      id
+      name
+      email
+      role
+    }
+    client{
+      id
+      name
+      email
+    }
+  }
+}

@@ -28,9 +28,10 @@ import { RepositoryComponent } from './repository/repository.component';
 import { ClientsTableComponent } from './repository/clients-table/clients-table.component';
 import { UsersTableComponent } from './repository/users-table/users-table.component';
 import { NewUserComponent } from './repository/new-user/new-user.component';
+import { RelatoriosTableComponent } from './repository/relatorios-table/relatorios-table.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent, NewRelatorioComponent, ReportEditorComponent, HeaderComponent, FooterComponent, NewClientComponent, RepositoryComponent, ClientsTableComponent, UsersTableComponent, NewUserComponent],
+  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent, NewRelatorioComponent, ReportEditorComponent, HeaderComponent, FooterComponent, NewClientComponent, RepositoryComponent, ClientsTableComponent, UsersTableComponent, NewUserComponent, RelatoriosTableComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

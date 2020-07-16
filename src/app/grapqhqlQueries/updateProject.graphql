@@ -1,23 +1,21 @@
-mutation newProject
-(
+mutation updateProject(
+  $id: ID!,
   $name: String!,
   $status: String!,
   $clientId: ID!,
   $auditorIds: [ID!],
   $revIds: [ID!],
   $pmIds:[ID!]
-)
-{
-  newProject
-  (
+){
+  updateProject(
+    id: $id,
     name: $name,
     status: $status,
     clientId: $clientId,
     auditorIds: $auditorIds,
     revIds: $revIds,
     pmIds: $pmIds
-  )
-  {
+  ){
     id
     name
     status

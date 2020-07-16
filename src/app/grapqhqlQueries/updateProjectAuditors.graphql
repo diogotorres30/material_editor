@@ -1,0 +1,3 @@
+mutation updateProjectAuditors($userIds: [ID!], $projId: ID!){
+  updateProjectAuditors(userIds: $userIds, projId: $projId)
+}
