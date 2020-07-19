@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {MatTabGroup} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-repository',
@@ -6,11 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./repository.component.scss']
 })
 export class RepositoryComponent implements OnInit {
-  public activeTab= 2;
+  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
-  constructor() { }
+  constructor(
+  ) {
+  }
 
   ngOnInit(): void {
   }
+
 
 }

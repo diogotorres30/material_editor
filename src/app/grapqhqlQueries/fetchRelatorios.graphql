@@ -1,0 +1,10 @@
+query fetchRelatorios {
+  fetchRelatorios{
+    id
+    name
+    status
+    revDeadline
+    delDeadline
+    complexRelatorioId
+  }
+}

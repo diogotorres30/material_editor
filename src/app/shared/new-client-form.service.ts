@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {CreateClientGQL, DeleteClientGQL, UpdateClientGQL} from "../../generated/graphql";
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {CreateClientGQL, DeleteClientGQL, UpdateClientGQL} from '../../generated/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +9,9 @@ export class NewClientFormService {
   form: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
     email: new FormControl('', [Validators.required, Validators.email])
-  })
-  updating : boolean = false;
-  cliId : string;
+  });
+  updating = false;
+  cliId: string;
   constructor(
     private createClientGQL: CreateClientGQL,
     private updateClientGQL: UpdateClientGQL,
@@ -25,11 +25,11 @@ export class NewClientFormService {
     });
   }
 
-  updateClientFormGroup(cli){
+  updateClientFormGroup(cli) {
     this.form.setValue({
-      name:cli.name,
-      email:cli.email
-    })
+      name: cli.name,
+      email: cli.email
+    });
   }
 
   newClient(cli) {
@@ -37,7 +37,7 @@ export class NewClientFormService {
       name: cli.name,
       email: cli.email
     }).subscribe(result => {
-    })
+    });
     location.reload();
   }
 
@@ -46,13 +46,13 @@ export class NewClientFormService {
       id: this.cliId,
       name: cli.name,
       email: cli.email
-    }).subscribe(result=>{})
+    }).subscribe(result => {});
     location.reload();
   }
 
   deleteClient(id) {
     this.deleteClientGQL.mutate({
-      id:id
+      id
     }).subscribe(result => {});
     location.reload();
   }

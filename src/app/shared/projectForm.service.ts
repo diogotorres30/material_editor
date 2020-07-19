@@ -1,13 +1,15 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AddClientToProjectGQL, NewProjectGQL, UpdateProjectGQL} from "../../generated/graphql";
+import {AddClientToProjectGQL, FetchProjectGQL, NewProjectGQL, UpdateProjectGQL} from '../../generated/graphql';
+import {MatTableDataSource} from '@angular/material/table';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectFormService {
-  updating: boolean = false;
+  public relatoriosListData: MatTableDataSource<any>;
+  updating = false;
   projId: string;
   form: FormGroup = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -17,16 +19,16 @@ export class ProjectFormService {
     auditor: new FormControl(0),
     reviewer: new FormControl(0),
   });
-  edit_auditors = []
-  edit_reviewers = []
-  edit_pms = []
-  edit_rels = []
-  edit_proj: string
+  edit_auditors = [];
+  edit_reviewers = [];
+  edit_pms = [];
+  edit_rels = [];
+  edit_proj: string;
 
   constructor(
     private newProjectGQL: NewProjectGQL,
     private addClientToProjectGQL: AddClientToProjectGQL,
-    private updateProjectGQL: UpdateProjectGQL
+    private updateProjectGQL: UpdateProjectGQL,
   ) {
   }
 
@@ -42,7 +44,7 @@ export class ProjectFormService {
   }
 
   updateProjectFormGroup(proj) {
-    proj.auditor.map(a => a.id)
+    proj.auditor.map(a => a.id);
     this.form.setValue({
       name: proj.name,
       status: proj.status,
@@ -50,7 +52,7 @@ export class ProjectFormService {
       projectManager: proj.projectManager.map(a => a.id),
       auditor: proj.auditor.map(a => a.id),
       reviewer: proj.reviewer.map(a => a.id)
-    })
+    });
   }
 
   newProject(project) {
@@ -62,7 +64,7 @@ export class ProjectFormService {
       revIds: project.reviewer,
       pmIds: project.projectManager
     }).subscribe(result => {
-    })
+    });
     location.reload();
   }
 
@@ -74,14 +76,15 @@ export class ProjectFormService {
       clientId: proj.client[0]
     }).subscribe(result => {
       }
-    )
+    );
   }
 
   editProject(project) {
-    this.edit_auditors = project.auditor
-    this.edit_reviewers = project.reviewer
-    this.edit_pms = project.projectManager
-    this.edit_rels = project.relatorios
-    this.edit_proj = project.id
+    this.edit_auditors = project.auditor;
+    this.edit_reviewers = project.reviewer;
+    this.edit_pms = project.projectManager;
+    this.edit_rels = project.relatorios;
+    this.edit_proj = project.id;
   }
+
 }

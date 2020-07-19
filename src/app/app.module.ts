@@ -16,9 +16,8 @@ import {ProjectsComponent} from './projects/projects.component';
 import {NewProjectComponent} from './projects/new-project/new-project.component';
 import {GraphQLModule} from './graphql.module';
 import {ProjectTableComponent} from './projects/project-table/project-table.component';
-import {ProjectFormOptionsService} from "./shared/projectForm-options.service";
+import {ProjectFormOptionsService} from './shared/projectForm-options.service';
 import {UpdateProjectComponent} from './projects/update-project/update-project.component';
-import { NewRelatorioComponent } from './projects/new-relatorio/new-relatorio.component';
 import { DatePipe } from '@angular/common';
 import { ReportEditorComponent } from './report-editor/report-editor.component';
 import { HeaderComponent } from './editor/header/header.component';
@@ -29,9 +28,11 @@ import { ClientsTableComponent } from './repository/clients-table/clients-table.
 import { UsersTableComponent } from './repository/users-table/users-table.component';
 import { NewUserComponent } from './repository/new-user/new-user.component';
 import { RelatoriosTableComponent } from './repository/relatorios-table/relatorios-table.component';
+import {NewRelatorioComponent} from './repository/new-relatorio/new-relatorio.component';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, ProjectTableComponent, UpdateProjectComponent, NewRelatorioComponent, ReportEditorComponent, HeaderComponent, FooterComponent, NewClientComponent, RepositoryComponent, ClientsTableComponent, UsersTableComponent, NewUserComponent, RelatoriosTableComponent],
+  // tslint:disable-next-line:max-line-length
+  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, NewRelatorioComponent, ProjectTableComponent, UpdateProjectComponent, ReportEditorComponent, HeaderComponent, FooterComponent, NewClientComponent, RepositoryComponent, ClientsTableComponent, UsersTableComponent, NewUserComponent, RelatoriosTableComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,

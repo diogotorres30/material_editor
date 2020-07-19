@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 import { Injectable } from '@angular/core';
 import * as Apollo from 'apollo-angular';
 export type Maybe<T> = T | null;
+export type Exact<T extends { [key: string]: any }> = { [K in keyof T]: T[K] };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -14,19 +15,19 @@ export type Scalars = {
 
 
 export type Appendix = {
-   __typename?: 'Appendix';
+  __typename?: 'Appendix';
   tools?: Maybe<Array<Maybe<Scalars['String']>>>;
   evidences?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type AssessmentDetailed = {
-   __typename?: 'AssessmentDetailed';
+  __typename?: 'AssessmentDetailed';
   empty?: Maybe<Scalars['String']>;
   detailedIssues?: Maybe<Array<Maybe<DetailedIssue>>>;
 };
 
 export type AssessmentDetails = {
-   __typename?: 'AssessmentDetails';
+  __typename?: 'AssessmentDetails';
   intro?: Maybe<Array<Maybe<Scalars['String']>>>;
   minorSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
   lowSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
@@ -36,7 +37,7 @@ export type AssessmentDetails = {
 };
 
 export type AssessmentInformation = {
-   __typename?: 'AssessmentInformation';
+  __typename?: 'AssessmentInformation';
   assessmentScope?: Maybe<AssessmentScope>;
   organizationalAndTechnicalContacts?: Maybe<Array<Maybe<OrganizationalAndTechnicalContacts>>>;
   constraints?: Maybe<Scalars['String']>;
@@ -44,7 +45,7 @@ export type AssessmentInformation = {
 };
 
 export type AssessmentScope = {
-   __typename?: 'AssessmentScope';
+  __typename?: 'AssessmentScope';
   executionPeriod?: Maybe<Scalars['String']>;
   assetNames?: Maybe<Scalars['String']>;
   assetsDescription?: Maybe<Scalars['String']>;
@@ -52,21 +53,21 @@ export type AssessmentScope = {
 };
 
 export type AssessmentSummarized = {
-   __typename?: 'AssessmentSummarized';
+  __typename?: 'AssessmentSummarized';
   empty?: Maybe<Scalars['String']>;
   notEmpty?: Maybe<Scalars['String']>;
   summarizedIssues?: Maybe<Array<Maybe<SummarizedIssue>>>;
 };
 
 export type AttackComplexity = {
-   __typename?: 'AttackComplexity';
+  __typename?: 'AttackComplexity';
   intro?: Maybe<Scalars['String']>;
   low?: Maybe<Scalars['String']>;
   high?: Maybe<Scalars['String']>;
 };
 
 export type AttackVector = {
-   __typename?: 'AttackVector';
+  __typename?: 'AttackVector';
   intro?: Maybe<Scalars['String']>;
   network?: Maybe<Scalars['String']>;
   adjacent?: Maybe<Scalars['String']>;
@@ -75,7 +76,7 @@ export type AttackVector = {
 };
 
 export type Auditor = {
-   __typename?: 'Auditor';
+  __typename?: 'Auditor';
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
@@ -87,14 +88,14 @@ export enum AuditorRole {
 }
 
 export type AuthorsAndReviewers = {
-   __typename?: 'AuthorsAndReviewers';
+  __typename?: 'AuthorsAndReviewers';
   approvers?: Maybe<Array<Maybe<Scalars['String']>>>;
   reviewers?: Maybe<Array<Maybe<Scalars['String']>>>;
   authors?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Availability = {
-   __typename?: 'Availability';
+  __typename?: 'Availability';
   intro?: Maybe<Scalars['String']>;
   high?: Maybe<Scalars['String']>;
   low?: Maybe<Scalars['String']>;
@@ -102,14 +103,14 @@ export type Availability = {
 };
 
 export type Client = {
-   __typename?: 'Client';
+  __typename?: 'Client';
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
 };
 
 export type ComplexRelatorio = {
-   __typename?: 'ComplexRelatorio';
+  __typename?: 'ComplexRelatorio';
   id: Scalars['ID'];
   cover?: Maybe<Cover>;
   executiveSummary?: Maybe<ExecutiveSummary>;
@@ -121,7 +122,7 @@ export type ComplexRelatorio = {
 };
 
 export type Confidentiality = {
-   __typename?: 'Confidentiality';
+  __typename?: 'Confidentiality';
   intro?: Maybe<Scalars['String']>;
   high?: Maybe<Scalars['String']>;
   low?: Maybe<Scalars['String']>;
@@ -129,7 +130,7 @@ export type Confidentiality = {
 };
 
 export type Cover = {
-   __typename?: 'Cover';
+  __typename?: 'Cover';
   companyLogo?: Maybe<Scalars['String']>;
   reportTitle?: Maybe<Scalars['String']>;
   targetCompany?: Maybe<Scalars['String']>;
@@ -140,7 +141,7 @@ export type Cover = {
 };
 
 export type Cvss3Metrics = {
-   __typename?: 'Cvss3Metrics';
+  __typename?: 'Cvss3Metrics';
   availability?: Maybe<Availability>;
   integrity?: Maybe<Integrity>;
   confidentiality?: Maybe<Confidentiality>;
@@ -152,7 +153,7 @@ export type Cvss3Metrics = {
 };
 
 export type DetailedIssue = {
-   __typename?: 'DetailedIssue';
+  __typename?: 'DetailedIssue';
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   impact?: Maybe<Scalars['String']>;
@@ -164,7 +165,7 @@ export type DetailedIssue = {
 };
 
 export type DocumentManagement = {
-   __typename?: 'DocumentManagement';
+  __typename?: 'DocumentManagement';
   version?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
   editor?: Maybe<Scalars['String']>;
@@ -172,7 +173,7 @@ export type DocumentManagement = {
 };
 
 export type DocumentStructure = {
-   __typename?: 'DocumentStructure';
+  __typename?: 'DocumentStructure';
   sectionsIntro?: Maybe<Scalars['String']>;
   appendicesIntro?: Maybe<Scalars['String']>;
   appendices?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -180,13 +181,13 @@ export type DocumentStructure = {
 };
 
 export type ExecutiveSummary = {
-   __typename?: 'ExecutiveSummary';
+  __typename?: 'ExecutiveSummary';
   summary?: Maybe<Scalars['String']>;
   recommendations?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Finding = {
-   __typename?: 'Finding';
+  __typename?: 'Finding';
   id: Scalars['ID'];
   title: Scalars['String'];
   description: Scalars['String'];
@@ -198,7 +199,7 @@ export type Finding = {
 };
 
 export type Integrity = {
-   __typename?: 'Integrity';
+  __typename?: 'Integrity';
   intro?: Maybe<Scalars['String']>;
   high?: Maybe<Scalars['String']>;
   low?: Maybe<Scalars['String']>;
@@ -206,7 +207,7 @@ export type Integrity = {
 };
 
 export type Introduction = {
-   __typename?: 'Introduction';
+  __typename?: 'Introduction';
   documentInformation?: Maybe<Scalars['String']>;
   responsibilityStatement?: Maybe<Scalars['String']>;
   classification?: Maybe<Scalars['String']>;
@@ -218,7 +219,7 @@ export type Introduction = {
 };
 
 export type Mutation = {
-   __typename?: 'Mutation';
+  __typename?: 'Mutation';
   _empty?: Maybe<Scalars['Boolean']>;
   createUser: User;
   addUserToProject: Scalars['Boolean'];
@@ -397,14 +398,14 @@ export type MutationUpdateExecutiveSummaryArgs = {
 };
 
 export type OrganizationalAndTechnicalContacts = {
-   __typename?: 'OrganizationalAndTechnicalContacts';
+  __typename?: 'OrganizationalAndTechnicalContacts';
   role?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
   contact?: Maybe<Scalars['String']>;
 };
 
 export type PrivilegesRequired = {
-   __typename?: 'PrivilegesRequired';
+  __typename?: 'PrivilegesRequired';
   intro?: Maybe<Scalars['String']>;
   none?: Maybe<Scalars['String']>;
   low?: Maybe<Scalars['String']>;
@@ -412,7 +413,7 @@ export type PrivilegesRequired = {
 };
 
 export type Project = {
-   __typename?: 'Project';
+  __typename?: 'Project';
   id: Scalars['ID'];
   name: Scalars['String'];
   status: ProjectStatus;
@@ -424,7 +425,7 @@ export type Project = {
 };
 
 export type ProjectManager = {
-   __typename?: 'ProjectManager';
+  __typename?: 'ProjectManager';
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
@@ -442,7 +443,7 @@ export enum ProjectStatus {
 }
 
 export type Query = {
-   __typename?: 'Query';
+  __typename?: 'Query';
   _empty?: Maybe<Scalars['Boolean']>;
   fetchUsers?: Maybe<Array<User>>;
   fetchUser?: Maybe<User>;
@@ -452,8 +453,8 @@ export type Query = {
   fetchClient?: Maybe<Client>;
   fetchProjects: Array<Project>;
   fetchProject?: Maybe<Project>;
-  getRelatorios: Array<Relatorio>;
-  getRelatorio: Relatorio;
+  fetchRelatorios: Array<Relatorio>;
+  fetchRelatorio: Relatorio;
   fetchAuditors?: Maybe<Array<User>>;
   fetchAuditor?: Maybe<User>;
   fetchAuditorsFromProject?: Maybe<Array<Auditor>>;
@@ -486,7 +487,7 @@ export type QueryFetchProjectArgs = {
 };
 
 
-export type QueryGetRelatorioArgs = {
+export type QueryFetchRelatorioArgs = {
   id: Scalars['ID'];
 };
 
@@ -516,7 +517,7 @@ export type QueryFetchComplexRelatorioArgs = {
 };
 
 export type Relatorio = {
-   __typename?: 'Relatorio';
+  __typename?: 'Relatorio';
   id: Scalars['ID'];
   name: Scalars['String'];
   status: RelatorioStatus;
@@ -534,7 +535,7 @@ export enum RelatorioStatus {
 }
 
 export type Reviewer = {
-   __typename?: 'Reviewer';
+  __typename?: 'Reviewer';
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
@@ -546,14 +547,14 @@ export enum ReviewerRole {
 }
 
 export type Scope = {
-   __typename?: 'Scope';
+  __typename?: 'Scope';
   intro?: Maybe<Scalars['String']>;
   unchanged?: Maybe<Scalars['String']>;
   changed?: Maybe<Scalars['String']>;
 };
 
 export type StaticInformation = {
-   __typename?: 'StaticInformation';
+  __typename?: 'StaticInformation';
   critical?: Maybe<Scalars['String']>;
   high?: Maybe<Scalars['String']>;
   moderate?: Maybe<Scalars['String']>;
@@ -565,19 +566,19 @@ export type StaticInformation = {
 };
 
 export type Subscription = {
-   __typename?: 'Subscription';
+  __typename?: 'Subscription';
   _empty?: Maybe<Scalars['Boolean']>;
 };
 
 export type SummarizedIssue = {
-   __typename?: 'SummarizedIssue';
+  __typename?: 'SummarizedIssue';
   vulnerability?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
   details?: Maybe<Scalars['String']>;
 };
 
 export type SummaryOfAssessmentResults = {
-   __typename?: 'SummaryOfAssessmentResults';
+  __typename?: 'SummaryOfAssessmentResults';
   staticInformation?: Maybe<StaticInformation>;
   minorSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
   lowSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
@@ -587,23 +588,23 @@ export type SummaryOfAssessmentResults = {
 };
 
 export type User = {
-   __typename?: 'User';
+  __typename?: 'User';
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
 };
 
 export type UserInteraction = {
-   __typename?: 'UserInteraction';
+  __typename?: 'UserInteraction';
   intro?: Maybe<Scalars['String']>;
   none?: Maybe<Scalars['String']>;
   required?: Maybe<Scalars['String']>;
 };
 
-export type AddClientToProjectMutationVariables = {
+export type AddClientToProjectMutationVariables = Exact<{
   clientId: Scalars['ID'];
   projId: Scalars['ID'];
-};
+}>;
 
 
 export type AddClientToProjectMutation = (
@@ -611,14 +612,14 @@ export type AddClientToProjectMutation = (
   & Pick<Mutation, 'addClientToProject'>
 );
 
-export type AddRelatorioToProjectMutationVariables = {
+export type AddRelatorioToProjectMutationVariables = Exact<{
   name: Scalars['String'];
   status?: Maybe<Scalars['String']>;
   revDeadline?: Maybe<Scalars['String']>;
   delDeadline?: Maybe<Scalars['String']>;
   projId: Scalars['ID'];
   complexRelatorioId?: Maybe<Scalars['String']>;
-};
+}>;
 
 
 export type AddRelatorioToProjectMutation = (
@@ -626,10 +627,10 @@ export type AddRelatorioToProjectMutation = (
   & Pick<Mutation, 'addRelatorioToProject'>
 );
 
-export type CreateClientMutationVariables = {
+export type CreateClientMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
-};
+}>;
 
 
 export type CreateClientMutation = (
@@ -640,7 +641,7 @@ export type CreateClientMutation = (
   ) }
 );
 
-export type CreateComplexRelatorioMutationVariables = {
+export type CreateComplexRelatorioMutationVariables = Exact<{
   companyLogo?: Maybe<Scalars['String']>;
   reportTitle?: Maybe<Scalars['String']>;
   targetCompany?: Maybe<Scalars['String']>;
@@ -648,7 +649,7 @@ export type CreateComplexRelatorioMutationVariables = {
   version?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
-};
+}>;
 
 
 export type CreateComplexRelatorioMutation = (
@@ -659,7 +660,7 @@ export type CreateComplexRelatorioMutation = (
   ) }
 );
 
-export type CreateFindingMutationVariables = {
+export type CreateFindingMutationVariables = Exact<{
   title: Scalars['String'];
   description: Scalars['String'];
   impact: Scalars['String'];
@@ -667,7 +668,7 @@ export type CreateFindingMutationVariables = {
   cvssVector?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
   otherReferences?: Maybe<Scalars['String']>;
-};
+}>;
 
 
 export type CreateFindingMutation = (
@@ -675,10 +676,10 @@ export type CreateFindingMutation = (
   & Pick<Mutation, 'createFinding'>
 );
 
-export type CreateUserMutationVariables = {
+export type CreateUserMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
-};
+}>;
 
 
 export type CreateUserMutation = (
@@ -689,9 +690,9 @@ export type CreateUserMutation = (
   ) }
 );
 
-export type DeleteClientMutationVariables = {
+export type DeleteClientMutationVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 
 export type DeleteClientMutation = (
@@ -699,9 +700,9 @@ export type DeleteClientMutation = (
   & Pick<Mutation, 'deleteClient'>
 );
 
-export type DeleteProjectMutationVariables = {
+export type DeleteProjectMutationVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 
 export type DeleteProjectMutation = (
@@ -709,9 +710,9 @@ export type DeleteProjectMutation = (
   & Pick<Mutation, 'deleteProject'>
 );
 
-export type DeleteUserMutationVariables = {
+export type DeleteUserMutationVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 
 export type DeleteUserMutation = (
@@ -719,7 +720,7 @@ export type DeleteUserMutation = (
   & Pick<Mutation, 'deleteUser'>
 );
 
-export type FetchClientsQueryVariables = {};
+export type FetchClientsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FetchClientsQuery = (
@@ -730,9 +731,9 @@ export type FetchClientsQuery = (
   )>> }
 );
 
-export type FetchComplexRelatorioQueryVariables = {
+export type FetchComplexRelatorioQueryVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 
 export type FetchComplexRelatorioQuery = (
@@ -884,7 +885,7 @@ export type FetchComplexRelatorioQuery = (
   ) }
 );
 
-export type FetchFindingsQueryVariables = {};
+export type FetchFindingsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FetchFindingsQuery = (
@@ -895,9 +896,9 @@ export type FetchFindingsQuery = (
   )>> }
 );
 
-export type FetchProjectQueryVariables = {
+export type FetchProjectQueryVariables = Exact<{
   id: Scalars['ID'];
-};
+}>;
 
 
 export type FetchProjectQuery = (
@@ -924,7 +925,7 @@ export type FetchProjectQuery = (
   )> }
 );
 
-export type FetchProjectsQueryVariables = {};
+export type FetchProjectsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FetchProjectsQuery = (
@@ -951,7 +952,18 @@ export type FetchProjectsQuery = (
   )> }
 );
 
-export type FetchUsersQueryVariables = {};
+export type FetchRelatoriosQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FetchRelatoriosQuery = (
+  { __typename?: 'Query' }
+  & { fetchRelatorios: Array<(
+    { __typename?: 'Relatorio' }
+    & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
+  )> }
+);
+
+export type FetchUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type FetchUsersQuery = (
@@ -962,14 +974,14 @@ export type FetchUsersQuery = (
   )>> }
 );
 
-export type NewProjectMutationVariables = {
+export type NewProjectMutationVariables = Exact<{
   name: Scalars['String'];
   status: Scalars['String'];
   clientId: Scalars['ID'];
   auditorIds?: Maybe<Array<Scalars['ID']>>;
   revIds?: Maybe<Array<Scalars['ID']>>;
   pmIds?: Maybe<Array<Scalars['ID']>>;
-};
+}>;
 
 
 export type NewProjectMutation = (
@@ -996,10 +1008,10 @@ export type NewProjectMutation = (
   ) }
 );
 
-export type RemoveRelatorioFromProjectMutationVariables = {
+export type RemoveRelatorioFromProjectMutationVariables = Exact<{
   relatorioId: Scalars['ID'];
   projId: Scalars['ID'];
-};
+}>;
 
 
 export type RemoveRelatorioFromProjectMutation = (
@@ -1007,11 +1019,11 @@ export type RemoveRelatorioFromProjectMutation = (
   & Pick<Mutation, 'removeRelatorioFromProject'>
 );
 
-export type UpdateClientMutationVariables = {
+export type UpdateClientMutationVariables = Exact<{
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
-};
+}>;
 
 
 export type UpdateClientMutation = (
@@ -1022,7 +1034,7 @@ export type UpdateClientMutation = (
   ) }
 );
 
-export type UpdateProjectMutationVariables = {
+export type UpdateProjectMutationVariables = Exact<{
   id: Scalars['ID'];
   name: Scalars['String'];
   status: Scalars['String'];
@@ -1030,7 +1042,7 @@ export type UpdateProjectMutationVariables = {
   auditorIds?: Maybe<Array<Scalars['ID']>>;
   revIds?: Maybe<Array<Scalars['ID']>>;
   pmIds?: Maybe<Array<Scalars['ID']>>;
-};
+}>;
 
 
 export type UpdateProjectMutation = (
@@ -1057,10 +1069,10 @@ export type UpdateProjectMutation = (
   ) }
 );
 
-export type UpdateProjectAuditorsMutationVariables = {
+export type UpdateProjectAuditorsMutationVariables = Exact<{
   userIds?: Maybe<Array<Scalars['ID']>>;
   projId: Scalars['ID'];
-};
+}>;
 
 
 export type UpdateProjectAuditorsMutation = (
@@ -1068,10 +1080,10 @@ export type UpdateProjectAuditorsMutation = (
   & Pick<Mutation, 'updateProjectAuditors'>
 );
 
-export type UpdateProjectPMsMutationVariables = {
+export type UpdateProjectPMsMutationVariables = Exact<{
   userId?: Maybe<Array<Scalars['ID']>>;
   projId: Scalars['ID'];
-};
+}>;
 
 
 export type UpdateProjectPMsMutation = (
@@ -1079,10 +1091,10 @@ export type UpdateProjectPMsMutation = (
   & Pick<Mutation, 'updateProjectPMs'>
 );
 
-export type UpdateProjectReviewersMutationVariables = {
+export type UpdateProjectReviewersMutationVariables = Exact<{
   userIds?: Maybe<Array<Scalars['ID']>>;
   projId: Scalars['ID'];
-};
+}>;
 
 
 export type UpdateProjectReviewersMutation = (
@@ -1090,11 +1102,11 @@ export type UpdateProjectReviewersMutation = (
   & Pick<Mutation, 'updateProjectReviewers'>
 );
 
-export type UpdateUserMutationVariables = {
+export type UpdateUserMutationVariables = Exact<{
   id: Scalars['ID'];
   name: Scalars['String'];
   email: Scalars['String'];
-};
+}>;
 
 
 export type UpdateUserMutation = (
@@ -1605,6 +1617,26 @@ export const FetchProjectsDocument = gql`
   })
   export class FetchProjectsGQL extends Apollo.Query<FetchProjectsQuery, FetchProjectsQueryVariables> {
     document = FetchProjectsDocument;
+    
+  }
+export const FetchRelatoriosDocument = gql`
+    query fetchRelatorios {
+  fetchRelatorios {
+    id
+    name
+    status
+    revDeadline
+    delDeadline
+    complexRelatorioId
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FetchRelatoriosGQL extends Apollo.Query<FetchRelatoriosQuery, FetchRelatoriosQueryVariables> {
+    document = FetchRelatoriosDocument;
     
   }
 export const FetchUsersDocument = gql`

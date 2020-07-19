@@ -1,13 +1,12 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {MatTableDataSource} from "@angular/material/table";
-import {ProjectFormService} from "../../shared/projectForm.service";
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatTableDataSource} from '@angular/material/table';
+import {ProjectFormService} from '../../shared/projectForm.service';
 import {
   RemoveRelatorioFromProjectGQL,
-} from "../../../generated/graphql";
-import {ProjectFormOptionsService} from "../../shared/projectForm-options.service";
-import {NewRelatorioComponent} from "../new-relatorio/new-relatorio.component";
-import {NewRelatorioFormService} from "../../shared/new-relatorio-form.service";
+} from '../../../generated/graphql';
+import {ProjectFormOptionsService} from '../../shared/projectForm-options.service';
+import {NewRelatorioFormService} from '../../shared/new-relatorio-form.service';
 
 @Component({
   selector: 'app-update-project',
@@ -43,22 +42,6 @@ export class UpdateProjectComponent implements OnInit {
     this.reviewerListData = new MatTableDataSource<any>(this.projectFormService.edit_reviewers);
     this.pmListData = new MatTableDataSource<any>(this.projectFormService.edit_pms);
     this.relListData = new MatTableDataSource<any>(this.projectFormService.edit_rels);
-  }
-
-
-  createRelatorio() {
-    // this.createRelatorioGQL.mutate({
-    //   name: "certo ding dong?",
-    //   status: "OPEN",
-    //   projId: this.projectFormService.edit_proj
-    // }).subscribe((created) => {
-    //   // location.reload();
-    // });
-    this.newRelatorioFormService.initializeFormGroup();
-    const dialogConfig = new MatDialogConfig();
-    dialogConfig.autoFocus = true;
-    dialogConfig.width = "80%";
-    this.dialog.open(NewRelatorioComponent, dialogConfig);
   }
 
   removeRelatorio(row) {
