@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {FetchClientsGQL, FetchProjectsGQL, FetchUsersGQL,} from "../../generated/graphql";
+import {FetchClientsGQL, FetchProjectsGQL, FetchUsersGQL,} from '../../generated/graphql';
 
 @Injectable({
   providedIn: 'root'
@@ -15,22 +15,22 @@ export class ProjectFormOptionsService {
     private fetchProjectsGQL: FetchProjectsGQL
   ) {
     this.fetchUsersGQL.watch().valueChanges.subscribe((result) => {
-      this.usersArray = result.data.fetchUsers
+      this.usersArray = result.data.fetchUsers;
     });
     this.fetchClientsGQL.watch().valueChanges.subscribe((result) => {
-      this.clientsArray = result.data.fetchClients
+      this.clientsArray = result.data.fetchClients;
     });
     this.fetchProjectsGQL.watch().valueChanges.subscribe((result) => {
-      this.projectsArray = result.data.fetchProjects
-    })
+      this.projectsArray = result.data.fetchProjects;
+    });
   }
 
   initFormOptions() {
     this.fetchUsersGQL.watch().valueChanges.subscribe((result) => {
-      this.usersArray = result.data.fetchUsers
+      this.usersArray = result.data.fetchUsers;
     });
     this.fetchClientsGQL.watch().valueChanges.subscribe((result) => {
-      this.clientsArray = result.data.fetchClients
+      this.clientsArray = result.data.fetchClients;
     });
   }
 }

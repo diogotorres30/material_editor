@@ -4,7 +4,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {ProjectsComponent} from './projects/projects.component';
 import {HomeComponent} from './home/home.component';
 import {EditorComponent} from './editor/editor.component';
-import {RelatoriosTableComponent} from "./repository/relatorios-table/relatorios-table.component";
+import {RelatoriosTableComponent} from './repository/relatorios-table/relatorios-table.component';
 
 const routes: Routes =
   [

@@ -12,12 +12,14 @@ export class NewClientFormService {
   });
   updating = false;
   cliId: string;
+
   constructor(
     private createClientGQL: CreateClientGQL,
     private updateClientGQL: UpdateClientGQL,
     private deleteClientGQL: DeleteClientGQL
   ) {
   }
+
   initializeFormGroup() {
     this.form.setValue({
       name: '',
@@ -46,14 +48,16 @@ export class NewClientFormService {
       id: this.cliId,
       name: cli.name,
       email: cli.email
-    }).subscribe(result => {});
+    }).subscribe(result => {
+    });
     location.reload();
   }
 
   deleteClient(id) {
     this.deleteClientGQL.mutate({
       id
-    }).subscribe(result => {});
+    }).subscribe(result => {
+    });
     location.reload();
   }
 

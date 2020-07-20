@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AddClientToProjectGQL, FetchProjectGQL, NewProjectGQL, UpdateProjectGQL} from '../../generated/graphql';
+import {AddClientToProjectGQL, NewProjectGQL, UpdateProjectGQL} from '../../generated/graphql';
 import {MatTableDataSource} from '@angular/material/table';
 
 
@@ -19,11 +19,11 @@ export class ProjectFormService {
     auditor: new FormControl(0),
     reviewer: new FormControl(0),
   });
-  edit_auditors = [];
-  edit_reviewers = [];
-  edit_pms = [];
-  edit_rels = [];
-  edit_proj: string;
+  // edit_auditors = [];
+  // edit_reviewers = [];
+  // edit_pms = [];
+  // edit_rels = [];
+  // edit_proj: string;
 
   constructor(
     private newProjectGQL: NewProjectGQL,
@@ -48,7 +48,7 @@ export class ProjectFormService {
     this.form.setValue({
       name: proj.name,
       status: proj.status,
-      client: proj.client[0]['id'],
+      client: proj.client[0].id,
       projectManager: proj.projectManager.map(a => a.id),
       auditor: proj.auditor.map(a => a.id),
       reviewer: proj.reviewer.map(a => a.id)

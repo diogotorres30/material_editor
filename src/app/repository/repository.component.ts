@@ -9,8 +9,7 @@ import {MatTabGroup} from '@angular/material/tabs';
 export class RepositoryComponent implements OnInit {
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
-  constructor(
-  ) {
+  constructor() {
   }
 
   ngOnInit(): void {

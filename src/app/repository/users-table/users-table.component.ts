@@ -27,7 +27,8 @@ export class UsersTableComponent implements OnInit {
     private newUserFormService: NewUserFormService,
     private fetchUsersGQL: FetchUsersGQL,
     private dialog: MatDialog
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.fetchUsersGQL.watch().valueChanges.subscribe(result => {

@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {ProjectFormService} from '../../shared/projectForm.service';
-import {
-  RemoveRelatorioFromProjectGQL,
-} from '../../../generated/graphql';
+import {RemoveRelatorioFromProjectGQL,} from '../../../generated/graphql';
 import {ProjectFormOptionsService} from '../../shared/projectForm-options.service';
 import {NewRelatorioFormService} from '../../shared/new-relatorio-form.service';
 
@@ -14,7 +12,6 @@ import {NewRelatorioFormService} from '../../shared/new-relatorio-form.service';
   styleUrls: ['./update-project.component.scss']
 })
 export class UpdateProjectComponent implements OnInit {
-  private auxString: string;
 
   constructor(
     private newRelatorioFormService: NewRelatorioFormService,
@@ -48,7 +45,7 @@ export class UpdateProjectComponent implements OnInit {
     this.removeRelatorioFromProjectGQL.mutate({
       relatorioId: row.id,
       projId: this.projectFormService.edit_proj
-    }).subscribe(created => {
+    }).subscribe(() => {
     });
     location.reload();
   }

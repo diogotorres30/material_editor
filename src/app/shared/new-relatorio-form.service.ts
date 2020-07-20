@@ -52,7 +52,8 @@ export class NewRelatorioFormService {
       status: rel.status,
       revDeadline: rel.revDeadline,
       delDeadline: rel.delDeadline
-    }).subscribe(result => {});
+    }).subscribe(result => {
+    });
     location.reload();
   }
 
