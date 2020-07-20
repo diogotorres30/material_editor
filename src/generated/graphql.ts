@@ -534,6 +534,7 @@ export type Relatorio = {
   revDeadline?: Maybe<Scalars['String']>;
   delDeadline?: Maybe<Scalars['String']>;
   complexRelatorioId?: Maybe<Scalars['String']>;
+  project?: Maybe<Array<Project>>;
 };
 
 export enum RelatorioStatus {
@@ -686,6 +687,10 @@ export type CreateRelatorioMutation = (
   & { createRelatorio: (
     { __typename?: 'Relatorio' }
     & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
+    & { project?: Maybe<Array<(
+      { __typename?: 'Project' }
+      & Pick<Project, 'id' | 'name'>
+    )>> }
   ) }
 );
 
@@ -983,6 +988,10 @@ export type FetchRelatoriosQuery = (
   & { fetchRelatorios: Array<(
     { __typename?: 'Relatorio' }
     & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
+    & { project?: Maybe<Array<(
+      { __typename?: 'Project' }
+      & Pick<Project, 'id' | 'name'>
+    )>> }
   )> }
 );
 
@@ -1139,6 +1148,10 @@ export type UpdateRelatorioMutation = (
   & { updateRelatorio: (
     { __typename?: 'Relatorio' }
     & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
+    & { project?: Maybe<Array<(
+      { __typename?: 'Project' }
+      & Pick<Project, 'id' | 'name'>
+    )>> }
   ) }
 );
 
@@ -1223,6 +1236,10 @@ export const CreateRelatorioDocument = gql`
     revDeadline
     delDeadline
     complexRelatorioId
+    project {
+      id
+      name
+    }
   }
 }
     `;
@@ -1688,6 +1705,10 @@ export const FetchRelatoriosDocument = gql`
     revDeadline
     delDeadline
     complexRelatorioId
+    project {
+      id
+      name
+    }
   }
 }
     `;
@@ -1862,6 +1883,10 @@ export const UpdateRelatorioDocument = gql`
     revDeadline
     delDeadline
     complexRelatorioId
+    project {
+      id
+      name
+    }
   }
 }
     `;

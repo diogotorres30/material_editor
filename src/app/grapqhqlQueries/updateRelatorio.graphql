@@ -19,5 +19,9 @@ mutation updateRelatorio(
     revDeadline
     delDeadline
     complexRelatorioId
+    project{
+      id
+      name
+    }
   }
 }

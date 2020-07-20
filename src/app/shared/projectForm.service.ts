@@ -19,11 +19,11 @@ export class ProjectFormService {
     auditor: new FormControl(0),
     reviewer: new FormControl(0),
   });
-  // edit_auditors = [];
-  // edit_reviewers = [];
-  // edit_pms = [];
-  // edit_rels = [];
-  // edit_proj: string;
+  edit_auditors = [];
+  edit_reviewers = [];
+  edit_pms = [];
+  edit_rels = [];
+  edit_proj: string;
 
   constructor(
     private newProjectGQL: NewProjectGQL,

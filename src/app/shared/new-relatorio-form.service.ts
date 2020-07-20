@@ -1,8 +1,14 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CreateComplexRelatorioGQL, DeleteRelatorioGQL, UpdateRelatorioGQL} from '../../generated/graphql';
+import {
+  CreateComplexRelatorioGQL,
+  CreateRelatorioGQL,
+  DeleteRelatorioGQL,
+  UpdateRelatorioGQL
+} from '../../generated/graphql';
 import {ProjectFormService} from './projectForm.service';
 import {DatePipe} from '@angular/common';
+import {ProjectFormOptionsService} from "./projectForm-options.service";
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +31,9 @@ export class NewRelatorioFormService {
     private projectFormService: ProjectFormService,
     private datePipe: DatePipe,
     private updateRelatorioGQL: UpdateRelatorioGQL,
-    private deleteRelatorioGQL: DeleteRelatorioGQL
+    private deleteRelatorioGQL: DeleteRelatorioGQL,
+    private createRelatorioGQL: CreateRelatorioGQL,
+    private projectFormOptionsService: ProjectFormOptionsService
   ) {
   }
 
@@ -35,7 +43,7 @@ export class NewRelatorioFormService {
       status: 'OPEN',
       revDeadline: '',
       delDeadline: '',
-      projId: ''
+      projId: '',
     });
   }
 
@@ -62,19 +70,20 @@ export class NewRelatorioFormService {
 
 
   newRelatorio(rel) {
+    let proj = this.projectFormOptionsService.projectsArray.filter(a => a.id === rel.projId)[0]
     this.createComplexRelatorioGQL.mutate({
       classification: '',
-      companyLogo: '',
+      companyLogo: 'MAINSEC',
       date: '',
       remarks: '',
       reportTitle: '',
-      targetCompany: '',
-      version: ''
+      targetCompany: proj.client[0].name,
+      version: '0.1'
     }).subscribe(result => {
       this.showRelatorioId = result.data.createComplexRelatorio.id;
-      this.addRelatorioToProjectGQL.mutate({
+      this.createRelatorioGQL.mutate({
         name: rel.name,
-        projId: this.projectFormService.edit_proj,
+        projId: rel.projId,
         status: 'OPEN',
         revDeadline: rel.revDeadline === '' ? '' : this.datePipe.transform(rel.revDeadline, 'dd-MM-yyyy'),
         delDeadline: rel.delDeadline === '' ? '' : this.datePipe.transform(rel.delDeadline, 'dd-MM-yyyy'),
@@ -83,6 +92,6 @@ export class NewRelatorioFormService {
     });
 
 
-    location.reload();
+    // location.reload();
   }
 }

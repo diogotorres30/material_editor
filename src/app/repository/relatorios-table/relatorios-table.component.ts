@@ -18,6 +18,7 @@ export class RelatoriosTableComponent implements OnInit {
   displayedColumns: string[] = [
     'name',
     'status',
+    'projName',
     'revDeadline',
     'delDeadline',
     'actions'
@@ -34,6 +35,11 @@ export class RelatoriosTableComponent implements OnInit {
 
   ngOnInit() {
     this.fetchRelatoriosGQL.watch().valueChanges.subscribe(result => {
+      for(let r of result.data.fetchRelatorios){
+        console.log(r.project)
+      }
+      setTimeout(() => {  console.log("World!"); }, 10000);
+
       this.listData = new MatTableDataSource(result.data.fetchRelatorios);
     });
   }

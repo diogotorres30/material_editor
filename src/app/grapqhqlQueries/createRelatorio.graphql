@@ -4,14 +4,16 @@ mutation createRelatorio(
   $revDeadline: String,
   $delDeadline: String,
   $projId: ID!,
-  $complexRelatorioId: String){
+  $complexRelatorioId: String,
+){
   createRelatorio(
     name: $name,
     status: $status,
     revDeadline: $revDeadline,
     delDeadline: $delDeadline,
     projId: $projId,
-    complexRelatorioId: $complexRelatorioId)
+    complexRelatorioId: $complexRelatorioId,
+  )
   {
     id
     name
@@ -19,5 +21,9 @@ mutation createRelatorio(
     revDeadline
     delDeadline
     complexRelatorioId
+    project{
+      id
+      name
+    }
   }
 }
