@@ -2,18 +2,30 @@ import {Component, OnInit} from '@angular/core';
 import {NewRelatorioFormService} from '../../shared/new-relatorio-form.service';
 import {NotificationService} from '../../shared/notification.service';
 import {MatDialogRef} from '@angular/material/dialog';
-
+import {ProjectFormOptionsService} from '../../shared/projectForm-options.service';
+interface Status {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'app-new-relatorio',
   templateUrl: './new-relatorio.component.html',
   styleUrls: ['./new-relatorio.component.scss']
 })
-export class NewRelatorioComponent implements OnInit {
 
+export class NewRelatorioComponent implements OnInit {
+  statuses: Status[] = [
+    {value: 'OPEN', viewValue: 'Open'},
+    {value: 'INPROGRESS', viewValue: 'In Progress'},
+    {value: 'REVIEW', viewValue: 'Review'},
+    {value: 'REVIEWED', viewValue: 'Reviewed'},
+    {value: 'CLOSED', viewValue: 'Closed'}
+  ];
   constructor(
     public newRelatorioFormService: NewRelatorioFormService,
     public notificationService: NotificationService,
-    public dialogRef: MatDialogRef<NewRelatorioComponent>
+    public dialogRef: MatDialogRef<NewRelatorioComponent>,
+    public formOptionsService: ProjectFormOptionsService
   ) {
   }
 

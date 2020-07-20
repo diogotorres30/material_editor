@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CreateComplexRelatorioGQL, UpdateRelatorioGQL} from '../../generated/graphql';
+import {CreateComplexRelatorioGQL, DeleteRelatorioGQL, UpdateRelatorioGQL} from '../../generated/graphql';
 import {ProjectFormService} from './projectForm.service';
 import {DatePipe} from '@angular/common';
 
@@ -13,7 +13,8 @@ export class NewRelatorioFormService {
     name: new FormControl('', Validators.required),
     status: new FormControl(''),
     revDeadline: new FormControl(''/*, Validators.email*/),
-    delDeadline: new FormControl(''/*, [ Validators.required, Validators.minLength(8) ]*/)
+    delDeadline: new FormControl(''/*, [ Validators.required, Validators.minLength(8) ]*/),
+    projId: new FormControl('')
   });
   updating = false;
   relId: string;
@@ -23,7 +24,8 @@ export class NewRelatorioFormService {
     private createComplexRelatorioGQL: CreateComplexRelatorioGQL,
     private projectFormService: ProjectFormService,
     private datePipe: DatePipe,
-    private updateRelatorioGQL: UpdateRelatorioGQL
+    private updateRelatorioGQL: UpdateRelatorioGQL,
+    private deleteRelatorioGQL: DeleteRelatorioGQL
   ) {
   }
 
@@ -32,7 +34,8 @@ export class NewRelatorioFormService {
       name: '',
       status: 'OPEN',
       revDeadline: '',
-      delDeadline: ''
+      delDeadline: '',
+      projId: ''
     });
   }
 
@@ -59,27 +62,27 @@ export class NewRelatorioFormService {
 
 
   newRelatorio(rel) {
-    // this.createComplexRelatorioGQL.mutate({
-    //   classification: '',
-    //   companyLogo: '',
-    //   date: '',
-    //   remarks: '',
-    //   reportTitle: '',
-    //   targetCompany: '',
-    //   version: ''
-    // }).subscribe(result => {
-    //   this.showRelatorioId = result.data.createComplexRelatorio.id;
-    //   this.addRelatorioToProjectGQL.mutate({
-    //     name: rel.name,
-    //     projId: this.projectFormService.edit_proj,
-    //     status: 'OPEN',
-    //     revDeadline: rel.revDeadline === '' ? '' : this.datePipe.transform(rel.revDeadline, 'dd-MM-yyyy'),
-    //     delDeadline: rel.delDeadline === '' ? '' : this.datePipe.transform(rel.delDeadline, 'dd-MM-yyyy'),
-    //     complexRelatorioId: result.data.createComplexRelatorio.id
-    //   }).subscribe();
-    // });
+    this.createComplexRelatorioGQL.mutate({
+      classification: '',
+      companyLogo: '',
+      date: '',
+      remarks: '',
+      reportTitle: '',
+      targetCompany: '',
+      version: ''
+    }).subscribe(result => {
+      this.showRelatorioId = result.data.createComplexRelatorio.id;
+      this.addRelatorioToProjectGQL.mutate({
+        name: rel.name,
+        projId: this.projectFormService.edit_proj,
+        status: 'OPEN',
+        revDeadline: rel.revDeadline === '' ? '' : this.datePipe.transform(rel.revDeadline, 'dd-MM-yyyy'),
+        delDeadline: rel.delDeadline === '' ? '' : this.datePipe.transform(rel.delDeadline, 'dd-MM-yyyy'),
+        complexRelatorioId: result.data.createComplexRelatorio.id
+      }).subscribe();
+    });
 
 
-    // location.reload();
+    location.reload();
   }
 }

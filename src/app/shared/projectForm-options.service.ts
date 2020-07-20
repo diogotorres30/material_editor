@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {FetchClientsGQL, FetchProjectsGQL, FetchUsersGQL,} from '../../generated/graphql';
+import {FetchClientsGQL, FetchProjectsGQL, FetchUsersGQL} from '../../generated/graphql';
 
 @Injectable({
   providedIn: 'root'
