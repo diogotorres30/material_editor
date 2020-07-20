@@ -39,6 +39,7 @@ export class RelatoriosTableComponent implements OnInit {
   }
 
   createRelatorio() {
+    this.newRelatorioFormService.updating = false;
     this.newRelatorioFormService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;

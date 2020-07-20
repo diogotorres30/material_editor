@@ -18,36 +18,57 @@ import {GraphQLModule} from './graphql.module';
 import {ProjectTableComponent} from './projects/project-table/project-table.component';
 import {ProjectFormOptionsService} from './shared/projectForm-options.service';
 import {UpdateProjectComponent} from './projects/update-project/update-project.component';
-import { DatePipe } from '@angular/common';
-import { ReportEditorComponent } from './report-editor/report-editor.component';
-import { HeaderComponent } from './editor/header/header.component';
-import { FooterComponent } from './editor/footer/footer.component';
-import { NewClientComponent } from './repository/new-client/new-client.component';
-import { RepositoryComponent } from './repository/repository.component';
-import { ClientsTableComponent } from './repository/clients-table/clients-table.component';
-import { UsersTableComponent } from './repository/users-table/users-table.component';
-import { NewUserComponent } from './repository/new-user/new-user.component';
-import { RelatoriosTableComponent } from './repository/relatorios-table/relatorios-table.component';
+import {DatePipe} from '@angular/common';
+import {ReportEditorComponent} from './report-editor/report-editor.component';
+import {HeaderComponent} from './editor/header/header.component';
+import {FooterComponent} from './editor/footer/footer.component';
+import {NewClientComponent} from './repository/new-client/new-client.component';
+import {RepositoryComponent} from './repository/repository.component';
+import {ClientsTableComponent} from './repository/clients-table/clients-table.component';
+import {UsersTableComponent} from './repository/users-table/users-table.component';
+import {NewUserComponent} from './repository/new-user/new-user.component';
+import {RelatoriosTableComponent} from './repository/relatorios-table/relatorios-table.component';
 import {NewRelatorioComponent} from './repository/new-relatorio/new-relatorio.component';
 
 @NgModule({
   // tslint:disable-next-line:max-line-length
-  declarations: [AppComponent, HomeComponent, EditorComponent, ProjectsComponent, NewProjectComponent, NewRelatorioComponent, ProjectTableComponent, UpdateProjectComponent, ReportEditorComponent, HeaderComponent, FooterComponent, NewClientComponent, RepositoryComponent, ClientsTableComponent, UsersTableComponent, NewUserComponent, RelatoriosTableComponent],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MaterialModule,
-        HttpClientModule,
-        QuillModule.forRoot(),
-        ReactiveFormsModule,
-        MatTreeModule,
-        GraphQLModule,
-        FormsModule,
-    ],
+  declarations: [
+    AppComponent,
+    HomeComponent,
+    EditorComponent,
+    ProjectsComponent,
+    NewProjectComponent,
+    NewRelatorioComponent,
+    ProjectTableComponent,
+    UpdateProjectComponent,
+    ReportEditorComponent,
+    HeaderComponent,
+    FooterComponent,
+    NewClientComponent,
+    RepositoryComponent,
+    ClientsTableComponent,
+    UsersTableComponent,
+    NewUserComponent,
+    RelatoriosTableComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    HttpClientModule,
+    QuillModule.forRoot(),
+    ReactiveFormsModule,
+    MatTreeModule,
+    GraphQLModule,
+    FormsModule,
+  ],
   providers: [ProjectFormService, ProjectFormOptionsService, DatePipe],
   bootstrap: [AppComponent],
-  entryComponents: [NewProjectComponent]
+  entryComponents: [
+    NewProjectComponent,
+    NewRelatorioComponent,
+    NewClientComponent,
+    NewUserComponent]
 })
 export class AppModule {
 }

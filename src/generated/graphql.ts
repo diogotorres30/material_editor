@@ -235,8 +235,9 @@ export type Mutation = {
   updateProject: Project;
   deleteProject: Scalars['Boolean'];
   addUser: Scalars['Boolean'];
-  addRelatorioToProject: Scalars['Boolean'];
+  createRelatorio: Relatorio;
   deleteRelatorio: Scalars['Boolean'];
+  updateRelatorio: Relatorio;
   removeRelatorioFromProject: Scalars['Boolean'];
   updateProjectAuditors: Scalars['Boolean'];
   updateProjectReviewers: Scalars['Boolean'];
@@ -341,7 +342,7 @@ export type MutationAddUserArgs = {
 };
 
 
-export type MutationAddRelatorioToProjectArgs = {
+export type MutationCreateRelatorioArgs = {
   name: Scalars['String'];
   status?: Maybe<Scalars['String']>;
   revDeadline?: Maybe<Scalars['String']>;
@@ -352,7 +353,16 @@ export type MutationAddRelatorioToProjectArgs = {
 
 
 export type MutationDeleteRelatorioArgs = {
-  name: Scalars['String'];
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateRelatorioArgs = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  revDeadline?: Maybe<Scalars['String']>;
+  delDeadline?: Maybe<Scalars['String']>;
 };
 
 
@@ -612,21 +622,6 @@ export type AddClientToProjectMutation = (
   & Pick<Mutation, 'addClientToProject'>
 );
 
-export type AddRelatorioToProjectMutationVariables = Exact<{
-  name: Scalars['String'];
-  status?: Maybe<Scalars['String']>;
-  revDeadline?: Maybe<Scalars['String']>;
-  delDeadline?: Maybe<Scalars['String']>;
-  projId: Scalars['ID'];
-  complexRelatorioId?: Maybe<Scalars['String']>;
-}>;
-
-
-export type AddRelatorioToProjectMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'addRelatorioToProject'>
-);
-
 export type CreateClientMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
@@ -676,6 +671,24 @@ export type CreateFindingMutation = (
   & Pick<Mutation, 'createFinding'>
 );
 
+export type CreateRelatorioMutationVariables = Exact<{
+  name: Scalars['String'];
+  status?: Maybe<Scalars['String']>;
+  revDeadline?: Maybe<Scalars['String']>;
+  delDeadline?: Maybe<Scalars['String']>;
+  projId: Scalars['ID'];
+  complexRelatorioId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type CreateRelatorioMutation = (
+  { __typename?: 'Mutation' }
+  & { createRelatorio: (
+    { __typename?: 'Relatorio' }
+    & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
+  ) }
+);
+
 export type CreateUserMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
@@ -708,6 +721,16 @@ export type DeleteProjectMutationVariables = Exact<{
 export type DeleteProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteProject'>
+);
+
+export type DeleteRelatorioMutationVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type DeleteRelatorioMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteRelatorio'>
 );
 
 export type DeleteUserMutationVariables = Exact<{
@@ -1102,6 +1125,23 @@ export type UpdateProjectReviewersMutation = (
   & Pick<Mutation, 'updateProjectReviewers'>
 );
 
+export type UpdateRelatorioMutationVariables = Exact<{
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+  revDeadline?: Maybe<Scalars['String']>;
+  delDeadline?: Maybe<Scalars['String']>;
+}>;
+
+
+export type UpdateRelatorioMutation = (
+  { __typename?: 'Mutation' }
+  & { updateRelatorio: (
+    { __typename?: 'Relatorio' }
+    & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
+  ) }
+);
+
 export type UpdateUserMutationVariables = Exact<{
   id: Scalars['ID'];
   name: Scalars['String'];
@@ -1128,19 +1168,6 @@ export const AddClientToProjectDocument = gql`
   })
   export class AddClientToProjectGQL extends Apollo.Mutation<AddClientToProjectMutation, AddClientToProjectMutationVariables> {
     document = AddClientToProjectDocument;
-    
-  }
-export const AddRelatorioToProjectDocument = gql`
-    mutation addRelatorioToProject($name: String!, $status: String, $revDeadline: String, $delDeadline: String, $projId: ID!, $complexRelatorioId: String) {
-  addRelatorioToProject(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline, projId: $projId, complexRelatorioId: $complexRelatorioId)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class AddRelatorioToProjectGQL extends Apollo.Mutation<AddRelatorioToProjectMutation, AddRelatorioToProjectMutationVariables> {
-    document = AddRelatorioToProjectDocument;
     
   }
 export const CreateClientDocument = gql`
@@ -1187,6 +1214,26 @@ export const CreateFindingDocument = gql`
     document = CreateFindingDocument;
     
   }
+export const CreateRelatorioDocument = gql`
+    mutation createRelatorio($name: String!, $status: String, $revDeadline: String, $delDeadline: String, $projId: ID!, $complexRelatorioId: String) {
+  createRelatorio(name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline, projId: $projId, complexRelatorioId: $complexRelatorioId) {
+    id
+    name
+    status
+    revDeadline
+    delDeadline
+    complexRelatorioId
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class CreateRelatorioGQL extends Apollo.Mutation<CreateRelatorioMutation, CreateRelatorioMutationVariables> {
+    document = CreateRelatorioDocument;
+    
+  }
 export const CreateUserDocument = gql`
     mutation createUser($name: String!, $email: String!) {
   createUser(name: $name, email: $email) {
@@ -1227,6 +1274,19 @@ export const DeleteProjectDocument = gql`
   })
   export class DeleteProjectGQL extends Apollo.Mutation<DeleteProjectMutation, DeleteProjectMutationVariables> {
     document = DeleteProjectDocument;
+    
+  }
+export const DeleteRelatorioDocument = gql`
+    mutation deleteRelatorio($id: ID!) {
+  deleteRelatorio(id: $id)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteRelatorioGQL extends Apollo.Mutation<DeleteRelatorioMutation, DeleteRelatorioMutationVariables> {
+    document = DeleteRelatorioDocument;
     
   }
 export const DeleteUserDocument = gql`
@@ -1791,6 +1851,26 @@ export const UpdateProjectReviewersDocument = gql`
   })
   export class UpdateProjectReviewersGQL extends Apollo.Mutation<UpdateProjectReviewersMutation, UpdateProjectReviewersMutationVariables> {
     document = UpdateProjectReviewersDocument;
+    
+  }
+export const UpdateRelatorioDocument = gql`
+    mutation updateRelatorio($id: ID!, $name: String, $status: String, $revDeadline: String, $delDeadline: String) {
+  updateRelatorio(id: $id, name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline) {
+    id
+    name
+    status
+    revDeadline
+    delDeadline
+    complexRelatorioId
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class UpdateRelatorioGQL extends Apollo.Mutation<UpdateRelatorioMutation, UpdateRelatorioMutationVariables> {
+    document = UpdateRelatorioDocument;
     
   }
 export const UpdateUserDocument = gql`

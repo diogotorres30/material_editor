@@ -1,11 +1,11 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
-import {NewClientFormService} from "../../shared/new-client-form.service";
-import {FetchClientsGQL} from "../../../generated/graphql";
-import {MatTableDataSource} from "@angular/material/table";
-import {MatSort} from "@angular/material/sort";
-import {MatPaginator} from "@angular/material/paginator";
-import {NewClientComponent} from "../new-client/new-client.component";
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {NewClientFormService} from '../../shared/new-client-form.service';
+import {FetchClientsGQL} from '../../../generated/graphql';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatSort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
+import {NewClientComponent} from '../new-client/new-client.component';
 
 @Component({
   selector: 'app-clients-table',
@@ -35,7 +35,7 @@ export class ClientsTableComponent implements OnInit {
       this.listData = new MatTableDataSource(result.data.fetchClients);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
-    })
+    });
   }
 
   createClient() {
@@ -43,8 +43,8 @@ export class ClientsTableComponent implements OnInit {
     this.newClientFormService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "80%";
-    this.dialog.open(NewClientComponent, dialogConfig)
+    dialogConfig.width = '80%';
+    this.dialog.open(NewClientComponent, dialogConfig);
   }
 
   deleteClient(id) {
@@ -57,8 +57,8 @@ export class ClientsTableComponent implements OnInit {
     this.newClientFormService.updateClientFormGroup(client);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "80%";
-    this.dialog.open(NewClientComponent, dialogConfig)
+    dialogConfig.width = '80%';
+    this.dialog.open(NewClientComponent, dialogConfig);
   }
 
   applyFilter() {
@@ -66,7 +66,7 @@ export class ClientsTableComponent implements OnInit {
   }
 
   onSearchClear() {
-    this.searchKey = "";
+    this.searchKey = '';
     this.applyFilter();
   }
 

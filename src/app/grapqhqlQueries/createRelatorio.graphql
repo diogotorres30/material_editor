@@ -1,15 +1,23 @@
-mutation addRelatorioToProject(
+mutation createRelatorio(
   $name: String!,
   $status: String,
   $revDeadline: String,
   $delDeadline: String,
   $projId: ID!,
   $complexRelatorioId: String){
-  addRelatorioToProject(
+  createRelatorio(
     name: $name,
     status: $status,
     revDeadline: $revDeadline,
     delDeadline: $delDeadline,
     projId: $projId,
     complexRelatorioId: $complexRelatorioId)
+  {
+    id
+    name
+    status
+    revDeadline
+    delDeadline
+    complexRelatorioId
+  }
 }

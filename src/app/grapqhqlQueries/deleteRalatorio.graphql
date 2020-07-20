@@ -1,0 +1,3 @@
+mutation deleteRelatorio($id: ID!){
+  deleteRelatorio(id: $id)
+}

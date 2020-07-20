@@ -1,0 +1,23 @@
+mutation updateRelatorio(
+  $id: ID!,
+  $name: String,
+  $status: String,
+  $revDeadline: String,
+  $delDeadline: String
+){
+  updateRelatorio(
+    id: $id,
+    name: $name,
+    status: $status,
+    revDeadline: $revDeadline,
+    delDeadline: $delDeadline
+  )
+  {
+    id
+    name
+    status
+    revDeadline
+    delDeadline
+    complexRelatorioId
+  }
+}

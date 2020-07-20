@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {NewClientFormService} from "../../shared/new-client-form.service";
-import {NotificationService} from "../../shared/notification.service";
-import {MatDialogRef} from "@angular/material/dialog";
+import {NewClientFormService} from '../../shared/new-client-form.service';
+import {NotificationService} from '../../shared/notification.service';
+import {MatDialogRef} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-new-client',
@@ -24,9 +24,9 @@ export class NewClientComponent implements OnInit {
   onSubmit() {
     if (this.newClientFormService.form.valid) {
       if (this.newClientFormService.updating) {
-        this.newClientFormService.updateClient(this.newClientFormService.form.value)
+        this.newClientFormService.updateClient(this.newClientFormService.form.value);
       } else {
-        this.newClientFormService.newClient(this.newClientFormService.form.value)
+        this.newClientFormService.newClient(this.newClientFormService.form.value);
       }
 
       this.newClientFormService.form.reset();
