@@ -224,20 +224,20 @@ export type Mutation = {
   createUser: User;
   addUserToProject: Scalars['Boolean'];
   deleteUser: Scalars['Boolean'];
-  updateUser: User;
+  updateUser: Scalars['Boolean'];
   createFinding: Scalars['Boolean'];
   deleteAllFindings: Scalars['Boolean'];
   addClientToProject: Scalars['Boolean'];
   createClient: Client;
   deleteClient: Scalars['Boolean'];
-  updateClient: Client;
+  updateClient: Scalars['Boolean'];
   newProject: Project;
-  updateProject: Project;
+  updateProject: Scalars['Boolean'];
   deleteProject: Scalars['Boolean'];
   addUser: Scalars['Boolean'];
   createRelatorio: Relatorio;
   deleteRelatorio: Scalars['Boolean'];
-  updateRelatorio: Relatorio;
+  updateRelatorio: Scalars['Boolean'];
   removeRelatorioFromProject: Scalars['Boolean'];
   updateProjectAuditors: Scalars['Boolean'];
   updateProjectReviewers: Scalars['Boolean'];
@@ -359,10 +359,10 @@ export type MutationDeleteRelatorioArgs = {
 
 export type MutationUpdateRelatorioArgs = {
   id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['String']>;
-  revDeadline?: Maybe<Scalars['String']>;
-  delDeadline?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  status: Scalars['String'];
+  revDeadline: Scalars['String'];
+  delDeadline: Scalars['String'];
 };
 
 
@@ -463,7 +463,7 @@ export type Query = {
   fetchClient?: Maybe<Client>;
   fetchProjects: Array<Project>;
   fetchProject?: Maybe<Project>;
-  fetchRelatorios: Array<Relatorio>;
+  fetchRelatorios?: Maybe<Array<Relatorio>>;
   fetchRelatorio: Relatorio;
   fetchAuditors?: Maybe<Array<User>>;
   fetchAuditor?: Maybe<User>;
@@ -534,7 +534,8 @@ export type Relatorio = {
   revDeadline?: Maybe<Scalars['String']>;
   delDeadline?: Maybe<Scalars['String']>;
   complexRelatorioId?: Maybe<Scalars['String']>;
-  project?: Maybe<Array<Project>>;
+  projId?: Maybe<Scalars['String']>;
+  projName?: Maybe<Scalars['String']>;
 };
 
 export enum RelatorioStatus {
@@ -686,11 +687,7 @@ export type CreateRelatorioMutation = (
   { __typename?: 'Mutation' }
   & { createRelatorio: (
     { __typename?: 'Relatorio' }
-    & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
-    & { project?: Maybe<Array<(
-      { __typename?: 'Project' }
-      & Pick<Project, 'id' | 'name'>
-    )>> }
+    & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId' | 'projName' | 'projId'>
   ) }
 );
 
@@ -985,14 +982,10 @@ export type FetchRelatoriosQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FetchRelatoriosQuery = (
   { __typename?: 'Query' }
-  & { fetchRelatorios: Array<(
+  & { fetchRelatorios?: Maybe<Array<(
     { __typename?: 'Relatorio' }
-    & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
-    & { project?: Maybe<Array<(
-      { __typename?: 'Project' }
-      & Pick<Project, 'id' | 'name'>
-    )>> }
-  )> }
+    & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId' | 'projName' | 'projId'>
+  )>> }
 );
 
 export type FetchUsersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1060,10 +1053,7 @@ export type UpdateClientMutationVariables = Exact<{
 
 export type UpdateClientMutation = (
   { __typename?: 'Mutation' }
-  & { updateClient: (
-    { __typename?: 'Client' }
-    & Pick<Client, 'id' | 'name' | 'email'>
-  ) }
+  & Pick<Mutation, 'updateClient'>
 );
 
 export type UpdateProjectMutationVariables = Exact<{
@@ -1079,26 +1069,7 @@ export type UpdateProjectMutationVariables = Exact<{
 
 export type UpdateProjectMutation = (
   { __typename?: 'Mutation' }
-  & { updateProject: (
-    { __typename?: 'Project' }
-    & Pick<Project, 'id' | 'name' | 'status'>
-    & { relatorios?: Maybe<Array<(
-      { __typename?: 'Relatorio' }
-      & Pick<Relatorio, 'name'>
-    )>>, auditor?: Maybe<Array<(
-      { __typename?: 'Auditor' }
-      & Pick<Auditor, 'name'>
-    )>>, reviewer?: Maybe<Array<(
-      { __typename?: 'Reviewer' }
-      & Pick<Reviewer, 'name'>
-    )>>, projectManager?: Maybe<Array<(
-      { __typename?: 'ProjectManager' }
-      & Pick<ProjectManager, 'name'>
-    )>>, client?: Maybe<Array<(
-      { __typename?: 'Client' }
-      & Pick<Client, 'id' | 'name' | 'email'>
-    )>> }
-  ) }
+  & Pick<Mutation, 'updateProject'>
 );
 
 export type UpdateProjectAuditorsMutationVariables = Exact<{
@@ -1136,23 +1107,16 @@ export type UpdateProjectReviewersMutation = (
 
 export type UpdateRelatorioMutationVariables = Exact<{
   id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['String']>;
-  revDeadline?: Maybe<Scalars['String']>;
-  delDeadline?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  status: Scalars['String'];
+  revDeadline: Scalars['String'];
+  delDeadline: Scalars['String'];
 }>;
 
 
 export type UpdateRelatorioMutation = (
   { __typename?: 'Mutation' }
-  & { updateRelatorio: (
-    { __typename?: 'Relatorio' }
-    & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>
-    & { project?: Maybe<Array<(
-      { __typename?: 'Project' }
-      & Pick<Project, 'id' | 'name'>
-    )>> }
-  ) }
+  & Pick<Mutation, 'updateRelatorio'>
 );
 
 export type UpdateUserMutationVariables = Exact<{
@@ -1164,10 +1128,7 @@ export type UpdateUserMutationVariables = Exact<{
 
 export type UpdateUserMutation = (
   { __typename?: 'Mutation' }
-  & { updateUser: (
-    { __typename?: 'User' }
-    & Pick<User, 'id' | 'name' | 'email'>
-  ) }
+  & Pick<Mutation, 'updateUser'>
 );
 
 export const AddClientToProjectDocument = gql`
@@ -1236,10 +1197,8 @@ export const CreateRelatorioDocument = gql`
     revDeadline
     delDeadline
     complexRelatorioId
-    project {
-      id
-      name
-    }
+    projName
+    projId
   }
 }
     `;
@@ -1705,10 +1664,8 @@ export const FetchRelatoriosDocument = gql`
     revDeadline
     delDeadline
     complexRelatorioId
-    project {
-      id
-      name
-    }
+    projName
+    projId
   }
 }
     `;
@@ -1786,11 +1743,7 @@ export const RemoveRelatorioFromProjectDocument = gql`
   }
 export const UpdateClientDocument = gql`
     mutation updateClient($id: ID!, $name: String!, $email: String!) {
-  updateClient(id: $id, name: $name, email: $email) {
-    id
-    name
-    email
-  }
+  updateClient(id: $id, name: $name, email: $email)
 }
     `;
 
@@ -1803,28 +1756,7 @@ export const UpdateClientDocument = gql`
   }
 export const UpdateProjectDocument = gql`
     mutation updateProject($id: ID!, $name: String!, $status: String!, $clientId: ID!, $auditorIds: [ID!], $revIds: [ID!], $pmIds: [ID!]) {
-  updateProject(id: $id, name: $name, status: $status, clientId: $clientId, auditorIds: $auditorIds, revIds: $revIds, pmIds: $pmIds) {
-    id
-    name
-    status
-    relatorios {
-      name
-    }
-    auditor {
-      name
-    }
-    reviewer {
-      name
-    }
-    projectManager {
-      name
-    }
-    client {
-      id
-      name
-      email
-    }
-  }
+  updateProject(id: $id, name: $name, status: $status, clientId: $clientId, auditorIds: $auditorIds, revIds: $revIds, pmIds: $pmIds)
 }
     `;
 
@@ -1875,19 +1807,8 @@ export const UpdateProjectReviewersDocument = gql`
     
   }
 export const UpdateRelatorioDocument = gql`
-    mutation updateRelatorio($id: ID!, $name: String, $status: String, $revDeadline: String, $delDeadline: String) {
-  updateRelatorio(id: $id, name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline) {
-    id
-    name
-    status
-    revDeadline
-    delDeadline
-    complexRelatorioId
-    project {
-      id
-      name
-    }
-  }
+    mutation updateRelatorio($id: ID!, $name: String!, $status: String!, $revDeadline: String!, $delDeadline: String!) {
+  updateRelatorio(id: $id, name: $name, status: $status, revDeadline: $revDeadline, delDeadline: $delDeadline)
 }
     `;
 
@@ -1900,11 +1821,7 @@ export const UpdateRelatorioDocument = gql`
   }
 export const UpdateUserDocument = gql`
     mutation updateUser($id: ID!, $name: String!, $email: String!) {
-  updateUser(id: $id, name: $name, email: $email) {
-    id
-    name
-    email
-  }
+  updateUser(id: $id, name: $name, email: $email)
 }
     `;
 

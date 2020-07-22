@@ -35,11 +35,6 @@ export class RelatoriosTableComponent implements OnInit {
 
   ngOnInit() {
     this.fetchRelatoriosGQL.watch().valueChanges.subscribe(result => {
-      for(let r of result.data.fetchRelatorios){
-        console.log(r.project)
-      }
-      setTimeout(() => {  console.log("World!"); }, 10000);
-
       this.listData = new MatTableDataSource(result.data.fetchRelatorios);
     });
   }
@@ -57,6 +52,12 @@ export class RelatoriosTableComponent implements OnInit {
   }
 
   updateRelatorio(rel) {
+    this.newRelatorioFormService.updating = true;
+    this.newRelatorioFormService.updateRelatorioFormGroup(rel);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    this.dialog.open(NewRelatorioComponent, dialogConfig);
   }
 
   applyFilter() {

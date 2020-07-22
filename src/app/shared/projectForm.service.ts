@@ -19,11 +19,11 @@ export class ProjectFormService {
     auditor: new FormControl(0),
     reviewer: new FormControl(0),
   });
-  edit_auditors = [];
-  edit_reviewers = [];
-  edit_pms = [];
-  edit_rels = [];
-  edit_proj: string;
+  editAuditors = [];
+  editReviewers = [];
+  editPms = [];
+  editRels = [];
+  editProj: string;
 
   constructor(
     private newProjectGQL: NewProjectGQL,
@@ -37,14 +37,14 @@ export class ProjectFormService {
       name: '',
       status: 'OPEN',
       client: 0,
-      projectManager: 0,
-      auditor: 0,
-      reviewer: 0,
+      projectManager: [],
+      auditor: [],
+      reviewer: [],
     });
   }
 
   updateProjectFormGroup(proj) {
-    proj.auditor.map(a => a.id);
+    // proj.auditor.map(a => a.id);
     this.form.setValue({
       name: proj.name,
       status: proj.status,
@@ -73,18 +73,21 @@ export class ProjectFormService {
       id: this.projId,
       name: proj.name,
       status: proj.status,
-      clientId: proj.client[0]
+      clientId: proj.client[0],
+      auditorIds: proj.auditor,
+      revIds: proj.reviewer,
+      pmIds: proj.projectManager
     }).subscribe(result => {
       }
     );
   }
 
   editProject(project) {
-    this.edit_auditors = project.auditor;
-    this.edit_reviewers = project.reviewer;
-    this.edit_pms = project.projectManager;
-    this.edit_rels = project.relatorios;
-    this.edit_proj = project.id;
+    this.editAuditors = project.auditor;
+    this.editReviewers = project.reviewer;
+    this.editPms = project.projectManager;
+    this.editRels = project.relatorios;
+    this.editProj = project.id;
   }
 
 }

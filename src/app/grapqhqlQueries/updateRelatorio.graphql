@@ -1,9 +1,9 @@
 mutation updateRelatorio(
   $id: ID!,
-  $name: String,
-  $status: String,
-  $revDeadline: String,
-  $delDeadline: String
+  $name: String!,
+  $status: String!,
+  $revDeadline: String!,
+  $delDeadline: String!
 ){
   updateRelatorio(
     id: $id,
@@ -12,16 +12,5 @@ mutation updateRelatorio(
     revDeadline: $revDeadline,
     delDeadline: $delDeadline
   )
-  {
-    id
-    name
-    status
-    revDeadline
-    delDeadline
-    complexRelatorioId
-    project{
-      id
-      name
-    }
-  }
+
 }

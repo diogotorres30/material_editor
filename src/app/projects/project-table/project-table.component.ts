@@ -91,6 +91,7 @@ export class ProjectTableComponent implements OnInit {
   }
 
   createProject() {
+    this.projectFormService.updating = false;
     this.projectFormService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
     // dialogConfig.disableClose = true;

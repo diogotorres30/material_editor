@@ -21,9 +21,7 @@ mutation createRelatorio(
     revDeadline
     delDeadline
     complexRelatorioId
-    project{
-      id
-      name
-    }
+    projName
+    projId
   }
 }

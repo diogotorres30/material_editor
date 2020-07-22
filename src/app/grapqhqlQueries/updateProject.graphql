@@ -15,26 +15,5 @@ mutation updateProject(
     auditorIds: $auditorIds,
     revIds: $revIds,
     pmIds: $pmIds
-  ){
-    id
-    name
-    status
-    relatorios{
-      name
-    }
-    auditor{
-      name
-    }
-    reviewer{
-      name
-    }
-    projectManager{
-      name
-    }
-    client{
-      id
-      name
-      email
-    }
-  }
+  )
 }

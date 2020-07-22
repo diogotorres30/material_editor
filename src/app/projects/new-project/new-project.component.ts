@@ -64,7 +64,11 @@ export class NewProjectComponent implements OnInit {
 
   onSubmit() {
     if (this.projectFormService.form.valid) {
-      this.projectFormService.newProject(this.projectFormService.form.value);
+      if (this.projectFormService.updating) {
+        this.projectFormService.updateProject(this.projectFormService.form.value);
+      } else {
+        this.projectFormService.newProject(this.projectFormService.form.value);
+      }
       this.projectFormService.form.reset();
       this.projectFormService.initializeFormGroup();
       this.notificationService.success(':: Submitted successfully');

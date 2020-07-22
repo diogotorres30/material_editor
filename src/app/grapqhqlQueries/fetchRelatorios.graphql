@@ -6,9 +6,7 @@ query fetchRelatorios {
     revDeadline
     delDeadline
     complexRelatorioId
-    project{
-      id
-      name
-    }
+    projName
+    projId
   }
 }

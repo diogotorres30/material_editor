@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
 import {MatTableDataSource} from '@angular/material/table';
 import {ProjectFormService} from '../../shared/projectForm.service';
-import {RemoveRelatorioFromProjectGQL,} from '../../../generated/graphql';
+import {RemoveRelatorioFromProjectGQL} from '../../../generated/graphql';
 import {ProjectFormOptionsService} from '../../shared/projectForm-options.service';
 import {NewRelatorioFormService} from '../../shared/new-relatorio-form.service';
 
@@ -35,16 +35,16 @@ export class UpdateProjectComponent implements OnInit {
   selectedPM: any;
 
   ngOnInit() {
-    this.auditorListData = new MatTableDataSource<any>(this.projectFormService.edit_auditors);
-    this.reviewerListData = new MatTableDataSource<any>(this.projectFormService.edit_reviewers);
-    this.pmListData = new MatTableDataSource<any>(this.projectFormService.edit_pms);
-    this.relListData = new MatTableDataSource<any>(this.projectFormService.edit_rels);
+    this.auditorListData = new MatTableDataSource<any>(this.projectFormService.editAuditors);
+    this.reviewerListData = new MatTableDataSource<any>(this.projectFormService.editReviewers);
+    this.pmListData = new MatTableDataSource<any>(this.projectFormService.editPms);
+    this.relListData = new MatTableDataSource<any>(this.projectFormService.editRels);
   }
 
   removeRelatorio(row) {
     this.removeRelatorioFromProjectGQL.mutate({
       relatorioId: row.id,
-      projId: this.projectFormService.edit_proj
+      projId: this.projectFormService.editProj
     }).subscribe(() => {
     });
     location.reload();
