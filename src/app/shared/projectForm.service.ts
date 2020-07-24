@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {AddClientToProjectGQL, NewProjectGQL, UpdateProjectGQL} from '../../generated/graphql';
+import {AddClientToProjectGQL, DeleteProjectGQL, NewProjectGQL, UpdateProjectGQL} from '../../generated/graphql';
 import {MatTableDataSource} from '@angular/material/table';
 
 
@@ -19,16 +19,17 @@ export class ProjectFormService {
     auditor: new FormControl(0),
     reviewer: new FormControl(0),
   });
-  editAuditors = [];
-  editReviewers = [];
-  editPms = [];
-  editRels = [];
-  editProj: string;
+  // editAuditors = [];
+  // editReviewers = [];
+  // editPms = [];
+  // editRels = [];
+  // editProj: string;
 
   constructor(
     private newProjectGQL: NewProjectGQL,
     private addClientToProjectGQL: AddClientToProjectGQL,
     private updateProjectGQL: UpdateProjectGQL,
+    private deleteProjectGQL: DeleteProjectGQL
   ) {
   }
 
@@ -53,6 +54,7 @@ export class ProjectFormService {
       auditor: proj.auditor.map(a => a.id),
       reviewer: proj.reviewer.map(a => a.id)
     });
+    location.reload();
   }
 
   newProject(project) {
@@ -82,12 +84,18 @@ export class ProjectFormService {
     );
   }
 
-  editProject(project) {
-    this.editAuditors = project.auditor;
-    this.editReviewers = project.reviewer;
-    this.editPms = project.projectManager;
-    this.editRels = project.relatorios;
-    this.editProj = project.id;
+  deleteProject(id: string) {
+    this.deleteProjectGQL.mutate({id}).subscribe(result => {
+    });
+    location.reload();
   }
+
+  // editProject(project) {
+  //   this.editAuditors = project.auditor;
+  //   this.editReviewers = project.reviewer;
+  //   this.editPms = project.projectManager;
+  //   this.editRels = project.relatorios;
+  //   this.editProj = project.id;
+  // }
 
 }

@@ -19,7 +19,7 @@ import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {NewProjectComponent} from '../new-project/new-project.component';
-import {RepositoryComponent} from '../../repository/repository.component';
+import {NewRelatorioComponent} from '../../repository/new-relatorio/new-relatorio.component';
 
 @Component({
   selector: 'app-project-table',
@@ -32,7 +32,6 @@ export class ProjectTableComponent implements OnInit {
   localListData: Array<{ __typename?: 'Project' } & Pick<Project, 'id' | 'name' | 'status'> & { relatorios?: Maybe<Array<{ __typename?: 'Relatorio' } & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>>>; auditor?: Maybe<Array<{ __typename?: 'Auditor' } & Pick<Auditor, 'id' | 'name' | 'email' | 'role'>>>; reviewer?: Maybe<Array<{ __typename?: 'Reviewer' } & Pick<Reviewer, 'id' | 'name' | 'email' | 'role'>>>; projectManager?: Maybe<Array<{ __typename?: 'ProjectManager' } & Pick<ProjectManager, 'id' | 'name' | 'email' | 'role'>>>; client?: Maybe<Array<{ __typename?: 'Client' } & Pick<Client, 'id' | 'name' | 'email'>>> }>;
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = [
-    'id',
     'name',
     'status',
     'relatorios',
@@ -56,7 +55,7 @@ export class ProjectTableComponent implements OnInit {
     private dialog: MatDialog,
     private relatorioFormService: NewRelatorioFormService,
     private router: Router,
-    private repositoryComponent: RepositoryComponent
+    private newRelatorioFormService: NewRelatorioFormService
   ) {
   }
 
@@ -84,23 +83,28 @@ export class ProjectTableComponent implements OnInit {
   }
 
   deleteProject(id: string) {
-    this.deleteProjectGQL.mutate({id}).subscribe((created) => {
-      location.reload();
-    });
-
+    this.projectFormService.deleteProject(id);
   }
 
   createProject() {
     this.projectFormService.updating = false;
     this.projectFormService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
-    // dialogConfig.disableClose = true;
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
     this.dialog.open(NewProjectComponent, dialogConfig);
   }
 
-  createRelatorio() {
+  createRelatorio(proj) {
+    this.newRelatorioFormService.updating = false;
+    this.newRelatorioFormService.addingToProject = true;
+    console.log(proj.id);
+    this.newRelatorioFormService.addToProject = proj.id;
+    this.newRelatorioFormService.initializeFormGroup();
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '60%';
+    this.dialog.open(NewRelatorioComponent, dialogConfig);
   }
 
   updateProject(project) {

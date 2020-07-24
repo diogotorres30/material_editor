@@ -41,6 +41,7 @@ export class RelatoriosTableComponent implements OnInit {
 
   createRelatorio() {
     this.newRelatorioFormService.updating = false;
+    this.newRelatorioFormService.addingToProject = false;
     this.newRelatorioFormService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
@@ -49,10 +50,12 @@ export class RelatoriosTableComponent implements OnInit {
   }
 
   deleteRelatorio(id) {
+    this.newRelatorioFormService.deleteRelatorio(id);
   }
 
   updateRelatorio(rel) {
     this.newRelatorioFormService.updating = true;
+    this.newRelatorioFormService.addingToProject = false;
     this.newRelatorioFormService.updateRelatorioFormGroup(rel);
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;

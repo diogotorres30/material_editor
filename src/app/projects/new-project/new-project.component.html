@@ -31,14 +31,6 @@
     <mat-grid-tile>
       <div class="controllers-container">
         <mat-form-field>
-          <mat-label>Project Manager</mat-label>
-          <mat-select formControlName="projectManager" multiple>
-            <ng-container *ngFor="let user of formOptionsService.usersArray">
-              <mat-option value="{{user.id}}">{{user.name}}</mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
           <mat-label>Auditor</mat-label>
           <mat-select formControlName="auditor" multiple>
             <ng-container *ngFor="let user of formOptionsService.usersArray">
@@ -49,6 +41,14 @@
         <mat-form-field>
           <mat-label>Reviewer</mat-label>
           <mat-select formControlName="reviewer" multiple>
+            <ng-container *ngFor="let user of formOptionsService.usersArray">
+              <mat-option value="{{user.id}}">{{user.name}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Project Manager</mat-label>
+          <mat-select formControlName="projectManager" multiple>
             <ng-container *ngFor="let user of formOptionsService.usersArray">
               <mat-option value="{{user.id}}">{{user.name}}</mat-option>
             </ng-container>

@@ -18,6 +18,8 @@ export class NewRelatorioFormService {
     projId: new FormControl('')
   });
   updating = false;
+  addingToProject = false;
+  addToProject: string;
   relId: string;
   public showRelatorioId = '5ef3643109a109d98241ee4f';
 
@@ -28,7 +30,7 @@ export class NewRelatorioFormService {
     private updateRelatorioGQL: UpdateRelatorioGQL,
     private deleteRelatorioGQL: DeleteRelatorioGQL,
     private createRelatorioGQL: CreateRelatorioGQL,
-    private projectFormOptionsService: ProjectFormOptionsService
+    private projectFormOptionsService: ProjectFormOptionsService,
   ) {
   }
 
@@ -60,13 +62,21 @@ export class NewRelatorioFormService {
       status: rel.status,
       revDeadline: rel.revDeadline === '' ? '' : this.datePipe.transform(rel.revDeadline, 'dd-MM-yyyy'),
       delDeadline: rel.delDeadline === '' ? '' : this.datePipe.transform(rel.delDeadline, 'dd-MM-yyyy'),
-    }).subscribe(result => {
+    }).subscribe(() => {
     });
-    // location.reload();
+    location.reload();
   }
 
+  deleteRelatorio(id) {
+    this.deleteRelatorioGQL.mutate({id}).subscribe(() => {
+    });
+    location.reload();
+  }
 
   newRelatorio(rel) {
+    if (this.addingToProject) {
+      rel.projId = this.addToProject;
+    }
     const proj = this.projectFormOptionsService.projectsArray.filter(a => a.id === rel.projId)[0];
     this.createComplexRelatorioGQL.mutate({
       classification: '',
@@ -87,6 +97,7 @@ export class NewRelatorioFormService {
         complexRelatorioId: result.data.createComplexRelatorio.id
       }).subscribe();
     });
+    this.addingToProject = false;
     location.reload();
   }
 }

@@ -17,7 +17,6 @@ import {NewProjectComponent} from './projects/new-project/new-project.component'
 import {GraphQLModule} from './graphql.module';
 import {ProjectTableComponent} from './projects/project-table/project-table.component';
 import {ProjectFormOptionsService} from './shared/projectForm-options.service';
-import {UpdateProjectComponent} from './projects/update-project/update-project.component';
 import {DatePipe} from '@angular/common';
 import {ReportEditorComponent} from './report-editor/report-editor.component';
 import {HeaderComponent} from './editor/header/header.component';
@@ -40,7 +39,6 @@ import {NewRelatorioComponent} from './repository/new-relatorio/new-relatorio.co
     NewProjectComponent,
     NewRelatorioComponent,
     ProjectTableComponent,
-    UpdateProjectComponent,
     ReportEditorComponent,
     HeaderComponent,
     FooterComponent,

@@ -17,7 +17,7 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field *ngIf="!newRelatorioFormService.addingToProject">
           <mat-label>Project</mat-label>
           <mat-select formControlName="projId">
             <ng-container *ngFor="let proj of formOptionsService.projectsArray">
