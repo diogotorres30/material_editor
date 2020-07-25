@@ -28,7 +28,7 @@ import {UsersTableComponent} from './repository/users-table/users-table.componen
 import {NewUserComponent} from './repository/new-user/new-user.component';
 import {RelatoriosTableComponent} from './repository/relatorios-table/relatorios-table.component';
 import {NewRelatorioComponent} from './repository/new-relatorio/new-relatorio.component';
-import { CoverComponent } from './editor/cover/cover.component';
+import {CoverComponent} from './editor/cover/cover.component';
 
 @NgModule({
   // tslint:disable-next-line:max-line-length
@@ -68,7 +68,8 @@ import { CoverComponent } from './editor/cover/cover.component';
     NewProjectComponent,
     NewRelatorioComponent,
     NewClientComponent,
-    NewUserComponent]
+    NewUserComponent,
+    CoverComponent]
 })
 export class AppModule {
 }

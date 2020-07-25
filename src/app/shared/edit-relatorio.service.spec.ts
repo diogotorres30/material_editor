@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EditRelatorioService } from './edit-relatorio.service';
+import { CoverService } from './cover.service';
 
 describe('EditRelatorioService', () => {
-  let service: EditRelatorioService;
+  let service: CoverService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(EditRelatorioService);
+    service = TestBed.inject(CoverService);
   });
 
   it('should be created', () => {

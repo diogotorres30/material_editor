@@ -35,6 +35,7 @@
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "install": "^0.13.0",
+    "mongoose": "^5.9.25",
     "ngx-quill": "^7.3.12",
     "npm": "^6.14.6",
     "paper-css": "^0.4.1",

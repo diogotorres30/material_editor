@@ -1,1 +1,73 @@
-<p>cover works!</p>
+<script src="cover.component.ts"></script>
+<form [formGroup]="coverService.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="2" rowHeight="300px">
+    <mat-grid-tile>
+      <div class="controllers-container">
+        <!--        <input type="hidden" formControlName="$key">-->
+        <mat-form-field>
+          <mat-label>Company Logo</mat-label>
+          <input formControlName="companyLogo" matInput>
+          <mat-error>This field is mandatory.</mat-error>
+        </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Report Title</mat-label>
+            <input formControlName="reportTitle" matInput>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Target Company</mat-label>
+            <input formControlName="targetCompany" matInput>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Version</mat-label>
+            <input formControlName="version" matInput>
+          </mat-form-field>
+
+
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <div class="controllers-container">
+        <mat-form-field>
+        <mat-label>Classification</mat-label>
+        <mat-select formControlName="classification">
+          <ng-container *ngFor="let classif of classifications">
+            <mat-option value="{{classif.value}}">{{classif.viewValue}}</mat-option>
+          </ng-container>
+        </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Remarks</mat-label>
+          <mat-select formControlName="remarks">
+            <ng-container *ngFor="let rem of remarks">
+              <mat-option value="{{rem.value}}">{{rem.viewValue}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input formControlName="date" matInput [matDatepicker]="datePicker" placeholder="Date">
+          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+          <!--<mat-form-field>
+            <input matInput [matDatepicker]=" picker" placeholder="Hire Date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            &lt;!&ndash; <button matSuffix [matDatepickerToggle]="picker"></button> &ndash;&gt;
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>-->
+          <!--<div class="add-bottom-padding">
+            <mat-checkbox formControlName="isPermanent">Permanent Employee</mat-checkbox>
+          </div>-->
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit"
+                    [disabled]="coverService.form.invalid">Submit
+            </button>
+            <button mat-raised-button color="warn" type="reset">Clear</button>
+          </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

@@ -37,7 +37,9 @@ import {
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
-import {EditRelatorioService} from '../shared/edit-relatorio.service';
+import {CoverService} from '../shared/cover.service';
+import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
+import {CoverComponent} from './cover/cover.component';
 
 @Component({
   selector: 'app-editor',
@@ -45,7 +47,7 @@ import {EditRelatorioService} from '../shared/edit-relatorio.service';
   styleUrls: ['./editor.component.scss']
 })
 export class EditorComponent implements OnInit {
-  complexRelatorio: { __typename?: 'ComplexRelatorio' } & Pick<ComplexRelatorio, 'id'> & {
+  public complexRelatorio: { __typename?: 'ComplexRelatorio' } & Pick<ComplexRelatorio, 'id'> & {
     // tslint:disable-next-line:max-line-length
     cover?: Maybe<{ __typename?: 'Cover' } & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>>; executiveSummary?: Maybe<{ __typename?: 'ExecutiveSummary' } & Pick<ExecutiveSummary, 'summary' | 'recommendations'>>; introduction?: Maybe<{ __typename?: 'Introduction' } & Pick<Introduction, 'documentInformation' | 'responsibilityStatement' | 'classification' | 'documentOwner' | 'disclaimer'> & { authorsAndReviewers?: Maybe<{ __typename?: 'AuthorsAndReviewers' } & Pick<AuthorsAndReviewers, 'approvers' | 'reviewers' | 'authors'>>; documentManagement?: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>>; documentStructure?: Maybe<{ __typename?: 'DocumentStructure' } & Pick<DocumentStructure, 'sectionsIntro' | 'sections' | 'appendicesIntro' | 'appendices'>> }>; assessmentInformation?: Maybe<{ __typename?: 'AssessmentInformation' } & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'> & { assessmentScope?: Maybe<{ __typename?: 'AssessmentScope' } & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>>; organizationalAndTechnicalContacts?: Maybe<Array<Maybe<{ __typename?: 'OrganizationalAndTechnicalContacts' } & Pick<OrganizationalAndTechnicalContacts, 'role' | 'name' | 'contact'>>>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: 'SummaryOfAssessmentResults' } & {
       // tslint:disable-next-line:max-line-length
@@ -81,9 +83,10 @@ export class EditorComponent implements OnInit {
     private _http: HttpService,
     private relatorioFormService: NewRelatorioFormService,
     private renderer: Renderer2,
+    private dialog: MatDialog,
     private fetchFindingsGQL: FetchFindingsGQL,
     private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL,
-    private editRelatorioService: EditRelatorioService) {
+    private coverService: CoverService) {
   }
 
   ngOnInit() {
@@ -95,6 +98,7 @@ export class EditorComponent implements OnInit {
     }));
     this.fetchComplexRelatorioGQL.watch({id: this.relatorioFormService.showRelatorioId}).valueChanges.subscribe(result => {
       this.complexRelatorio = result.data.fetchComplexRelatorio;
+      this.coverService.complexrelatorio2 = result.data.fetchComplexRelatorio;
 
       let vulCounter = 1;
       let subVulCounter = 1;
@@ -188,8 +192,13 @@ export class EditorComponent implements OnInit {
     });
   }
 
-  fillCover(relId) {
-    this.editRelatorioService.fillCover(relId);
+  fillCover(rel) {
+    this.coverService.relId = rel.id;
+    this.coverService.initializeFormGroup(rel);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    this.dialog.open(CoverComponent, dialogConfig);
   }
 
   createRow(sec, title, pageNum, target) {
