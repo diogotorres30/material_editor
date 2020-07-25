@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
 
   constructor(private editorComponent: EditorComponent) { }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     this.complexRelatorio = this.editorComponent.complexRelatorio;
   }
 

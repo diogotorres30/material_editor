@@ -37,6 +37,7 @@ import {
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
+import {EditRelatorioService} from '../shared/edit-relatorio.service';
 
 @Component({
   selector: 'app-editor',
@@ -81,7 +82,8 @@ export class EditorComponent implements OnInit {
     private relatorioFormService: NewRelatorioFormService,
     private renderer: Renderer2,
     private fetchFindingsGQL: FetchFindingsGQL,
-    private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL) {
+    private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL,
+    private editRelatorioService: EditRelatorioService) {
   }
 
   ngOnInit() {
@@ -184,6 +186,10 @@ export class EditorComponent implements OnInit {
     this.editorForm = new FormGroup({
       editor: new FormControl(null)
     });
+  }
+
+  fillCover(relId) {
+    this.editRelatorioService.fillCover(relId);
   }
 
   createRow(sec, title, pageNum, target) {

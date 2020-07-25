@@ -244,6 +244,7 @@ export type Mutation = {
   updateProjectPMs: Scalars['Boolean'];
   createComplexRelatorio: ComplexRelatorio;
   updateExecutiveSummary: ComplexRelatorio;
+  fillCover: ComplexRelatorio;
 };
 
 
@@ -405,6 +406,18 @@ export type MutationUpdateExecutiveSummaryArgs = {
   relId: Scalars['ID'];
   summary?: Maybe<Scalars['String']>;
   recommendations?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
+export type MutationFillCoverArgs = {
+  relId: Scalars['ID'];
+  companyLogo?: Maybe<Scalars['String']>;
+  reportTitle?: Maybe<Scalars['String']>;
+  targetCompany?: Maybe<Scalars['String']>;
+  classification?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
 };
 
 export type OrganizationalAndTechnicalContacts = {
@@ -997,6 +1010,29 @@ export type FetchUsersQuery = (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'email'>
   )>> }
+);
+
+export type FillCoverMutationVariables = Exact<{
+  relId: Scalars['ID'];
+  companyLogo?: Maybe<Scalars['String']>;
+  reportTitle?: Maybe<Scalars['String']>;
+  targetCompany?: Maybe<Scalars['String']>;
+  classification?: Maybe<Scalars['String']>;
+  version?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillCoverMutation = (
+  { __typename?: 'Mutation' }
+  & { fillCover: (
+    { __typename?: 'ComplexRelatorio' }
+    & { cover?: Maybe<(
+      { __typename?: 'Cover' }
+      & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
+    )> }
+  ) }
 );
 
 export type NewProjectMutationVariables = Exact<{
@@ -1692,6 +1728,29 @@ export const FetchUsersDocument = gql`
   })
   export class FetchUsersGQL extends Apollo.Query<FetchUsersQuery, FetchUsersQueryVariables> {
     document = FetchUsersDocument;
+    
+  }
+export const FillCoverDocument = gql`
+    mutation fillCover($relId: ID!, $companyLogo: String, $reportTitle: String, $targetCompany: String, $classification: String, $version: String, $remarks: String, $date: String) {
+  fillCover(relId: $relId, companyLogo: $companyLogo, reportTitle: $reportTitle, targetCompany: $targetCompany, classification: $classification, version: $version, remarks: $remarks, date: $date) {
+    cover {
+      companyLogo
+      reportTitle
+      targetCompany
+      classification
+      version
+      remarks
+      date
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillCoverGQL extends Apollo.Mutation<FillCoverMutation, FillCoverMutationVariables> {
+    document = FillCoverDocument;
     
   }
 export const NewProjectDocument = gql`

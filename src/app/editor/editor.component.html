@@ -53,6 +53,9 @@
 <!--    <button type="button">Add</button>-->
     <!--    <section class="sheet" *ngFor="let sec of complexRelatorio">{{sec}}</section>-->
     <section #sRef class="sheet" #focusPage>
+      <button mat-icon-button (click)="fillCover(complexRelatorio.id)">
+        <mat-icon>edit</mat-icon>
+      </button>
       <div style="position:absolute;right:0; bottom:0;width: 40%; text-align: right;padding: 15%">
         <h1>{{complexRelatorio.cover["companyLogo"]}}</h1>
         <h1 style="word-wrap: normal;">{{complexRelatorio.cover["reportTitle"]}}</h1>
