@@ -245,6 +245,7 @@ export type Mutation = {
   createComplexRelatorio: ComplexRelatorio;
   updateExecutiveSummary: ComplexRelatorio;
   fillCover: ComplexRelatorio;
+  fillExecutiveSummary: ComplexRelatorio;
 };
 
 
@@ -418,6 +419,12 @@ export type MutationFillCoverArgs = {
   version?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationFillExecutiveSummaryArgs = {
+  relId: Scalars['ID'];
+  summary?: Maybe<Scalars['String']>;
 };
 
 export type OrganizationalAndTechnicalContacts = {
@@ -1031,6 +1038,23 @@ export type FillCoverMutation = (
     & { cover?: Maybe<(
       { __typename?: 'Cover' }
       & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
+    )> }
+  ) }
+);
+
+export type FillExecutiveSummaryMutationVariables = Exact<{
+  relId: Scalars['ID'];
+  summary?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillExecutiveSummaryMutation = (
+  { __typename?: 'Mutation' }
+  & { fillExecutiveSummary: (
+    { __typename?: 'ComplexRelatorio' }
+    & { executiveSummary?: Maybe<(
+      { __typename?: 'ExecutiveSummary' }
+      & Pick<ExecutiveSummary, 'summary'>
     )> }
   ) }
 );
@@ -1751,6 +1775,23 @@ export const FillCoverDocument = gql`
   })
   export class FillCoverGQL extends Apollo.Mutation<FillCoverMutation, FillCoverMutationVariables> {
     document = FillCoverDocument;
+    
+  }
+export const FillExecutiveSummaryDocument = gql`
+    mutation fillExecutiveSummary($relId: ID!, $summary: String) {
+  fillExecutiveSummary(relId: $relId, summary: $summary) {
+    executiveSummary {
+      summary
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillExecutiveSummaryGQL extends Apollo.Mutation<FillExecutiveSummaryMutation, FillExecutiveSummaryMutationVariables> {
+    document = FillExecutiveSummaryDocument;
     
   }
 export const NewProjectDocument = gql`

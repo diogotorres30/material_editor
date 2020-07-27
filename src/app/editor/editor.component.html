@@ -93,14 +93,25 @@
       <table class="contents" id="summarizedVulnerabilities"></table>
       <table class="contents" id="detailedVulnerabilities"></table>
     </section>
-    <section class="sheet">
+    <section class="sheet" >
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
 
       <h1>1 Executive Summary</h1>
-      <p>{{complexRelatorio.executiveSummary.summary}}</p>
+      <div (dblclick)="onDblClick()">
+        <form *ngIf="show" [formGroup]="editorForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <quill-editor [style]="editorStyle" formControlName="editor">
+            </quill-editor>
+          </div>
+          <button mat-button color="blue">Submit</button>
+        </form>
+        <p *ngIf="!show" [innerHTML]="editorContent"></p>
+      </div>
+
+      <p [innerHTML]="complexRelatorio.executiveSummary.summary" (dblclick)="onDblClick()"></p>
       <ul>
         <li *ngFor="let rec of complexRelatorio.executiveSummary.recommendations"> {{rec}}</li>
       </ul>

@@ -29,6 +29,7 @@ import {
   UserInteraction
 } from '../../generated/graphql';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {DatePipe} from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +57,8 @@ export class CoverService {
   });
 
   constructor(
-    private fillCoverGQL: FillCoverGQL
+    private fillCoverGQL: FillCoverGQL,
+    private datePipe: DatePipe
   ) {
   }
 
@@ -93,9 +95,9 @@ export class CoverService {
       classification: rel.classification,
       version: rel.version,
       remarks: rel.remarks,
-      date: rel.date
+      date: rel.date === '' ? '' : this.datePipe.transform(rel.date, 'MMMM d, y')
     }).subscribe(result => {
-      console.log(result.data.fillCover.cover.companyLogo);
+      console.log(result.data.fillCover.cover.date);
     });
   }
 }

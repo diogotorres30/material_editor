@@ -1,0 +1,13 @@
+mutation fillExecutiveSummary(
+  $relId: ID!,
+  $summary: String,
+){
+  fillExecutiveSummary(
+    relId: $relId,
+    summary: $summary,
+  ){
+    executiveSummary{
+      summary
+    }
+  }
+}

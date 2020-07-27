@@ -22,6 +22,7 @@ import {
   ExecutiveSummary,
   FetchComplexRelatorioGQL,
   FetchFindingsGQL,
+  FillExecutiveSummaryGQL,
   Finding,
   Integrity,
   Introduction,
@@ -71,7 +72,7 @@ export class EditorComponent implements OnInit {
   @ViewChild('sRef') section: ElementRef;
   editorForm: FormGroup;
   editorContent: string;
-  show = true;
+  show = false;
   pageHeight: number;
   editorStyle = {
     height: '800px'
@@ -86,7 +87,8 @@ export class EditorComponent implements OnInit {
     private dialog: MatDialog,
     private fetchFindingsGQL: FetchFindingsGQL,
     private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL,
-    private coverService: CoverService) {
+    private coverService: CoverService,
+    private fillExecutiveSummaryGQL: FillExecutiveSummaryGQL) {
   }
 
   ngOnInit() {
@@ -262,26 +264,18 @@ export class EditorComponent implements OnInit {
     this.applyFilter();
   }
 
-  // ngAfterViewInit() {
-  //   this.pageHeight = this.section.nativeElement.offsetHeight;
-  // }
 
   onSubmit() {
     this.editorContent = this.editorForm.get('editor').value;
-    // console.log(this.editorForm.get('editor').value);
+    this.fillExecutiveSummaryGQL.mutate({
+      relId: this.complexRelatorio.id,
+      summary: this.editorForm.get('editor').value
+    }).subscribe(result => {
+      console.log(result.data.fillExecutiveSummary.executiveSummary.summary);
+    });
     this.show = false;
   }
 
-  pageGrowth(element) {
-    return (element.offsetHeight);
-  }
-
-  // pageGrowth(element) {
-  //   if (element.offsetHeight / this.pageHeight > 1) {
-  //     let dottedLine = this.renderer.createElement('div');
-  //     this.renderer.setAttribute(dottedLine, 'class', "myPageBreak")
-  //   }
-  // }
 
   onDblClick() {
     this.show = true;
