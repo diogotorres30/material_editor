@@ -1,0 +1,11 @@
+mutation setRelId(
+  $id: ID!,
+  $relId: String!
+){
+  setRelId(
+    id: $id,
+    relId: $relId
+  ){
+    id
+  }
+}

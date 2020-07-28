@@ -18,7 +18,6 @@ import {GraphQLModule} from './graphql.module';
 import {ProjectTableComponent} from './projects/project-table/project-table.component';
 import {ProjectFormOptionsService} from './shared/projectForm-options.service';
 import {DatePipe} from '@angular/common';
-import {ReportEditorComponent} from './report-editor/report-editor.component';
 import {HeaderComponent} from './editor/header/header.component';
 import {FooterComponent} from './editor/footer/footer.component';
 import {NewClientComponent} from './repository/new-client/new-client.component';
@@ -29,6 +28,7 @@ import {NewUserComponent} from './repository/new-user/new-user.component';
 import {RelatoriosTableComponent} from './repository/relatorios-table/relatorios-table.component';
 import {NewRelatorioComponent} from './repository/new-relatorio/new-relatorio.component';
 import {CoverComponent} from './editor/cover/cover.component';
+import { SafePipe } from './safe.pipe';
 
 @NgModule({
   // tslint:disable-next-line:max-line-length
@@ -40,7 +40,6 @@ import {CoverComponent} from './editor/cover/cover.component';
     NewProjectComponent,
     NewRelatorioComponent,
     ProjectTableComponent,
-    ReportEditorComponent,
     HeaderComponent,
     FooterComponent,
     NewClientComponent,
@@ -49,7 +48,8 @@ import {CoverComponent} from './editor/cover/cover.component';
     UsersTableComponent,
     NewUserComponent,
     RelatoriosTableComponent,
-    CoverComponent],
+    CoverComponent,
+    SafePipe],
   imports: [
     BrowserModule,
     AppRoutingModule,

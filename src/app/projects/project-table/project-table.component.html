@@ -36,16 +36,15 @@
     </ng-container>
     <ng-container matColumnDef="auditor">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Auditor</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{flatten(element.auditor, 'name')}}
-      </mat-cell>
+      <mat-cell *matCellDef="let element"><div *ngFor="let aud of element.auditor">{{aud.name + ','}}</div></mat-cell>
     </ng-container>
     <ng-container matColumnDef="reviewer">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Reviewer</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{flatten(element.reviewer, 'name')}}</mat-cell>
+      <mat-cell *matCellDef="let element"><div *ngFor="let rev of element.reviewer">{{rev.name + ','}}</div></mat-cell>
     </ng-container>
     <ng-container matColumnDef="projectManager">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Project Manager</mat-header-cell>
-      <mat-cell *matCellDef="let element">{{flatten(element.projectManager, 'name')}}</mat-cell>
+      <mat-cell *matCellDef="let element"><div *ngFor="let pm of element.projectManager">{{pm.name + ','}}</div></mat-cell>
     </ng-container>
     <ng-container matColumnDef="client">
       <mat-header-cell *matHeaderCellDef mat-sort-header>Client</mat-header-cell>

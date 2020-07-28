@@ -1,13 +1,11 @@
 mutation fillExecutiveSummary(
-  $relId: ID!,
+  $id: ID!,
   $summary: String,
 ){
   fillExecutiveSummary(
-    relId: $relId,
+    id: $id,
     summary: $summary,
   ){
-    executiveSummary{
-      summary
-    }
+    executiveSummary
   }
 }

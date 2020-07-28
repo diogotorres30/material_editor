@@ -112,8 +112,10 @@ export type Client = {
 export type ComplexRelatorio = {
   __typename?: 'ComplexRelatorio';
   id: Scalars['ID'];
+  relId: Scalars['String'];
+  projId: Scalars['String'];
   cover?: Maybe<Cover>;
-  executiveSummary?: Maybe<ExecutiveSummary>;
+  executiveSummary?: Maybe<Scalars['String']>;
   introduction?: Maybe<Introduction>;
   assessmentInformation?: Maybe<AssessmentInformation>;
   summaryOfAssessmentResults?: Maybe<SummaryOfAssessmentResults>;
@@ -180,12 +182,6 @@ export type DocumentStructure = {
   sections?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export type ExecutiveSummary = {
-  __typename?: 'ExecutiveSummary';
-  summary?: Maybe<Scalars['String']>;
-  recommendations?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
 export type Finding = {
   __typename?: 'Finding';
   id: Scalars['ID'];
@@ -208,10 +204,7 @@ export type Integrity = {
 
 export type Introduction = {
   __typename?: 'Introduction';
-  documentInformation?: Maybe<Scalars['String']>;
   responsibilityStatement?: Maybe<Scalars['String']>;
-  classification?: Maybe<Scalars['String']>;
-  documentOwner?: Maybe<Scalars['String']>;
   authorsAndReviewers?: Maybe<AuthorsAndReviewers>;
   documentManagement?: Maybe<Array<Maybe<DocumentManagement>>>;
   documentStructure?: Maybe<DocumentStructure>;
@@ -243,6 +236,7 @@ export type Mutation = {
   updateProjectReviewers: Scalars['Boolean'];
   updateProjectPMs: Scalars['Boolean'];
   createComplexRelatorio: ComplexRelatorio;
+  setRelId: ComplexRelatorio;
   updateExecutiveSummary: ComplexRelatorio;
   fillCover: ComplexRelatorio;
   fillExecutiveSummary: ComplexRelatorio;
@@ -400,18 +394,25 @@ export type MutationCreateComplexRelatorioArgs = {
   version?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
+  projId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationSetRelIdArgs = {
+  id: Scalars['ID'];
+  relId?: Maybe<Scalars['String']>;
 };
 
 
 export type MutationUpdateExecutiveSummaryArgs = {
-  relId: Scalars['ID'];
+  id: Scalars['ID'];
   summary?: Maybe<Scalars['String']>;
   recommendations?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 
 export type MutationFillCoverArgs = {
-  relId: Scalars['ID'];
+  id: Scalars['ID'];
   companyLogo?: Maybe<Scalars['String']>;
   reportTitle?: Maybe<Scalars['String']>;
   targetCompany?: Maybe<Scalars['String']>;
@@ -423,7 +424,7 @@ export type MutationFillCoverArgs = {
 
 
 export type MutationFillExecutiveSummaryArgs = {
-  relId: Scalars['ID'];
+  id: Scalars['ID'];
   summary?: Maybe<Scalars['String']>;
 };
 
@@ -666,6 +667,7 @@ export type CreateComplexRelatorioMutationVariables = Exact<{
   version?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
+  projId?: Maybe<Scalars['String']>;
 }>;
 
 
@@ -785,16 +787,13 @@ export type FetchComplexRelatorioQuery = (
   { __typename?: 'Query' }
   & { fetchComplexRelatorio: (
     { __typename?: 'ComplexRelatorio' }
-    & Pick<ComplexRelatorio, 'id'>
+    & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary'>
     & { cover?: Maybe<(
       { __typename?: 'Cover' }
       & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
-    )>, executiveSummary?: Maybe<(
-      { __typename?: 'ExecutiveSummary' }
-      & Pick<ExecutiveSummary, 'summary' | 'recommendations'>
     )>, introduction?: Maybe<(
       { __typename?: 'Introduction' }
-      & Pick<Introduction, 'documentInformation' | 'responsibilityStatement' | 'classification' | 'documentOwner' | 'disclaimer'>
+      & Pick<Introduction, 'responsibilityStatement' | 'disclaimer'>
       & { authorsAndReviewers?: Maybe<(
         { __typename?: 'AuthorsAndReviewers' }
         & Pick<AuthorsAndReviewers, 'approvers' | 'reviewers' | 'authors'>
@@ -1020,7 +1019,7 @@ export type FetchUsersQuery = (
 );
 
 export type FillCoverMutationVariables = Exact<{
-  relId: Scalars['ID'];
+  id: Scalars['ID'];
   companyLogo?: Maybe<Scalars['String']>;
   reportTitle?: Maybe<Scalars['String']>;
   targetCompany?: Maybe<Scalars['String']>;
@@ -1043,7 +1042,7 @@ export type FillCoverMutation = (
 );
 
 export type FillExecutiveSummaryMutationVariables = Exact<{
-  relId: Scalars['ID'];
+  id: Scalars['ID'];
   summary?: Maybe<Scalars['String']>;
 }>;
 
@@ -1052,10 +1051,7 @@ export type FillExecutiveSummaryMutation = (
   { __typename?: 'Mutation' }
   & { fillExecutiveSummary: (
     { __typename?: 'ComplexRelatorio' }
-    & { executiveSummary?: Maybe<(
-      { __typename?: 'ExecutiveSummary' }
-      & Pick<ExecutiveSummary, 'summary'>
-    )> }
+    & Pick<ComplexRelatorio, 'executiveSummary'>
   ) }
 );
 
@@ -1102,6 +1098,20 @@ export type RemoveRelatorioFromProjectMutationVariables = Exact<{
 export type RemoveRelatorioFromProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'removeRelatorioFromProject'>
+);
+
+export type SetRelIdMutationVariables = Exact<{
+  id: Scalars['ID'];
+  relId: Scalars['String'];
+}>;
+
+
+export type SetRelIdMutation = (
+  { __typename?: 'Mutation' }
+  & { setRelId: (
+    { __typename?: 'ComplexRelatorio' }
+    & Pick<ComplexRelatorio, 'id'>
+  ) }
 );
 
 export type UpdateClientMutationVariables = Exact<{
@@ -1221,8 +1231,8 @@ export const CreateClientDocument = gql`
     
   }
 export const CreateComplexRelatorioDocument = gql`
-    mutation createComplexRelatorio($companyLogo: String, $reportTitle: String, $targetCompany: String, $classification: String, $version: String, $remarks: String, $date: String) {
-  createComplexRelatorio(companyLogo: $companyLogo, reportTitle: $reportTitle, targetCompany: $targetCompany, classification: $classification, version: $version, remarks: $remarks, date: $date) {
+    mutation createComplexRelatorio($companyLogo: String, $reportTitle: String, $targetCompany: String, $classification: String, $version: String, $remarks: String, $date: String, $projId: String) {
+  createComplexRelatorio(companyLogo: $companyLogo, reportTitle: $reportTitle, targetCompany: $targetCompany, classification: $classification, version: $version, remarks: $remarks, date: $date, projId: $projId) {
     id
   }
 }
@@ -1359,6 +1369,8 @@ export const FetchComplexRelatorioDocument = gql`
     query fetchComplexRelatorio($id: ID!) {
   fetchComplexRelatorio(id: $id) {
     id
+    relId
+    projId
     cover {
       companyLogo
       reportTitle
@@ -1368,15 +1380,9 @@ export const FetchComplexRelatorioDocument = gql`
       remarks
       date
     }
-    executiveSummary {
-      summary
-      recommendations
-    }
+    executiveSummary
     introduction {
-      documentInformation
       responsibilityStatement
-      classification
-      documentOwner
       authorsAndReviewers {
         approvers
         reviewers
@@ -1755,8 +1761,8 @@ export const FetchUsersDocument = gql`
     
   }
 export const FillCoverDocument = gql`
-    mutation fillCover($relId: ID!, $companyLogo: String, $reportTitle: String, $targetCompany: String, $classification: String, $version: String, $remarks: String, $date: String) {
-  fillCover(relId: $relId, companyLogo: $companyLogo, reportTitle: $reportTitle, targetCompany: $targetCompany, classification: $classification, version: $version, remarks: $remarks, date: $date) {
+    mutation fillCover($id: ID!, $companyLogo: String, $reportTitle: String, $targetCompany: String, $classification: String, $version: String, $remarks: String, $date: String) {
+  fillCover(id: $id, companyLogo: $companyLogo, reportTitle: $reportTitle, targetCompany: $targetCompany, classification: $classification, version: $version, remarks: $remarks, date: $date) {
     cover {
       companyLogo
       reportTitle
@@ -1778,11 +1784,9 @@ export const FillCoverDocument = gql`
     
   }
 export const FillExecutiveSummaryDocument = gql`
-    mutation fillExecutiveSummary($relId: ID!, $summary: String) {
-  fillExecutiveSummary(relId: $relId, summary: $summary) {
-    executiveSummary {
-      summary
-    }
+    mutation fillExecutiveSummary($id: ID!, $summary: String) {
+  fillExecutiveSummary(id: $id, summary: $summary) {
+    executiveSummary
   }
 }
     `;
@@ -1839,6 +1843,21 @@ export const RemoveRelatorioFromProjectDocument = gql`
   })
   export class RemoveRelatorioFromProjectGQL extends Apollo.Mutation<RemoveRelatorioFromProjectMutation, RemoveRelatorioFromProjectMutationVariables> {
     document = RemoveRelatorioFromProjectDocument;
+    
+  }
+export const SetRelIdDocument = gql`
+    mutation setRelId($id: ID!, $relId: String!) {
+  setRelId(id: $id, relId: $relId) {
+    id
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class SetRelIdGQL extends Apollo.Mutation<SetRelIdMutation, SetRelIdMutationVariables> {
+    document = SetRelIdDocument;
     
   }
 export const UpdateClientDocument = gql`

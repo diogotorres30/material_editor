@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {CreateComplexRelatorioGQL, CreateRelatorioGQL, DeleteRelatorioGQL, UpdateRelatorioGQL} from '../../generated/graphql';
+import {CreateComplexRelatorioGQL, CreateRelatorioGQL, DeleteRelatorioGQL, SetRelIdGQL, UpdateRelatorioGQL} from '../../generated/graphql';
 import {ProjectFormService} from './projectForm.service';
 import {DatePipe} from '@angular/common';
 import {ProjectFormOptionsService} from './projectForm-options.service';
@@ -31,6 +31,7 @@ export class NewRelatorioFormService {
     private deleteRelatorioGQL: DeleteRelatorioGQL,
     private createRelatorioGQL: CreateRelatorioGQL,
     private projectFormOptionsService: ProjectFormOptionsService,
+    private setRelIdGQL: SetRelIdGQL
   ) {
   }
 
@@ -85,17 +86,21 @@ export class NewRelatorioFormService {
       remarks: '',
       reportTitle: '',
       targetCompany: proj.client[0].name,
-      version: '0.1'
-    }).subscribe(result => {
-      this.showRelatorioId = result.data.createComplexRelatorio.id;
+      version: '0.1',
+      projId: this.addToProject
+    }).subscribe(complex => {
+      this.showRelatorioId = complex.data.createComplexRelatorio.id;
       this.createRelatorioGQL.mutate({
         name: rel.name,
         projId: rel.projId,
         status: rel.status,
         revDeadline: rel.revDeadline === '' ? '' : this.datePipe.transform(rel.revDeadline, 'dd-MM-yyyy'),
         delDeadline: rel.delDeadline === '' ? '' : this.datePipe.transform(rel.delDeadline, 'dd-MM-yyyy'),
-        complexRelatorioId: result.data.createComplexRelatorio.id
-      }).subscribe();
+        complexRelatorioId: complex.data.createComplexRelatorio.id
+      }).subscribe(simple => {
+        this.setRelIdGQL.mutate({id: complex.data.createComplexRelatorio.id, relId: simple.data.createRelatorio.id}).subscribe(() => {
+        });
+      });
     });
     this.addingToProject = false;
     location.reload();

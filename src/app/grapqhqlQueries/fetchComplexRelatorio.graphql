@@ -1,6 +1,8 @@
 query fetchComplexRelatorio($id: ID!){
   fetchComplexRelatorio(id: $id){
     id
+    relId
+    projId
     cover{
       companyLogo
       reportTitle
@@ -10,15 +12,9 @@ query fetchComplexRelatorio($id: ID!){
       remarks
       date
     }
-    executiveSummary{
-      summary
-      recommendations
-    }
+    executiveSummary
     introduction{
-      documentInformation
       responsibilityStatement
-      classification
-      documentOwner
       authorsAndReviewers{
         approvers
         reviewers

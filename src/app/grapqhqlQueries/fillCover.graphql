@@ -1,5 +1,5 @@
 mutation fillCover(
-  $relId: ID!,
+  $id: ID!,
   $companyLogo: String,
   $reportTitle: String,
   $targetCompany: String,
@@ -9,7 +9,7 @@ mutation fillCover(
   $date: String
 ){
   fillCover(
-    relId: $relId,
+    id: $id,
     companyLogo: $companyLogo,
     reportTitle: $reportTitle,
     targetCompany: $targetCompany,

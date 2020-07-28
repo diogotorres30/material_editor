@@ -5,7 +5,8 @@ mutation createComplexRelatorio(
   $classification: String,
   $version: String,
   $remarks: String,
-  $date: String
+  $date: String,
+  $projId: String
 ){
   createComplexRelatorio(
     companyLogo: $companyLogo,
@@ -14,7 +15,8 @@ mutation createComplexRelatorio(
     classification: $classification,
     version: $version,
     remarks: $remarks,
-    date: $date){
+    date: $date,
+    projId: $projId){
     id
   }
 }

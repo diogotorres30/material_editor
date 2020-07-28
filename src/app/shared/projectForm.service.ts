@@ -29,7 +29,7 @@ export class ProjectFormService {
     private newProjectGQL: NewProjectGQL,
     private addClientToProjectGQL: AddClientToProjectGQL,
     private updateProjectGQL: UpdateProjectGQL,
-    private deleteProjectGQL: DeleteProjectGQL
+    private deleteProjectGQL: DeleteProjectGQL,
   ) {
   }
 
@@ -45,16 +45,14 @@ export class ProjectFormService {
   }
 
   updateProjectFormGroup(proj) {
-    // proj.auditor.map(a => a.id);
     this.form.setValue({
       name: proj.name,
       status: proj.status,
       client: proj.client[0].id,
-      projectManager: proj.projectManager.map(a => a.id),
-      auditor: proj.auditor.map(a => a.id),
-      reviewer: proj.reviewer.map(a => a.id)
+      projectManager: 0,
+      auditor: 0,
+      reviewer: 0
     });
-    location.reload();
   }
 
   newProject(project) {
@@ -71,6 +69,8 @@ export class ProjectFormService {
   }
 
   updateProject(proj) {
+    console.log(proj.auditor);
+    console.log(proj.reviewer);
     this.updateProjectGQL.mutate({
       id: this.projId,
       name: proj.name,

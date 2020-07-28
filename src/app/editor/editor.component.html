@@ -13,15 +13,12 @@
 
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="side" class="sideNav">
-    <!--        <mat-nav-list>-->
-    <!--            <a mat-list-item *ngFor="let issue of issues" (click)="printIssue(issue)">{{issue.title}}</a>-->
-    <!--            <a mat-list-item (click)="sidenav.toggle()" mat-list-item>Close</a>-->
-    <!--        </mat-nav-list>-->
-
 
     <div class="search-div">
       <mat-form-field class="search-form-field" floatLabel="never">
-        <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+        <label>
+          <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
+        </label>
         <button mat-button matSuffix mat-icon-button aria-label="Clear" *ngIf="searchKey" (click)="onSearchClear()">
           <mat-icon>close</mat-icon>
         </button>
@@ -50,13 +47,9 @@
 
   </mat-sidenav>
   <mat-sidenav-content>
-<!--    <button type="button">Add</button>-->
-    <!--    <section class="sheet" *ngFor="let sec of complexRelatorio">{{sec}}</section>-->
-    <section #sRef class="sheet" #focusPage>
-      <button mat-icon-button (click)="fillCover(complexRelatorio)">
-        <mat-icon>edit</mat-icon>
-      </button>
-      <div style="position:absolute;right:0; bottom:0;width: 40%; text-align: right;padding: 15%">
+    <!----------------------------------------------COVER--------------------------------------------------->
+    <section class="sheet" (dblclick)="fillCover(complexRelatorio)">
+      <div class="bottomRightCover">
         <h1>{{complexRelatorio.cover["companyLogo"]}}</h1>
         <h1 style="word-wrap: normal;">{{complexRelatorio.cover["reportTitle"]}}</h1>
         Prepared by {{complexRelatorio.cover["companyLogo"]}} for {{complexRelatorio.cover["targetCompany"]}}<br>
@@ -64,24 +57,11 @@
         {{complexRelatorio.cover["version"]}}<br>
         {{complexRelatorio.cover["remarks"]}}<br>
         {{complexRelatorio.cover["date"]}}<br>
-        <!--        <div class="myPageBreak"></div>-->
-        <!--        <mat-divider></mat-divider>-->
-
-
-        <!--                <div (dblclick)="onDblClick()" #editorDiv>-->
-        <!--                    <form *ngIf="show" [formGroup]="editorForm" (ngSubmit)="onSubmit()">-->
-        <!--                        <div class="form-group">-->
-        <!--                            <label for="editor">-->
-        <!--                            </label>-->
-        <!--                            <quill-editor [style]="editorStyle" formControlName="editor" (onContentChanged)="pageGrowth(focusPage)">-->
-        <!--                            </quill-editor>-->
-        <!--                        </div>-->
-        <!--                        <button mat-button color="blue">Submit</button>-->
-        <!--                    </form>-->
-        <!--                    <p *ngIf="!show" [innerHTML]="editorContent" id="print-section"></p>-->
-        <!--                </div>-->
       </div>
     </section>
+    <!----------------------------------------------COVER--------------------------------------------------->
+
+    <!----------------------------------------------CONTENTS/INDEX--------------------------------------------------->
     <section class="sheet" id="tableContents">
       <app-header></app-header>
       <div class="footerDiv">
@@ -93,29 +73,33 @@
       <table class="contents" id="summarizedVulnerabilities"></table>
       <table class="contents" id="detailedVulnerabilities"></table>
     </section>
-    <section class="sheet" >
+    <!----------------------------------------------CONTENTS/INDEX--------------------------------------------------->
+
+    <!----------------------------------------------EXECUTIVE SUMMARY------------------------------------------------->
+    <section class="sheet" (dblclick)="fillExecutiveSummary()">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
 
       <h1>1 Executive Summary</h1>
-      <div (dblclick)="onDblClick()">
-        <form *ngIf="show" [formGroup]="editorForm" (ngSubmit)="onSubmit()">
+      <div>
+        <form *ngIf="executiveSummaryQuill" [formGroup]="executiveSummaryForm" (ngSubmit)="executiveSummarySubmit()">
           <div class="form-group">
-            <quill-editor [style]="editorStyle" formControlName="editor">
+            <quill-editor [style]="editorStyle" formControlName="executiveSummaryFormControl" [(ngModel)]="complexRelatorio.executiveSummary">
+
             </quill-editor>
           </div>
           <button mat-button color="blue">Submit</button>
         </form>
-        <p *ngIf="!show" [innerHTML]="editorContent"></p>
       </div>
 
-      <p [innerHTML]="complexRelatorio.executiveSummary.summary" (dblclick)="onDblClick()"></p>
-      <ul>
-        <li *ngFor="let rec of complexRelatorio.executiveSummary.recommendations"> {{rec}}</li>
-      </ul>
+      <p *ngIf="!executiveSummaryQuill" [innerHTML]="complexRelatorio.executiveSummary | safe:'html'"></p>
     </section>
+
+    <!----------------------------------------------EXECUTIVE SUMMARY------------------------------------------------->
+
+    <!------------------------------------------------INTRODUCTION--------------------------------------------------->
     <section class="sheet">
       <app-header></app-header>
       <div class="footerDiv">
@@ -123,13 +107,13 @@
       </div>
       <h1>2 Introduction</h1>
       <h3>2.1 Document Information</h3>
-      <p>{{complexRelatorio.introduction.documentInformation}}</p>
+      <p>This document was issued by {{complexRelatorio.cover.companyLogo}} on {{complexRelatorio.cover.date}}. ©{{complexRelatorio.cover.companyLogo}} {{complexRelatorio.cover.date.split(',')[1]}}</p>
       <h4>Responsibility Statement</h4>
-      <p>{{complexRelatorio.introduction.responsibilityStatement}}</p>
+      <p>{{complexRelatorio.introduction.responsibilityStatement}} {{complexRelatorio.cover.companyLogo}}.</p>
       <h4>Classification</h4>
-      <p>{{complexRelatorio.introduction.classification}}</p>
+      <p>{{complexRelatorio.cover.classification}}</p>
       <h4>Document Owner</h4>
-      <p>{{complexRelatorio.introduction.documentOwner}}</p>
+      <p>{{complexRelatorio.cover.targetCompany}}</p>
       <h4>Authors and Reviewers</h4>
       <table style="width: 100%" class="bordered">
         <tr>
@@ -138,7 +122,7 @@
         </tr>
         <tr>
           <th>Author(s)</th>
-          <td>{{complexRelatorio.introduction.authorsAndReviewers.authors}}</td>
+          <td><a *ngFor="let aud of currentProj.auditor">{{aud.name}} </a></td>
         </tr>
         <tr>
           <th>Approver(s)</th>
@@ -171,6 +155,9 @@
         </tr>
       </table>
     </section>
+
+    <!------------------------------------------------INTRODUCTION--------------------------------------------------->
+
     <section class="sheet">
       <app-header></app-header>
       <div class="footerDiv">
