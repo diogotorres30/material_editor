@@ -1,0 +1,15 @@
+mutation fillDocumentManagement(
+  $id: ID!,
+  $version: String,
+  $remarks: String,
+  $editor: String,
+  $date: String
+){
+  fillDocumentManagement(
+    id: $id,
+    version: $version,
+    editor: $editor,
+    remarks: $remarks,
+    date: $date
+  )
+}

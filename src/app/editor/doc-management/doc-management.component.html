@@ -1,0 +1,45 @@
+<div class="mat-elevation-z8">
+  <mat-table [dataSource]="listData" >
+    <ng-container matColumnDef="version">
+      <mat-header-cell *matHeaderCellDef >Version</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.version}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="date">
+      <mat-header-cell *matHeaderCellDef >Date</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.date}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="editor">
+      <mat-header-cell *matHeaderCellDef >Editor</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.editor}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="remarks">
+      <mat-header-cell *matHeaderCellDef >Remarks</mat-header-cell>
+      <mat-cell *matCellDef="let element">{{element.remarks}}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let row;let i = index;let element">
+        <button mat-icon-button color="warn" (click)="deleteVersion(element.id)">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="disclaimer">
+      <mat-footer-cell *matFooterCellDef colspan="5">
+        <button mat-icon-button (click)="createVersion()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-footer-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    <mat-footer-row *matFooterRowDef="['disclaimer']">
+
+    </mat-footer-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageSize]="10" showFirstLastButtons></mat-paginator>
+</div>
+
+

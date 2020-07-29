@@ -28,7 +28,8 @@ import {NewUserComponent} from './repository/new-user/new-user.component';
 import {RelatoriosTableComponent} from './repository/relatorios-table/relatorios-table.component';
 import {NewRelatorioComponent} from './repository/new-relatorio/new-relatorio.component';
 import {CoverComponent} from './editor/cover/cover.component';
-import { SafePipe } from './safe.pipe';
+import {SafePipe} from './safe.pipe';
+import {DocManagementComponent} from './editor/doc-management/doc-management.component';
 
 @NgModule({
   // tslint:disable-next-line:max-line-length
@@ -49,7 +50,8 @@ import { SafePipe } from './safe.pipe';
     NewUserComponent,
     RelatoriosTableComponent,
     CoverComponent,
-    SafePipe],
+    SafePipe,
+    DocManagementComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -69,7 +71,8 @@ import { SafePipe } from './safe.pipe';
     NewRelatorioComponent,
     NewClientComponent,
     NewUserComponent,
-    CoverComponent]
+    CoverComponent,
+    DocManagementComponent]
 })
 export class AppModule {
 }

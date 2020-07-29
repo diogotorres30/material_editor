@@ -87,13 +87,6 @@ export enum AuditorRole {
   Auditor = 'AUDITOR'
 }
 
-export type AuthorsAndReviewers = {
-  __typename?: 'AuthorsAndReviewers';
-  approvers?: Maybe<Array<Maybe<Scalars['String']>>>;
-  reviewers?: Maybe<Array<Maybe<Scalars['String']>>>;
-  authors?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
 export type Availability = {
   __typename?: 'Availability';
   intro?: Maybe<Scalars['String']>;
@@ -205,7 +198,6 @@ export type Integrity = {
 export type Introduction = {
   __typename?: 'Introduction';
   responsibilityStatement?: Maybe<Scalars['String']>;
-  authorsAndReviewers?: Maybe<AuthorsAndReviewers>;
   documentManagement?: Maybe<Array<Maybe<DocumentManagement>>>;
   documentStructure?: Maybe<DocumentStructure>;
   disclaimer?: Maybe<Array<Maybe<Scalars['String']>>>;
@@ -240,6 +232,7 @@ export type Mutation = {
   updateExecutiveSummary: ComplexRelatorio;
   fillCover: ComplexRelatorio;
   fillExecutiveSummary: ComplexRelatorio;
+  fillDocumentManagement: Scalars['Boolean'];
 };
 
 
@@ -426,6 +419,15 @@ export type MutationFillCoverArgs = {
 export type MutationFillExecutiveSummaryArgs = {
   id: Scalars['ID'];
   summary?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationFillDocumentManagementArgs = {
+  id: Scalars['ID'];
+  version?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
+  editor?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
 };
 
 export type OrganizationalAndTechnicalContacts = {
@@ -794,10 +796,7 @@ export type FetchComplexRelatorioQuery = (
     )>, introduction?: Maybe<(
       { __typename?: 'Introduction' }
       & Pick<Introduction, 'responsibilityStatement' | 'disclaimer'>
-      & { authorsAndReviewers?: Maybe<(
-        { __typename?: 'AuthorsAndReviewers' }
-        & Pick<AuthorsAndReviewers, 'approvers' | 'reviewers' | 'authors'>
-      )>, documentManagement?: Maybe<Array<Maybe<(
+      & { documentManagement?: Maybe<Array<Maybe<(
         { __typename?: 'DocumentManagement' }
         & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>
       )>>>, documentStructure?: Maybe<(
@@ -1039,6 +1038,20 @@ export type FillCoverMutation = (
       & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
     )> }
   ) }
+);
+
+export type FillDocumentManagementMutationVariables = Exact<{
+  id: Scalars['ID'];
+  version?: Maybe<Scalars['String']>;
+  remarks?: Maybe<Scalars['String']>;
+  editor?: Maybe<Scalars['String']>;
+  date?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillDocumentManagementMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'fillDocumentManagement'>
 );
 
 export type FillExecutiveSummaryMutationVariables = Exact<{
@@ -1383,11 +1396,6 @@ export const FetchComplexRelatorioDocument = gql`
     executiveSummary
     introduction {
       responsibilityStatement
-      authorsAndReviewers {
-        approvers
-        reviewers
-        authors
-      }
       documentManagement {
         version
         date
@@ -1781,6 +1789,19 @@ export const FillCoverDocument = gql`
   })
   export class FillCoverGQL extends Apollo.Mutation<FillCoverMutation, FillCoverMutationVariables> {
     document = FillCoverDocument;
+    
+  }
+export const FillDocumentManagementDocument = gql`
+    mutation fillDocumentManagement($id: ID!, $version: String, $remarks: String, $editor: String, $date: String) {
+  fillDocumentManagement(id: $id, version: $version, editor: $editor, remarks: $remarks, date: $date)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillDocumentManagementGQL extends Apollo.Mutation<FillDocumentManagementMutation, FillDocumentManagementMutationVariables> {
+    document = FillDocumentManagementDocument;
     
   }
 export const FillExecutiveSummaryDocument = gql`

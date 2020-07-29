@@ -122,19 +122,21 @@
         </tr>
         <tr>
           <th>Author(s)</th>
-          <td><a *ngFor="let aud of currentProj.auditor">{{aud.name}} </a></td>
+          <td><a *ngFor="let aud of currentProj.auditor">{{aud.name + ', '}}</a></td>
         </tr>
         <tr>
           <th>Approver(s)</th>
-          <td>{{complexRelatorio.introduction.authorsAndReviewers.approvers}}</td>
+          <td><a *ngFor="let rev of currentProj.reviewer">{{rev.name + ', '}}</a></td>
         </tr>
         <tr>
           <th>Reviewer(s)</th>
-          <td>{{complexRelatorio.introduction.authorsAndReviewers.reviewers}}</td>
+          <td><a *ngFor="let pm of currentProj.projectManager">{{pm.name + ', '}}</a></td>
         </tr>
       </table>
     </section>
-    <section class="sheet">
+    <!------------------------------------------------INTRODUCTION--------------------------------------------------->
+    <!------------------------------------------------Document Management-------------------------------------------->
+    <section class="sheet" (dblclick)="fillDocumentManagement(complexRelatorio)">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
@@ -143,7 +145,7 @@
       <table style="width: 100%" class="bordered">
         <tr>
           <th>Version</th>
-          <th>Name</th>
+          <th>Date</th>
           <th>Editor</th>
           <th>Remarks</th>
         </tr>
@@ -156,7 +158,7 @@
       </table>
     </section>
 
-    <!------------------------------------------------INTRODUCTION--------------------------------------------------->
+    <!------------------------------------------------Document Management--------------------------------------------------->
 
     <section class="sheet">
       <app-header></app-header>
