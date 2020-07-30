@@ -1,0 +1,42 @@
+<script src="version.component.ts"></script>
+<form [formGroup]="docManagementService.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="2" rowHeight="300px">
+    <mat-grid-tile>
+      <div class="controllers-container">
+        <mat-form-field>
+          <input formControlName="version" matInput placeholder="Version*">
+          <mat-error>This field is mandatory.</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input formControlName="date" matInput [matDatepicker]="date" placeholder="Date">
+          <mat-datepicker-toggle matSuffix [for]="date"></mat-datepicker-toggle>
+          <mat-datepicker #date></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <div class="controllers-container">
+
+        <mat-form-field>
+          <input formControlName="editor" matInput placeholder="Editor">
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-select formControlName="remarks" placeholder="Remarks">
+            <ng-container *ngFor="let rem of remarks">
+              <mat-option value="{{rem.value}}">{{rem.viewValue}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit"
+                  [disabled]="docManagementService.form.invalid">Submit
+          </button>
+          <button mat-raised-button color="warn" type="reset">Clear</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

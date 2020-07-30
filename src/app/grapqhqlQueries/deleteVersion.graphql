@@ -1,0 +1,3 @@
+mutation deleteVersion($id: ID!, $version: String){
+  deleteVersion(id: $id, version: $version)
+}

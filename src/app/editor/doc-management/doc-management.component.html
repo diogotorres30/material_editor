@@ -19,7 +19,7 @@
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
       <mat-cell *matCellDef="let row;let i = index;let element">
-        <button mat-icon-button color="warn" (click)="deleteVersion(element.id)">
+        <button mat-icon-button color="warn" (click)="deleteVersion(element.version)">
           <mat-icon>delete_outline</mat-icon>
         </button>
       </mat-cell>

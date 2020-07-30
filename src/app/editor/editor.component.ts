@@ -94,7 +94,8 @@ export class EditorComponent implements OnInit {
     private coverService: CoverService,
     private fillExecutiveSummaryGQL: FillExecutiveSummaryGQL,
     private fetchProjectGQL: FetchProjectGQL,
-    private docManagementService: DocManagementService) {
+    private docManagementService: DocManagementService,
+    ) {
   }
 
   ngOnInit() {
@@ -265,7 +266,8 @@ export class EditorComponent implements OnInit {
   }
 
   fillDocumentManagement(rel) {
-    this.docManagementService.initializeFormGroup(rel);
+    this.docManagementService.relId = rel.id;
+
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';

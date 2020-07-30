@@ -233,6 +233,7 @@ export type Mutation = {
   fillCover: ComplexRelatorio;
   fillExecutiveSummary: ComplexRelatorio;
   fillDocumentManagement: Scalars['Boolean'];
+  deleteVersion: Scalars['Boolean'];
 };
 
 
@@ -428,6 +429,12 @@ export type MutationFillDocumentManagementArgs = {
   date?: Maybe<Scalars['String']>;
   editor?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeleteVersionArgs = {
+  id: Scalars['ID'];
+  version?: Maybe<Scalars['String']>;
 };
 
 export type OrganizationalAndTechnicalContacts = {
@@ -767,6 +774,17 @@ export type DeleteUserMutationVariables = Exact<{
 export type DeleteUserMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'deleteUser'>
+);
+
+export type DeleteVersionMutationVariables = Exact<{
+  id: Scalars['ID'];
+  version?: Maybe<Scalars['String']>;
+}>;
+
+
+export type DeleteVersionMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'deleteVersion'>
 );
 
 export type FetchClientsQueryVariables = Exact<{ [key: string]: never; }>;
@@ -1359,6 +1377,19 @@ export const DeleteUserDocument = gql`
   })
   export class DeleteUserGQL extends Apollo.Mutation<DeleteUserMutation, DeleteUserMutationVariables> {
     document = DeleteUserDocument;
+    
+  }
+export const DeleteVersionDocument = gql`
+    mutation deleteVersion($id: ID!, $version: String) {
+  deleteVersion(id: $id, version: $version)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class DeleteVersionGQL extends Apollo.Mutation<DeleteVersionMutation, DeleteVersionMutationVariables> {
+    document = DeleteVersionDocument;
     
   }
 export const FetchClientsDocument = gql`

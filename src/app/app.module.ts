@@ -30,6 +30,7 @@ import {NewRelatorioComponent} from './repository/new-relatorio/new-relatorio.co
 import {CoverComponent} from './editor/cover/cover.component';
 import {SafePipe} from './safe.pipe';
 import {DocManagementComponent} from './editor/doc-management/doc-management.component';
+import {VersionComponent} from './editor/version/version.component';
 
 @NgModule({
   // tslint:disable-next-line:max-line-length
@@ -51,7 +52,8 @@ import {DocManagementComponent} from './editor/doc-management/doc-management.com
     RelatoriosTableComponent,
     CoverComponent,
     SafePipe,
-    DocManagementComponent],
+    DocManagementComponent,
+    VersionComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -72,7 +74,8 @@ import {DocManagementComponent} from './editor/doc-management/doc-management.com
     NewClientComponent,
     NewUserComponent,
     CoverComponent,
-    DocManagementComponent]
+    DocManagementComponent,
+    VersionComponent]
 })
 export class AppModule {
 }
