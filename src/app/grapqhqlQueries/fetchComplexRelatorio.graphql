@@ -22,10 +22,7 @@ query fetchComplexRelatorio($id: ID!){
         remarks
       }
       documentStructure{
-        sectionsIntro
-        sections
         appendicesIntro
-        appendices
       }
       disclaimer
     }
@@ -35,11 +32,6 @@ query fetchComplexRelatorio($id: ID!){
         assetNames
         assetsDescription
         assetAddresses
-      }
-      organizationalAndTechnicalContacts{
-        role
-        name
-        contact
       }
       constraints
       proceduresAfterTheAssessment

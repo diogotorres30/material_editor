@@ -1,0 +1,9 @@
+mutation fillAppendices(
+  $id: ID!,
+  $appendicesIntro: String,
+){
+  fillAppendices(
+    id: $id,
+    appendicesIntro: $appendicesIntro,
+  )
+}

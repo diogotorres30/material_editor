@@ -84,13 +84,14 @@
 
       <h1>1 Executive Summary</h1>
       <div>
-        <form *ngIf="executiveSummaryQuill" [formGroup]="executiveSummaryForm" (ngSubmit)="executiveSummarySubmit()">
+        <form *ngIf="executiveSummaryQuill" [formGroup]="executiveSummaryForm">
           <div class="form-group">
-            <quill-editor [style]="editorStyle" formControlName="executiveSummaryFormControl" [(ngModel)]="complexRelatorio.executiveSummary">
+            <quill-editor [style]="editorStyle" formControlName="executiveSummaryFormControl"
+                          [(ngModel)]="complexRelatorio.executiveSummary">
 
             </quill-editor>
           </div>
-          <button mat-button color="blue">Submit</button>
+          <button mat-button color="blue" (click)="executiveSummarySubmit()">Submit</button>
         </form>
       </div>
 
@@ -107,7 +108,8 @@
       </div>
       <h1>2 Introduction</h1>
       <h3>2.1 Document Information</h3>
-      <p>This document was issued by {{complexRelatorio.cover.companyLogo}} on {{complexRelatorio.cover.date}}. ©{{complexRelatorio.cover.companyLogo}} {{complexRelatorio.cover.date.split(',')[1]}}</p>
+      <p>This document was issued by {{complexRelatorio.cover.companyLogo}} on {{complexRelatorio.cover.date}}.
+        ©{{complexRelatorio.cover.companyLogo}} {{complexRelatorio.cover.date.split(',')[1]}}</p>
       <h4>Responsibility Statement</h4>
       <p>{{complexRelatorio.introduction.responsibilityStatement}} {{complexRelatorio.cover.companyLogo}}.</p>
       <h4>Classification</h4>
@@ -122,15 +124,15 @@
         </tr>
         <tr>
           <th>Author(s)</th>
-          <td><a *ngFor="let aud of currentProj.auditor">{{aud.name + ', '}}</a></td>
+          <td>{{flatten(auditors,'name')}}</td>
         </tr>
         <tr>
           <th>Approver(s)</th>
-          <td><a *ngFor="let rev of currentProj.reviewer">{{rev.name + ', '}}</a></td>
+          <td>{{flatten(reviewers,'name')}}</td>
         </tr>
         <tr>
           <th>Reviewer(s)</th>
-          <td><a *ngFor="let pm of currentProj.projectManager">{{pm.name + ', '}}</a></td>
+          <td>{{flatten(projectManagers,'name')}}</td>
         </tr>
       </table>
     </section>
@@ -149,7 +151,7 @@
           <th>Editor</th>
           <th>Remarks</th>
         </tr>
-        <tr *ngFor="let ver of complexRelatorio.introduction.documentManagement">
+        <tr *ngFor="let ver of documentManagement">
           <td>{{ver.version}}</td>
           <td>{{ver.date}}</td>
           <td>{{ver.editor}}</td>
@@ -158,32 +160,41 @@
       </table>
     </section>
 
-    <!------------------------------------------------Document Management--------------------------------------------------->
-
-    <section class="sheet">
+    <!-----------------------------------------Document Management--------------------------------------------------->
+    <!-----------------------------------------Document Structure--------------------------------------------------->
+    <section class="sheet" (dblclick)="fillAppendices()">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
       <h3>2.2 Document Structure</h3>
-      <p>{{complexRelatorio.introduction.documentStructure.sectionsIntro}}</p>
-      <ul>
-        <li *ngFor="let sec of complexRelatorio.introduction.documentStructure.sections"> {{sec}}</li>
-      </ul>
-      <p>{{complexRelatorio.introduction.documentStructure.appendicesIntro}}</p>
-      <ul>
-        <li *ngFor="let app of complexRelatorio.introduction.documentStructure.appendices"> {{app}}</li>
-      </ul>
-    </section>
+      <div>
+        <form *ngIf="appendicesQuill" [formGroup]="appendicesForm">
+          <div class="form-group">
+            <quill-editor [style]="editorStyle" formControlName="appendicesFormControl"
+                          [(ngModel)]="documentStructure.appendicesIntro">
 
+            </quill-editor>
+          </div>
+          <button mat-button color="blue" (click)="appendicesSubmit()">Submit</button>
+        </form>
+      </div>
+
+      <div *ngIf="!appendicesQuill" [innerHTML]="documentStructure.appendicesIntro | safe:'html'"></div>
+    </section>
+    <!-----------------------------------------Document Structure--------------------------------------------------->
+
+    <!-----------------------------------------Disclaimer--------------------------------------------------->
     <section class="sheet">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
       <h3>2.3 Disclaimer</h3>
-      <p *ngFor="let par of complexRelatorio.introduction.disclaimer"> {{par}} </p>
+      <div [innerHTML]="complexRelatorio.introduction.disclaimer"></div>
     </section>
+    <!-----------------------------------------Disclaimer--------------------------------------------------->
+
 
     <section class="sheet">
       <app-header></app-header>
@@ -217,10 +228,25 @@
           <th>Name</th>
           <th>Contact</th>
         </tr>
-        <tr *ngFor="let cont of complexRelatorio.assessmentInformation.organizationalAndTechnicalContacts">
-          <th>{{cont.role}}</th>
+        <tr *ngFor="let cont of auditors">
+          <th>Security Tester (Auditor)</th>
           <td>{{cont.name}}</td>
-          <td>{{cont.contact}}</td>
+          <td>{{cont.email}}</td>
+        </tr>
+        <tr *ngFor="let cont of reviewers">
+          <th>Security Tester (Reviewer)</th>
+          <td>{{cont.name}}</td>
+          <td>{{cont.email}}</td>
+        </tr>
+        <tr *ngFor="let cont of projectManagers">
+          <th>Security Tester (Project Manager)</th>
+          <td>{{cont.name}}</td>
+          <td>{{cont.email}}</td>
+        </tr>
+        <tr *ngFor="let cont of client">
+          <th>Customer</th>
+          <td>{{cont.name}}</td>
+          <td>{{cont.email}}</td>
         </tr>
       </table>
     </section>
@@ -229,7 +255,7 @@
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
-      <h3>3 Constraints</h3>
+      <h3>3.3 Constraints</h3>
       <p>{{complexRelatorio.assessmentInformation.constraints}}</p>
     </section>
     <section class="sheet">

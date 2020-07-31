@@ -39,7 +39,6 @@ export type AssessmentDetails = {
 export type AssessmentInformation = {
   __typename?: 'AssessmentInformation';
   assessmentScope?: Maybe<AssessmentScope>;
-  organizationalAndTechnicalContacts?: Maybe<Array<Maybe<OrganizationalAndTechnicalContacts>>>;
   constraints?: Maybe<Scalars['String']>;
   proceduresAfterTheAssessment?: Maybe<Scalars['String']>;
 };
@@ -169,10 +168,7 @@ export type DocumentManagement = {
 
 export type DocumentStructure = {
   __typename?: 'DocumentStructure';
-  sectionsIntro?: Maybe<Scalars['String']>;
   appendicesIntro?: Maybe<Scalars['String']>;
-  appendices?: Maybe<Array<Maybe<Scalars['String']>>>;
-  sections?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Finding = {
@@ -200,7 +196,7 @@ export type Introduction = {
   responsibilityStatement?: Maybe<Scalars['String']>;
   documentManagement?: Maybe<Array<Maybe<DocumentManagement>>>;
   documentStructure?: Maybe<DocumentStructure>;
-  disclaimer?: Maybe<Array<Maybe<Scalars['String']>>>;
+  disclaimer?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
@@ -234,6 +230,7 @@ export type Mutation = {
   fillExecutiveSummary: ComplexRelatorio;
   fillDocumentManagement: Scalars['Boolean'];
   deleteVersion: Scalars['Boolean'];
+  fillAppendices: Scalars['Boolean'];
 };
 
 
@@ -437,11 +434,10 @@ export type MutationDeleteVersionArgs = {
   version?: Maybe<Scalars['String']>;
 };
 
-export type OrganizationalAndTechnicalContacts = {
-  __typename?: 'OrganizationalAndTechnicalContacts';
-  role?: Maybe<Scalars['String']>;
-  name?: Maybe<Scalars['String']>;
-  contact?: Maybe<Scalars['String']>;
+
+export type MutationFillAppendicesArgs = {
+  id: Scalars['ID'];
+  appendicesIntro?: Maybe<Scalars['String']>;
 };
 
 export type PrivilegesRequired = {
@@ -819,7 +815,7 @@ export type FetchComplexRelatorioQuery = (
         & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>
       )>>>, documentStructure?: Maybe<(
         { __typename?: 'DocumentStructure' }
-        & Pick<DocumentStructure, 'sectionsIntro' | 'sections' | 'appendicesIntro' | 'appendices'>
+        & Pick<DocumentStructure, 'appendicesIntro'>
       )> }
     )>, assessmentInformation?: Maybe<(
       { __typename?: 'AssessmentInformation' }
@@ -827,10 +823,7 @@ export type FetchComplexRelatorioQuery = (
       & { assessmentScope?: Maybe<(
         { __typename?: 'AssessmentScope' }
         & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>
-      )>, organizationalAndTechnicalContacts?: Maybe<Array<Maybe<(
-        { __typename?: 'OrganizationalAndTechnicalContacts' }
-        & Pick<OrganizationalAndTechnicalContacts, 'role' | 'name' | 'contact'>
-      )>>> }
+      )> }
     )>, summaryOfAssessmentResults?: Maybe<(
       { __typename?: 'SummaryOfAssessmentResults' }
       & { staticInformation?: Maybe<(
@@ -1033,6 +1026,17 @@ export type FetchUsersQuery = (
     { __typename?: 'User' }
     & Pick<User, 'id' | 'name' | 'email'>
   )>> }
+);
+
+export type FillAppendicesMutationVariables = Exact<{
+  id: Scalars['ID'];
+  appendicesIntro?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillAppendicesMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'fillAppendices'>
 );
 
 export type FillCoverMutationVariables = Exact<{
@@ -1434,10 +1438,7 @@ export const FetchComplexRelatorioDocument = gql`
         remarks
       }
       documentStructure {
-        sectionsIntro
-        sections
         appendicesIntro
-        appendices
       }
       disclaimer
     }
@@ -1447,11 +1448,6 @@ export const FetchComplexRelatorioDocument = gql`
         assetNames
         assetsDescription
         assetAddresses
-      }
-      organizationalAndTechnicalContacts {
-        role
-        name
-        contact
       }
       constraints
       proceduresAfterTheAssessment
@@ -1797,6 +1793,19 @@ export const FetchUsersDocument = gql`
   })
   export class FetchUsersGQL extends Apollo.Query<FetchUsersQuery, FetchUsersQueryVariables> {
     document = FetchUsersDocument;
+    
+  }
+export const FillAppendicesDocument = gql`
+    mutation fillAppendices($id: ID!, $appendicesIntro: String) {
+  fillAppendices(id: $id, appendicesIntro: $appendicesIntro)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillAppendicesGQL extends Apollo.Mutation<FillAppendicesMutation, FillAppendicesMutationVariables> {
+    document = FillAppendicesDocument;
     
   }
 export const FillCoverDocument = gql`
