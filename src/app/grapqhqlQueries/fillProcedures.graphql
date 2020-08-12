@@ -1,0 +1,9 @@
+mutation fillProcedures(
+  $id: ID!,
+  $procedures: String,
+){
+  fillProcedures(
+    id: $id,
+    procedures: $procedures,
+  )
+}

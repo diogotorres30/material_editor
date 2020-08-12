@@ -1,0 +1,25 @@
+mutation fillAssessmentScope(
+  $id: ID!,
+  $executionPeriod: String,
+  $assetNames: String,
+  $assetsDescription: String,
+  $assetAddresses: String
+){
+  fillAssessmentScope(
+    id: $id,
+    executionPeriod: $executionPeriod,
+    assetNames: $assetNames,
+    assetsDescription: $assetsDescription,
+    assetAddresses: $assetAddresses
+  ){
+    assessmentInformation{
+      assessmentScope{
+        executionPeriod
+        assetNames
+        assetsDescription
+        assetAddresses
+      }
+    }
+
+  }
+}

@@ -39,11 +39,6 @@ query fetchComplexRelatorio($id: ID!){
     summaryOfAssessmentResults{
       staticInformation{
         intro
-        critical
-        high
-        moderate
-        low
-        minor
         cvss3
         cvss3Metrics{
           availability{

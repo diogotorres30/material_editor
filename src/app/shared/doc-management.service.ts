@@ -38,7 +38,7 @@ export class DocManagementService {
       id: this.relId,
       version: ver.version,
       editor: ver.editor,
-      date: ver.date === '' ? '' : this.datePipe.transform(ver.date, 'dd-MM-yyyy'),
+      date: ver.date === '' ? '' : this.datePipe.transform(ver.date, 'yyyy-MM-dd'),
       remarks: ver.remarks
     }).subscribe(() => {
     });

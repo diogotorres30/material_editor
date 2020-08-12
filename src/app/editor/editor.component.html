@@ -34,7 +34,7 @@
           <mat-header-cell *matHeaderCellDef></mat-header-cell>
           <mat-cell *matCellDef="let row;let i = index;let element">
             <button mat-icon-button>
-              <mat-icon>edit</mat-icon>
+              <mat-icon>add</mat-icon>
             </button>
           </mat-cell>
         </ng-container>
@@ -95,7 +95,7 @@
         </form>
       </div>
 
-      <p *ngIf="!executiveSummaryQuill" [innerHTML]="complexRelatorio.executiveSummary | safe:'html'"></p>
+      <p *ngIf="!executiveSummaryQuill" [innerHTML]="executiveSummary | safe:'html'"></p>
     </section>
 
     <!----------------------------------------------EXECUTIVE SUMMARY------------------------------------------------->
@@ -124,15 +124,15 @@
         </tr>
         <tr>
           <th>Author(s)</th>
-          <td>{{flatten(auditors,'name')}}</td>
+          <td>{{flatten(auditors, 'name')}}</td>
         </tr>
         <tr>
           <th>Approver(s)</th>
-          <td>{{flatten(reviewers,'name')}}</td>
+          <td>{{flatten(reviewers, 'name')}}</td>
         </tr>
         <tr>
           <th>Reviewer(s)</th>
-          <td>{{flatten(projectManagers,'name')}}</td>
+          <td>{{flatten(projectManagers, 'name')}}</td>
         </tr>
       </table>
     </section>
@@ -195,8 +195,8 @@
     </section>
     <!-----------------------------------------Disclaimer--------------------------------------------------->
 
-
-    <section class="sheet">
+    <!-----------------------------------------Assessment Scope--------------------------------------------------->
+    <section class="sheet" (dblclick)="fillAssessmentScope(complexRelatorio)">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
@@ -250,51 +250,77 @@
         </tr>
       </table>
     </section>
-    <section class="sheet">
+    <!-----------------------------------------Assessment Scope--------------------------------------------------->
+
+    <!-----------------------------------------Constraints--------------------------------------------------->
+    <section class="sheet" (dblclick)="fillConstraints()">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
       <h3>3.3 Constraints</h3>
-      <p>{{complexRelatorio.assessmentInformation.constraints}}</p>
+      <div>
+        <form *ngIf="constraintsQuill" [formGroup]="constraintsForm">
+          <div class="form-group">
+            <quill-editor [style]="editorStyle" formControlName="constraintsFormControl"
+                          [(ngModel)]="constraints">
+
+            </quill-editor>
+          </div>
+          <button mat-button color="blue" (click)="constraintsSubmit()">Submit</button>
+        </form>
+      </div>
+
+      <div *ngIf="!constraintsQuill" [innerHTML]="constraints | safe:'html'"></div>
     </section>
-    <section class="sheet">
+    <!-----------------------------------------Constraints--------------------------------------------------->
+
+    <!-------------------------------------Procedures After The Assessment------------------------------------>
+    <section class="sheet" (dblclick)="fillProcedures()">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
       <h3>3.4 Procedures After the Assessment</h3>
-      {{complexRelatorio.assessmentInformation.proceduresAfterTheAssessment}}
+      <div>
+        <form *ngIf="proceduresQuill" [formGroup]="proceduresForm">
+          <div class="form-group">
+            <quill-editor [style]="editorStyle" formControlName="proceduresFormControl"
+                          [(ngModel)]="procedures">
+
+            </quill-editor>
+          </div>
+          <button mat-button color="blue" (click)="proceduresSubmit()">Submit</button>
+        </form>
+      </div>
+
+      <div *ngIf="!proceduresQuill" [innerHTML]="procedures | safe:'html'"></div>
     </section>
+    <!-------------------------------------Procedures After The Assessment------------------------------------>
+
+    <!-------------------------------------Summary of Assessment Results------------------------------------>
     <section class="sheet">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
       <h1>4 Summary of Assessment Results</h1>
-      <p *ngFor="let intro of complexRelatorio.summaryOfAssessmentResults.staticInformation.intro">{{intro}}</p>
-      <h3>Critical</h3>
-      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.critical}}</p>
-      <h3>High</h3>
-      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.high}}</p>
-      <h3>Moderate</h3>
-      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.moderate}}</p>
-      <h3>Low</h3>
-      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.low}}</p>
-      <h3>Minor</h3>
-      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.minor}}</p>
+      <div [innerHTML]="staticInformation.intro | safe:'html'"></div>
     </section>
+    <!-------------------------------------Summary of Assessment Results------------------------------------>
+
+    <!-------------------------------------CVSS 3.0------------------------------------>
     <section class="sheet">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
       <h3>CVSS 3.0</h3>
-      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3}}</p>
+      <p>{{staticInformation.cvss3}}</p>
       <h3>CVSS 3.0 Metrics</h3>
 
       <div
-        *ngFor="let metric of objectKeys(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics).reverse().splice(1,1)">
+        *ngFor="let metric of cvss3Metrics.slice(0,1)">
         <h4>{{capitalizeAndInitials(metric.toString())}}</h4>
         <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric]["intro"]}}</p>
         <table style="width: 100%" class="bordered">
@@ -305,10 +331,12 @@
           </tr>
         </table>
       </div>
-
     </section>
+    <!-------------------------------------CVSS 3.0------------------------------------>
+
+    <!-------------------------------------CVSS 3.0 Metrics------------------------------------>
     <section class="sheet"
-             *ngFor="let metric of objectKeys(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics).reverse().splice(2,7)">
+             *ngFor="let metric of cvss3Metrics.slice(1,8)">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
@@ -323,9 +351,11 @@
         </tr>
       </table>
     </section>
+    <!-------------------------------------CVSS 3.0 Metrics------------------------------------>
 
+    <!-------------------------------------Summary of Assessment Results------------------------------------>
     <section class="sheet"
-             *ngFor="let vul of objectKeys(complexRelatorio.summaryOfAssessmentResults).reverse().splice(1,5);let i = index">
+             *ngFor="let vul of severities;let i = index">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
@@ -344,13 +374,15 @@
           <tr *ngFor="let issue of complexRelatorio.summaryOfAssessmentResults[vul]['summarizedIssues']">
             <td>{{issue['vulnerability']}}</td>
             <td>{{issue['description']}}</td>
-            <td>{{issue['details']}}</td>
+            <td><!--{{issue['details']}}--> TODO</td>
           </tr>
         </table>
       </ng-template>
-
     </section>
-    <section class="sheet">
+    <!-------------------------------------Summary of Assessment Results------------------------------------>
+
+    <!------------------------------------------------------------------------->
+    <section class="sheet" id="newTarget">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
@@ -358,32 +390,82 @@
       <h1>5 Assessment Details</h1>
       <p>{{complexRelatorio.assessmentDetails.intro}}</p>
     </section>
-    <section class="sheet"
-             *ngFor="let vul of objectKeys(complexRelatorio.assessmentDetails).reverse().splice(1,5);let i = index">
-      <app-header></app-header>
-      <div class="footerDiv">
-        <app-footer></app-footer>
-      </div>
-      <h3>{{'5.' + (i + 1).toString() + ' ' + capitalize(vul)}}</h3>
-      <p
-        *ngIf="complexRelatorio.assessmentDetails[vul]['detailedIssues'].length < 1; else emptyParagraph">{{complexRelatorio.assessmentDetails[vul]['empty']}}</p>
-      <ng-template #emptyParagraph>
-        <div *ngFor="let issue of complexRelatorio.assessmentDetails[vul]['detailedIssues']; let j = index">
-          <h4>{{'5.' + (i + 1).toString() + '.' + (j + 1).toString() + ' ' + issue['title']}}</h4>
+    <!------------------------------------------------------------------------->
+    <!--  <section class="sheet"-->
+    <!--           *ngFor="let vul of severities;let i = index" id="{{vul}}">-->
+
+    <!--    <app-header></app-header>-->
+    <!--    <div class="footerDiv">-->
+    <!--      <app-footer></app-footer>-->
+    <!--    </div>-->
+    <!--    <h3>{{'5.' + (i + 1).toString() + ' ' + capitalize(vul)}}</h3>-->
+    <!--    <p-->
+    <!--      *ngIf="complexRelatorio.assessmentDetails[vul]['detailedIssues'].length < 1; else emptyParagraph">{{complexRelatorio.assessmentDetails[vul]['empty']}}</p>-->
+    <!--    <ng-template #emptyParagraph>-->
+    <!--      <div *ngFor="let issue of complexRelatorio.assessmentDetails[vul]['detailedIssues']; let j = index">-->
+    <!--        <h4>{{'5.' + (i + 1).toString() + '.' + (j + 1).toString() + ' ' + issue['title']}}</h4>-->
+    <!--        <mat-divider></mat-divider>-->
+    <!--        <h4>Description</h4>-->
+    <!--        <p>{{issue['description']}}</p>-->
+    <!--        <h4>Impact</h4>-->
+    <!--        <p>{{issue['impact']}}</p>-->
+    <!--        <h4>Remediation</h4>-->
+    <!--        <p>{{issue['remediation']}}</p>-->
+    <!--        <h4>CVSS Vector</h4>-->
+    <!--        <a href="{{'https://www.first.org/cvss/calculator/3.0#'+issue['cvssVector']}}">{{issue['cvssVector']}}</a>-->
+    <!--        <h4>Other references</h4>-->
+    <!--        <a href="{{issue['otherReferences']}}">{{issue['otherReferences']}}</a>-->
+    <!--      </div>-->
+    <!--    </ng-template>-->
+    <!--  </section>-->
+    <div *ngFor="let sev of severities;let i = index">
+      <section class="sheet" *ngIf="complexRelatorio.assessmentDetails[sev]['detailedIssues'].length < 1">
+        <app-header></app-header>
+        <div class="footerDiv">
+          <app-footer></app-footer>
+        </div>
+        <h3>{{'5.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
+        <p
+          >{{complexRelatorio.assessmentDetails[sev]['empty']}}</p>
+      </section>
+
+      <div *ngFor="let finding of complexRelatorio.assessmentDetails[sev]['detailedIssues']; let zz = index">
+        <section class="sheet">
+          <app-header></app-header>
+          <div class="footerDiv">
+            <app-footer></app-footer>
+          </div>
+          <h3 *ngIf="zz==0">{{'5.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
+
+          <h4>{{'5.1.' + (zz + 1).toString() + ' ' + finding['title']}}</h4>
           <mat-divider></mat-divider>
           <h4>Description</h4>
-          <p>{{issue['description']}}</p>
+          <p>{{finding['description']}}</p>
           <h4>Impact</h4>
-          <p>{{issue['impact']}}</p>
+          <p>{{finding['impact']}}</p>
           <h4>Remediation</h4>
-          <p>{{issue['remediation']}}</p>
+          <p>{{finding['remediation']}}</p>
           <h4>CVSS Vector</h4>
-          <a href="{{'https://www.first.org/cvss/calculator/3.0#'+issue['cvssVector']}}">{{issue['cvssVector']}}</a>
+          <a href="{{'https://www.first.org/cvss/calculator/3.0#'+finding['cvssVector']}}">{{finding['cvssVector']}}</a>
           <h4>Other references</h4>
-          <a href="{{issue['otherReferences']}}">{{issue['otherReferences']}}</a>
-        </div>
-      </ng-template>
-    </section>
+          <a href="{{finding['otherReferences']}}">{{finding['otherReferences']}}</a>
+        </section>
+
+        <section class="sheet">
+          <app-header></app-header>
+          <div class="footerDiv">
+            <app-footer></app-footer>
+          </div>
+            <h4>Technical details</h4>
+            <p>{{finding['technicalDetails']}}</p>
+            <h4>Current Status</h4>
+            <p>{{finding['currentStatus']}}</p>
+        </section>
+      </div>
+
+    </div>
+
+
     <section class="sheet">
       <app-header></app-header>
       <div class="footerDiv">

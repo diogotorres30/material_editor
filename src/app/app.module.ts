@@ -31,6 +31,7 @@ import {CoverComponent} from './editor/cover/cover.component';
 import {SafePipe} from './safe.pipe';
 import {DocManagementComponent} from './editor/doc-management/doc-management.component';
 import {VersionComponent} from './editor/version/version.component';
+import {AssessmentScopeComponent} from './editor/assessment-scope/assessment-scope.component';
 
 @NgModule({
   // tslint:disable-next-line:max-line-length
@@ -53,7 +54,8 @@ import {VersionComponent} from './editor/version/version.component';
     CoverComponent,
     SafePipe,
     DocManagementComponent,
-    VersionComponent],
+    VersionComponent,
+    AssessmentScopeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -75,7 +77,9 @@ import {VersionComponent} from './editor/version/version.component';
     NewUserComponent,
     CoverComponent,
     DocManagementComponent,
-    VersionComponent]
+    VersionComponent,
+    AssessmentScopeComponent
+  ]
 })
 export class AppModule {
 }

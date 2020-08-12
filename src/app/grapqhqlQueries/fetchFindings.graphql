@@ -7,5 +7,7 @@ query fetchFindings{
     cvssVector
     severity
     otherReferences
+    technicalDetails
+    currentStatus
   }
 }

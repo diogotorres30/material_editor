@@ -23,7 +23,9 @@ import {
   FetchFindingsGQL,
   FetchProjectGQL,
   FillAppendicesGQL,
+  FillConstraintsGQL,
   FillExecutiveSummaryGQL,
+  FillProceduresGQL,
   Finding,
   Integrity,
   Introduction,
@@ -33,6 +35,7 @@ import {
   ProjectManager,
   Relatorio,
   Reviewer,
+  Scalars,
   Scope,
   StaticInformation,
   SummarizedIssue,
@@ -43,10 +46,12 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {CoverService} from '../shared/cover.service';
+import {AssessmentScopeService} from '../shared/assessment-scope.service';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {CoverComponent} from './cover/cover.component';
 import {DocManagementService} from '../shared/doc-management.service';
 import {DocManagementComponent} from './doc-management/doc-management.component';
+import {AssessmentScopeComponent} from './assessment-scope/assessment-scope.component';
 
 @Component({
   selector: 'app-editor',
@@ -68,9 +73,31 @@ export class EditorComponent implements OnInit {
   searchKey: string;
   executiveSummaryForm: FormGroup;
   appendicesForm: FormGroup;
+  constraintsForm: FormGroup;
+  proceduresForm: FormGroup;
   // executiveSummaryContent: string;
   executiveSummaryQuill = false;
   appendicesQuill = false;
+  constraintsQuill = false;
+  proceduresQuill = false;
+  severities = [
+    'criticalSeverityVulnerabilities',
+    'highSeverityVulnerabilities',
+    'moderateSeverityVulnerabilities',
+    'lowSeverityVulnerabilities',
+    'minorSeverityVulnerabilities',
+  ];
+
+  cvss3Metrics = [
+    'attackVector',
+    'attackComplexity',
+    'privilegesRequired',
+    'userInteraction',
+    'scope',
+    'confidentiality',
+    'integrity',
+    'availability'
+  ];
   editorStyle = {
     height: '800px'
   };
@@ -87,13 +114,19 @@ export class EditorComponent implements OnInit {
   documentStructure: Maybe<{ __typename?: 'DocumentStructure' } & Pick<DocumentStructure, 'appendicesIntro'>>;
   client: Maybe<Array<{ __typename?: 'Client' } & Pick<Client, 'id' | 'name' | 'email'>>>;
   private auxString: string;
+
+  constraints: Maybe<Scalars['String']>;
+  procedures: Maybe<Scalars['String']>;
+  // tslint:disable-next-line:max-line-length
   complexRelatorio: { __typename?: 'ComplexRelatorio' } & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary'> & {
     cover?: Maybe<{ __typename?: 'Cover' } & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>>; introduction?: Maybe<{ __typename?: 'Introduction' } & Pick<Introduction, 'responsibilityStatement' | 'disclaimer'> & { documentManagement?: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>>; documentStructure?: Maybe<{ __typename?: 'DocumentStructure' } & Pick<DocumentStructure, 'appendicesIntro'>> }>; assessmentInformation?: Maybe<{ __typename?: 'AssessmentInformation' } & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'> & { assessmentScope?: Maybe<{ __typename?: 'AssessmentScope' } & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: 'SummaryOfAssessmentResults' } & {
-      staticInformation?: Maybe<{ __typename?: 'StaticInformation' } & Pick<StaticInformation, 'intro' | 'critical' | 'high' | 'moderate' | 'low' | 'minor' | 'cvss3'> & { cvss3Metrics?: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }> }>; minorSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; lowSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; moderateSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; criticalSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; highSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>
+      staticInformation?: Maybe<{ __typename?: 'StaticInformation' } & Pick<StaticInformation, 'intro' | 'cvss3'> & { cvss3Metrics?: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }> }>; minorSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; lowSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; moderateSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; criticalSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; highSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>
     }>; assessmentDetails?: Maybe<{ __typename?: 'AssessmentDetails' } & Pick<AssessmentDetails, 'intro'> & {
       minorSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; lowSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; moderateSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; criticalSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; highSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>
     }>; appendix?: Maybe<{ __typename?: 'Appendix' } & Pick<Appendix, 'tools' | 'evidences'>>
   };
+  staticInformation: Maybe<{ __typename?: 'StaticInformation' } & Pick<StaticInformation, 'intro' | 'cvss3'> & { cvss3Metrics?: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }> }>;
+  executiveSummary: Maybe<Scalars['String']>;
 
 
   constructor(
@@ -106,7 +139,10 @@ export class EditorComponent implements OnInit {
     private fillExecutiveSummaryGQL: FillExecutiveSummaryGQL,
     private fetchProjectGQL: FetchProjectGQL,
     private docManagementService: DocManagementService,
-    private fillAppendicesGQL: FillAppendicesGQL
+    private fillAppendicesGQL: FillAppendicesGQL,
+    private assessmentScopeService: AssessmentScopeService,
+    private fillConstraintsGQL: FillConstraintsGQL,
+    private fillProceduresGQL: FillProceduresGQL
   ) {
   }
 
@@ -130,7 +166,11 @@ export class EditorComponent implements OnInit {
       this.complexRelatorio = result.data.fetchComplexRelatorio;
       this.documentManagement = result.data.fetchComplexRelatorio.introduction.documentManagement;
       this.documentStructure = result.data.fetchComplexRelatorio.introduction.documentStructure;
+      this.constraints = result.data.fetchComplexRelatorio.assessmentInformation.constraints;
+      this.procedures = result.data.fetchComplexRelatorio.assessmentInformation.proceduresAfterTheAssessment;
       this.coverService.complexrelatorio2 = result.data.fetchComplexRelatorio;
+      this.staticInformation = result.data.fetchComplexRelatorio.summaryOfAssessmentResults.staticInformation;
+      this.executiveSummary = result.data.fetchComplexRelatorio.executiveSummary;
 
       let vulCounter = 1;
       let subVulCounter = 1;
@@ -147,9 +187,9 @@ export class EditorComponent implements OnInit {
       this.createTdRow('', '3.4 Procedures After the Assessment', '9', 'initialContents');
       this.createRow('4', 'Summary of Assessment Results', '10', 'summarizedVulnerabilities');
 
-      let severities = Object.keys(result.data.fetchComplexRelatorio.summaryOfAssessmentResults).reverse().splice(1, 5);
+      // let severities = Object.keys(result.data.fetchComplexRelatorio.summaryOfAssessmentResults).reverse().splice(1, 5);
       let indexCount = 19;
-      for (const vul of severities) {
+      for (const vul of this.severities) {
         this.createTdRow('', '4.' + vulCounter + ' ' + this.capitalize(vul), indexCount.toString(), 'summarizedVulnerabilities');
         if (result.data.fetchComplexRelatorio.summaryOfAssessmentResults[vul].summarizedIssues.length > 0) {
           indexCount = indexCount + result.data.fetchComplexRelatorio.summaryOfAssessmentResults[vul].summarizedIssues.length;
@@ -163,8 +203,8 @@ export class EditorComponent implements OnInit {
       this.createRow('5', 'Assessment Details', indexCount.toString(), 'detailedVulnerabilities');
       indexCount++;
 
-      severities = Object.keys(result.data.fetchComplexRelatorio.assessmentDetails).reverse().splice(1, 5);
-      for (const vul of severities) {
+      // severities = Object.keys(result.data.fetchComplexRelatorio.assessmentDetails).reverse().splice(1, 5);
+      for (const vul of this.severities) {
         this.createTdRow('', '5.' + vulCounter + ' ' + this.capitalize(vul), indexCount.toString(), 'detailedVulnerabilities');
         if (result.data.fetchComplexRelatorio.assessmentDetails[vul].detailedIssues.length < 1) {
           indexCount++;
@@ -179,6 +219,13 @@ export class EditorComponent implements OnInit {
         vulCounter++;
       }
 
+      for (const vul of this.severities) {
+        const sec = document.createElement('section');
+        sec.setAttribute('class', 'sheet');
+        sec.textContent = vul;
+        document.getElementById('critical').insertAdjacentElement('afterend', sec);
+      }
+
     });
 
 
@@ -187,6 +234,12 @@ export class EditorComponent implements OnInit {
     });
     this.appendicesForm = new FormGroup({
       appendicesFormControl: new FormControl(null)
+    });
+    this.constraintsForm = new FormGroup({
+      constraintsFormControl: new FormControl(null)
+    });
+    this.proceduresForm = new FormGroup({
+      proceduresFormControl: new FormControl(null)
     });
   }
 
@@ -300,6 +353,26 @@ export class EditorComponent implements OnInit {
     this.appendicesQuill = false;
   }
 
+  constraintsSubmit() {
+    // this.appendixContent = this.executiveSummaryForm.get('executiveSummaryFormControl').value;
+    this.fillConstraintsGQL.mutate({
+      id: this.complexRelatorio.id,
+      constraints: this.constraintsForm.get('constraintsFormControl').value
+    }).subscribe(() => {
+    });
+    this.constraintsQuill = false;
+  }
+
+  proceduresSubmit() {
+    // this.appendixContent = this.executiveSummaryForm.get('executiveSummaryFormControl').value;
+    this.fillProceduresGQL.mutate({
+      id: this.complexRelatorio.id,
+      procedures: this.proceduresForm.get('proceduresFormControl').value
+    }).subscribe(() => {
+    });
+    this.proceduresQuill = false;
+  }
+
 
   fillExecutiveSummary() {
     this.executiveSummaryQuill = true;
@@ -316,5 +389,23 @@ export class EditorComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
     this.dialog.open(DocManagementComponent, dialogConfig);
+  }
+
+  fillAssessmentScope(rel) {
+    this.assessmentScopeService.relId = rel.id;
+    this.assessmentScopeService.initializeFormGroup(rel);
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = '80%';
+    this.dialog.open(AssessmentScopeComponent, dialogConfig);
+  }
+
+
+  fillConstraints() {
+    this.constraintsQuill = true;
+  }
+
+  fillProcedures() {
+    this.proceduresQuill = true;
   }
 }

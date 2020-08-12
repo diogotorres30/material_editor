@@ -231,6 +231,9 @@ export type Mutation = {
   fillDocumentManagement: Scalars['Boolean'];
   deleteVersion: Scalars['Boolean'];
   fillAppendices: Scalars['Boolean'];
+  fillConstraints: Scalars['Boolean'];
+  fillProcedures: Scalars['Boolean'];
+  fillAssessmentScope: ComplexRelatorio;
 };
 
 
@@ -440,6 +443,27 @@ export type MutationFillAppendicesArgs = {
   appendicesIntro?: Maybe<Scalars['String']>;
 };
 
+
+export type MutationFillConstraintsArgs = {
+  id: Scalars['ID'];
+  constraints?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationFillProceduresArgs = {
+  id: Scalars['ID'];
+  procedures?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationFillAssessmentScopeArgs = {
+  id: Scalars['ID'];
+  executionPeriod?: Maybe<Scalars['String']>;
+  assetNames?: Maybe<Scalars['String']>;
+  assetsDescription?: Maybe<Scalars['String']>;
+  assetAddresses?: Maybe<Scalars['String']>;
+};
+
 export type PrivilegesRequired = {
   __typename?: 'PrivilegesRequired';
   intro?: Maybe<Scalars['String']>;
@@ -593,14 +617,9 @@ export type Scope = {
 
 export type StaticInformation = {
   __typename?: 'StaticInformation';
-  critical?: Maybe<Scalars['String']>;
-  high?: Maybe<Scalars['String']>;
-  moderate?: Maybe<Scalars['String']>;
-  low?: Maybe<Scalars['String']>;
-  minor?: Maybe<Scalars['String']>;
+  intro?: Maybe<Scalars['String']>;
   cvss3?: Maybe<Scalars['String']>;
   cvss3Metrics?: Maybe<Cvss3Metrics>;
-  intro?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type Subscription = {
@@ -828,7 +847,7 @@ export type FetchComplexRelatorioQuery = (
       { __typename?: 'SummaryOfAssessmentResults' }
       & { staticInformation?: Maybe<(
         { __typename?: 'StaticInformation' }
-        & Pick<StaticInformation, 'intro' | 'critical' | 'high' | 'moderate' | 'low' | 'minor' | 'cvss3'>
+        & Pick<StaticInformation, 'intro' | 'cvss3'>
         & { cvss3Metrics?: Maybe<(
           { __typename?: 'Cvss3Metrics' }
           & { availability?: Maybe<(
@@ -1039,6 +1058,40 @@ export type FillAppendicesMutation = (
   & Pick<Mutation, 'fillAppendices'>
 );
 
+export type FillAssessmentScopeMutationVariables = Exact<{
+  id: Scalars['ID'];
+  executionPeriod?: Maybe<Scalars['String']>;
+  assetNames?: Maybe<Scalars['String']>;
+  assetsDescription?: Maybe<Scalars['String']>;
+  assetAddresses?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillAssessmentScopeMutation = (
+  { __typename?: 'Mutation' }
+  & { fillAssessmentScope: (
+    { __typename?: 'ComplexRelatorio' }
+    & { assessmentInformation?: Maybe<(
+      { __typename?: 'AssessmentInformation' }
+      & { assessmentScope?: Maybe<(
+        { __typename?: 'AssessmentScope' }
+        & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>
+      )> }
+    )> }
+  ) }
+);
+
+export type FillConstraintsMutationVariables = Exact<{
+  id: Scalars['ID'];
+  constraints?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillConstraintsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'fillConstraints'>
+);
+
 export type FillCoverMutationVariables = Exact<{
   id: Scalars['ID'];
   companyLogo?: Maybe<Scalars['String']>;
@@ -1088,6 +1141,17 @@ export type FillExecutiveSummaryMutation = (
     { __typename?: 'ComplexRelatorio' }
     & Pick<ComplexRelatorio, 'executiveSummary'>
   ) }
+);
+
+export type FillProceduresMutationVariables = Exact<{
+  id: Scalars['ID'];
+  procedures?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillProceduresMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'fillProcedures'>
 );
 
 export type NewProjectMutationVariables = Exact<{
@@ -1455,11 +1519,6 @@ export const FetchComplexRelatorioDocument = gql`
     summaryOfAssessmentResults {
       staticInformation {
         intro
-        critical
-        high
-        moderate
-        low
-        minor
         cvss3
         cvss3Metrics {
           availability {
@@ -1808,6 +1867,41 @@ export const FillAppendicesDocument = gql`
     document = FillAppendicesDocument;
     
   }
+export const FillAssessmentScopeDocument = gql`
+    mutation fillAssessmentScope($id: ID!, $executionPeriod: String, $assetNames: String, $assetsDescription: String, $assetAddresses: String) {
+  fillAssessmentScope(id: $id, executionPeriod: $executionPeriod, assetNames: $assetNames, assetsDescription: $assetsDescription, assetAddresses: $assetAddresses) {
+    assessmentInformation {
+      assessmentScope {
+        executionPeriod
+        assetNames
+        assetsDescription
+        assetAddresses
+      }
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillAssessmentScopeGQL extends Apollo.Mutation<FillAssessmentScopeMutation, FillAssessmentScopeMutationVariables> {
+    document = FillAssessmentScopeDocument;
+    
+  }
+export const FillConstraintsDocument = gql`
+    mutation fillConstraints($id: ID!, $constraints: String) {
+  fillConstraints(id: $id, constraints: $constraints)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillConstraintsGQL extends Apollo.Mutation<FillConstraintsMutation, FillConstraintsMutationVariables> {
+    document = FillConstraintsDocument;
+    
+  }
 export const FillCoverDocument = gql`
     mutation fillCover($id: ID!, $companyLogo: String, $reportTitle: String, $targetCompany: String, $classification: String, $version: String, $remarks: String, $date: String) {
   fillCover(id: $id, companyLogo: $companyLogo, reportTitle: $reportTitle, targetCompany: $targetCompany, classification: $classification, version: $version, remarks: $remarks, date: $date) {
@@ -1857,6 +1951,19 @@ export const FillExecutiveSummaryDocument = gql`
   })
   export class FillExecutiveSummaryGQL extends Apollo.Mutation<FillExecutiveSummaryMutation, FillExecutiveSummaryMutationVariables> {
     document = FillExecutiveSummaryDocument;
+    
+  }
+export const FillProceduresDocument = gql`
+    mutation fillProcedures($id: ID!, $procedures: String) {
+  fillProcedures(id: $id, procedures: $procedures)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillProceduresGQL extends Apollo.Mutation<FillProceduresMutation, FillProceduresMutationVariables> {
+    document = FillProceduresDocument;
     
   }
 export const NewProjectDocument = gql`

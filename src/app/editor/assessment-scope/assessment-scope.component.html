@@ -1,0 +1,62 @@
+<script src="assessment-scope.component.ts"></script>
+<form [formGroup]="assessmentScopeService.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="2" rowHeight="300px">
+    <mat-grid-tile>
+      <div class="controllers-container">
+        <!--        <input type="hidden" formControlName="$key">-->
+
+        <mat-form-field>
+          <input formControlName="executionPeriodFrom" matInput [matDatepicker]="fromPicker"
+                 placeholder="Execution Period From">
+          <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
+          <mat-datepicker #fromPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input formControlName="executionPeriodTo" matInput [matDatepicker]="toPicker"
+                 placeholder="Execution Period To">
+          <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
+          <mat-datepicker #toPicker></mat-datepicker>
+        </mat-form-field>
+
+
+      </div>
+    </mat-grid-tile>
+
+    <mat-grid-tile>
+      <div class="controllers-container">
+
+        <mat-form-field>
+          <mat-label>Asset Name(s)</mat-label>
+          <input formControlName="assetNames" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Asset(s) Description</mat-label>
+          <input formControlName="assetsDescription" matInput>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Asset Address(es)/URL(s)</mat-label>
+          <input formControlName="assetAddresses" matInput>
+        </mat-form-field>
+
+        <!--<mat-form-field>
+          <input matInput [matDatepicker]=" picker" placeholder="Hire Date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          &lt;!&ndash; <button matSuffix [matDatepickerToggle]="picker"></button> &ndash;&gt;
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>-->
+        <!--<div class="add-bottom-padding">
+          <mat-checkbox formControlName="isPermanent">Permanent Employee</mat-checkbox>
+        </div>-->
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit"
+                  [disabled]="assessmentScopeService.form.invalid">Submit
+          </button>
+          <button mat-raised-button color="warn" type="reset">Clear</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

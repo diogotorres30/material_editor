@@ -1,0 +1,9 @@
+mutation fillConstraints(
+  $id: ID!,
+  $constraints: String,
+){
+  fillConstraints(
+    id: $id,
+    constraints: $constraints,
+  )
+}
