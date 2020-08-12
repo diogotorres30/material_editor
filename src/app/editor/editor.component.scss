@@ -78,3 +78,17 @@ section {
   text-align: right;
   padding: 15%
 }
+
+.criticalSeverityVulnerabilities{
+  border-top-color: red;
+}.highSeverityVulnerabilities{
+  border-top-color: orange;
+}.moderateSeverityVulnerabilities{
+  border-top-color: yellow;
+}.lowSeverityVulnerabilities{
+  border-top-color: green;
+}.minorSeverityVulnerabilities{
+  border-top-color: gray;
+}
+
+

@@ -172,6 +172,7 @@ export class EditorComponent implements OnInit {
       this.staticInformation = result.data.fetchComplexRelatorio.summaryOfAssessmentResults.staticInformation;
       this.executiveSummary = result.data.fetchComplexRelatorio.executiveSummary;
 
+
       let vulCounter = 1;
       let subVulCounter = 1;
 
@@ -219,13 +220,6 @@ export class EditorComponent implements OnInit {
         vulCounter++;
       }
 
-      for (const vul of this.severities) {
-        const sec = document.createElement('section');
-        sec.setAttribute('class', 'sheet');
-        sec.textContent = vul;
-        document.getElementById('critical').insertAdjacentElement('afterend', sec);
-      }
-
     });
 
 
@@ -243,6 +237,17 @@ export class EditorComponent implements OnInit {
     });
   }
 
+  groupArr(data, n) {
+    const group = [];
+    for (let i = 0, j = 0; i < data.length; i++) {
+      if (i >= n && i % n === 0) {
+        j++;
+      }
+      group[j] = group[j] || [];
+      group[j].push(data[i]);
+    }
+    return group;
+  }
 
   fillCover(rel) {
     this.coverService.relId = rel.id;

@@ -354,31 +354,41 @@
     <!-------------------------------------CVSS 3.0 Metrics------------------------------------>
 
     <!-------------------------------------Summary of Assessment Results------------------------------------>
-    <section class="sheet"
-             *ngFor="let vul of severities;let i = index">
-      <app-header></app-header>
-      <div class="footerDiv">
-        <app-footer></app-footer>
+
+    <div *ngFor="let sev of severities;let i = index">
+      <section class="sheet" *ngIf="complexRelatorio.summaryOfAssessmentResults[sev]['summarizedIssues'].length < 1">
+        <app-header></app-header>
+        <div class="footerDiv">
+          <app-footer></app-footer>
+        </div>
+        <h3>{{'4.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
+        <p>{{complexRelatorio.summaryOfAssessmentResults[sev]['notEmpty']}}</p>
+      </section>
+
+      <div *ngFor="let issues of groupArr(complexRelatorio.summaryOfAssessmentResults[sev]['summarizedIssues'],3); let zz = index">
+        <section class="sheet">
+          <app-header></app-header>
+          <div class="footerDiv">
+            <app-footer></app-footer>
+          </div>
+          <h3 *ngIf="zz==0">{{'4.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
+          <table style="width: 100%" class="bordered">
+            <tr>
+              <th>Vulnerability</th>
+              <th>Description</th>
+              <th>Details</th>
+            </tr>
+            <tr *ngFor="let issue of issues">
+              <td>{{issue['vulnerability']}}</td>
+              <td>{{issue['description']}}</td>
+              <td>{{'5.' + (i + 1).toString() + '.' + (zz + 1).toString()}}</td>
+            </tr>
+          </table>
+        </section>
       </div>
-      <h3>{{'4.' + (i + 1).toString() + ' ' + capitalize(vul)}}</h3>
-      <p
-        *ngIf="complexRelatorio.summaryOfAssessmentResults[vul]['summarizedIssues'].length < 1; else emptyParagraph">{{complexRelatorio.summaryOfAssessmentResults[vul]['empty']}}</p>
-      <ng-template #emptyParagraph>
-        <p>{{complexRelatorio.summaryOfAssessmentResults[vul]['notEmpty']}}</p>
-        <table style="width: 100%" class="bordered">
-          <tr>
-            <th>Vulnerability</th>
-            <th>Description</th>
-            <th>Details</th>
-          </tr>
-          <tr *ngFor="let issue of complexRelatorio.summaryOfAssessmentResults[vul]['summarizedIssues']">
-            <td>{{issue['vulnerability']}}</td>
-            <td>{{issue['description']}}</td>
-            <td><!--{{issue['details']}}--> TODO</td>
-          </tr>
-        </table>
-      </ng-template>
-    </section>
+    </div>
+
+
     <!-------------------------------------Summary of Assessment Results------------------------------------>
 
     <!------------------------------------------------------------------------->
@@ -426,7 +436,7 @@
         </div>
         <h3>{{'5.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
         <p
-          >{{complexRelatorio.assessmentDetails[sev]['empty']}}</p>
+        >{{complexRelatorio.assessmentDetails[sev]['empty']}}</p>
       </section>
 
       <div *ngFor="let finding of complexRelatorio.assessmentDetails[sev]['detailedIssues']; let zz = index">
@@ -438,7 +448,7 @@
           <h3 *ngIf="zz==0">{{'5.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
 
           <h4>{{'5.1.' + (zz + 1).toString() + ' ' + finding['title']}}</h4>
-          <mat-divider></mat-divider>
+          <mat-divider [ngClass]="sev"></mat-divider>
           <h4>Description</h4>
           <p>{{finding['description']}}</p>
           <h4>Impact</h4>
@@ -456,10 +466,10 @@
           <div class="footerDiv">
             <app-footer></app-footer>
           </div>
-            <h4>Technical details</h4>
-            <p>{{finding['technicalDetails']}}</p>
-            <h4>Current Status</h4>
-            <p>{{finding['currentStatus']}}</p>
+          <h4>Technical details</h4>
+          <p>{{finding['technicalDetails']}}</p>
+          <h4>Current Status</h4>
+          <p>{{finding['currentStatus']}}</p>
         </section>
       </div>
 
