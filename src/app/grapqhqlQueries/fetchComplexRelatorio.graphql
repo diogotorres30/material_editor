@@ -3,6 +3,18 @@ query fetchComplexRelatorio($id: ID!){
     id
     relId
     projId
+    complexIssues{
+      id
+      severity
+      title
+      description
+      impact
+      remediation
+      cvssVector
+      otherReferences
+      technicalDetails
+      currentStatus
+    }
     cover{
       companyLogo
       reportTitle

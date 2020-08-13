@@ -101,11 +101,26 @@ export type Client = {
   email: Scalars['String'];
 };
 
+export type ComplexIssue = {
+  __typename?: 'ComplexIssue';
+  id: Scalars['ID'];
+  severity?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
+  impact?: Maybe<Scalars['String']>;
+  remediation?: Maybe<Scalars['String']>;
+  cvssVector?: Maybe<Scalars['String']>;
+  otherReferences?: Maybe<Scalars['String']>;
+  technicalDetails?: Maybe<Scalars['String']>;
+  currentStatus?: Maybe<Scalars['String']>;
+};
+
 export type ComplexRelatorio = {
   __typename?: 'ComplexRelatorio';
   id: Scalars['ID'];
   relId: Scalars['String'];
   projId: Scalars['String'];
+  complexIssues?: Maybe<Array<Maybe<ComplexIssue>>>;
   cover?: Maybe<Cover>;
   executiveSummary?: Maybe<Scalars['String']>;
   introduction?: Maybe<Introduction>;
@@ -179,7 +194,6 @@ export type Finding = {
   impact: Scalars['String'];
   remediation?: Maybe<Scalars['String']>;
   cvssVector?: Maybe<Scalars['String']>;
-  severity?: Maybe<Scalars['String']>;
   otherReferences?: Maybe<Scalars['String']>;
 };
 
@@ -234,6 +248,8 @@ export type Mutation = {
   fillConstraints: Scalars['Boolean'];
   fillProcedures: Scalars['Boolean'];
   fillAssessmentScope: ComplexRelatorio;
+  setCriticalIssues?: Maybe<ComplexRelatorio>;
+  addComplexIssue: ComplexRelatorio;
 };
 
 
@@ -462,6 +478,19 @@ export type MutationFillAssessmentScopeArgs = {
   assetNames?: Maybe<Scalars['String']>;
   assetsDescription?: Maybe<Scalars['String']>;
   assetAddresses?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationSetCriticalIssuesArgs = {
+  id: Scalars['ID'];
+  ids?: Maybe<Array<Maybe<Scalars['String']>>>;
+};
+
+
+export type MutationAddComplexIssueArgs = {
+  id: Scalars['ID'];
+  findingId?: Maybe<Scalars['String']>;
+  severity?: Maybe<Scalars['String']>;
 };
 
 export type PrivilegesRequired = {
@@ -823,7 +852,10 @@ export type FetchComplexRelatorioQuery = (
   & { fetchComplexRelatorio: (
     { __typename?: 'ComplexRelatorio' }
     & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary'>
-    & { cover?: Maybe<(
+    & { complexIssues?: Maybe<Array<Maybe<(
+      { __typename?: 'ComplexIssue' }
+      & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+    )>>>, cover?: Maybe<(
       { __typename?: 'Cover' }
       & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
     )>, introduction?: Maybe<(
@@ -965,7 +997,7 @@ export type FetchFindingsQuery = (
   { __typename?: 'Query' }
   & { fetchFindings?: Maybe<Array<(
     { __typename?: 'Finding' }
-    & Pick<Finding, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'severity' | 'otherReferences'>
+    & Pick<Finding, 'id' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences'>
   )>> }
 );
 
@@ -1483,6 +1515,18 @@ export const FetchComplexRelatorioDocument = gql`
     id
     relId
     projId
+    complexIssues {
+      id
+      severity
+      title
+      description
+      impact
+      remediation
+      cvssVector
+      otherReferences
+      technicalDetails
+      currentStatus
+    }
     cover {
       companyLogo
       reportTitle
@@ -1701,12 +1745,12 @@ export const FetchComplexRelatorioDocument = gql`
 export const FetchFindingsDocument = gql`
     query fetchFindings {
   fetchFindings {
+    id
     title
     description
     impact
     remediation
     cvssVector
-    severity
     otherReferences
   }
 }

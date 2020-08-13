@@ -1,13 +1,11 @@
 query fetchFindings{
   fetchFindings{
+    id
     title
     description
     impact
     remediation
     cvssVector
-    severity
     otherReferences
-    technicalDetails
-    currentStatus
   }
 }
