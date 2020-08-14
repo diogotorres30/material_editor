@@ -1,0 +1,3 @@
+mutation removeComplexIssue($id: ID!, $issueId: String){
+  removeComplexIssue(id: $id, issueId: $issueId)
+}

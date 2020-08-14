@@ -250,6 +250,7 @@ export type Mutation = {
   fillAssessmentScope: ComplexRelatorio;
   setCriticalIssues?: Maybe<ComplexRelatorio>;
   addComplexIssue: ComplexRelatorio;
+  removeComplexIssue: Scalars['Boolean'];
 };
 
 
@@ -493,6 +494,12 @@ export type MutationAddComplexIssueArgs = {
   severity?: Maybe<Scalars['String']>;
 };
 
+
+export type MutationRemoveComplexIssueArgs = {
+  id: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+};
+
 export type PrivilegesRequired = {
   __typename?: 'PrivilegesRequired';
   intro?: Maybe<Scalars['String']>;
@@ -696,6 +703,24 @@ export type AddClientToProjectMutationVariables = Exact<{
 export type AddClientToProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'addClientToProject'>
+);
+
+export type AddComplexIssueMutationVariables = Exact<{
+  id: Scalars['ID'];
+  findingId?: Maybe<Scalars['String']>;
+  severity?: Maybe<Scalars['String']>;
+}>;
+
+
+export type AddComplexIssueMutation = (
+  { __typename?: 'Mutation' }
+  & { addComplexIssue: (
+    { __typename?: 'ComplexRelatorio' }
+    & { complexIssues?: Maybe<Array<Maybe<(
+      { __typename?: 'ComplexIssue' }
+      & Pick<ComplexIssue, 'id'>
+    )>>> }
+  ) }
 );
 
 export type CreateClientMutationVariables = Exact<{
@@ -1220,6 +1245,17 @@ export type NewProjectMutation = (
   ) }
 );
 
+export type RemoveComplexIssueMutationVariables = Exact<{
+  id: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type RemoveComplexIssueMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'removeComplexIssue'>
+);
+
 export type RemoveRelatorioFromProjectMutationVariables = Exact<{
   relatorioId: Scalars['ID'];
   projId: Scalars['ID'];
@@ -1343,6 +1379,23 @@ export const AddClientToProjectDocument = gql`
   })
   export class AddClientToProjectGQL extends Apollo.Mutation<AddClientToProjectMutation, AddClientToProjectMutationVariables> {
     document = AddClientToProjectDocument;
+    
+  }
+export const AddComplexIssueDocument = gql`
+    mutation addComplexIssue($id: ID!, $findingId: String, $severity: String) {
+  addComplexIssue(id: $id, findingId: $findingId, severity: $severity) {
+    complexIssues {
+      id
+    }
+  }
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddComplexIssueGQL extends Apollo.Mutation<AddComplexIssueMutation, AddComplexIssueMutationVariables> {
+    document = AddComplexIssueDocument;
     
   }
 export const CreateClientDocument = gql`
@@ -2042,6 +2095,19 @@ export const NewProjectDocument = gql`
   })
   export class NewProjectGQL extends Apollo.Mutation<NewProjectMutation, NewProjectMutationVariables> {
     document = NewProjectDocument;
+    
+  }
+export const RemoveComplexIssueDocument = gql`
+    mutation removeComplexIssue($id: ID!, $issueId: String) {
+  removeComplexIssue(id: $id, issueId: $issueId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveComplexIssueGQL extends Apollo.Mutation<RemoveComplexIssueMutation, RemoveComplexIssueMutationVariables> {
+    document = RemoveComplexIssueDocument;
     
   }
 export const RemoveRelatorioFromProjectDocument = gql`

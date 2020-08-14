@@ -1,5 +1,6 @@
 import {Injectable} from '@angular/core';
 import {
+  AddComplexIssueGQL,
   Appendix,
   AssessmentDetailed,
   AssessmentDetails,
@@ -10,7 +11,8 @@ import {
   AttackVector,
   Auditor,
   Availability,
-  Client, ComplexIssue,
+  Client,
+  ComplexIssue,
   ComplexRelatorio,
   Confidentiality,
   Cover,
@@ -26,7 +28,7 @@ import {
   PrivilegesRequired,
   Project,
   ProjectManager,
-  Relatorio,
+  Relatorio, RemoveComplexIssueGQL,
   Reviewer,
   Scope,
   StaticInformation,
@@ -67,7 +69,9 @@ export class CoverService {
     private fillCoverGQL: FillCoverGQL,
     private datePipe: DatePipe,
     private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL,
-    private fetchProjectGQL: FetchProjectGQL
+    private fetchProjectGQL: FetchProjectGQL,
+    private addComplexIssueGQL: AddComplexIssueGQL,
+    private removeComplexIssueGQL: RemoveComplexIssueGQL
   ) {
     this.fetchComplexRelatorioGQL.watch({id: this.relId}).valueChanges.subscribe(result => {
       console.log(result.data.fetchComplexRelatorio.projId);
@@ -117,4 +121,21 @@ export class CoverService {
     });
   }
 
+  addComplexIssue(id, findingId, severity) {
+    console.log(id + ' ' + findingId + ' ' + severity);
+    this.addComplexIssueGQL.mutate({
+      id,
+      findingId,
+      severity
+    }).subscribe(() => {
+    });
+  }
+
+  removeComplexIssue(id, issueId) {
+    this.removeComplexIssueGQL.mutate({
+      id,
+      issueId
+    }).subscribe(() => {
+    });
+  }
 }

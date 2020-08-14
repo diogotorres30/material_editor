@@ -1,0 +1,7 @@
+mutation addComplexIssue($id: ID!, $findingId: String, $severity: String){
+  addComplexIssue(id: $id, findingId: $findingId, severity: $severity){
+    complexIssues{
+      id
+    }
+  }
+}

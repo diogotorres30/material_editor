@@ -66,14 +66,22 @@ export class EditorComponent implements OnInit {
     'title',
     'actions'
   ];
+
+  complexIssuesColumns: string[] = [
+    'title',
+    'severity',
+    'actions'
+  ];
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) complexIssuesSort: MatSort;
+  @ViewChild('paginator', {static: true}) paginator: MatPaginator;
+  @ViewChild('complexIssuesPaginator', {static: true}) complexIssuesPaginator: MatPaginator;
   searchKey: string;
+  selectedSeverity: string;
   executiveSummaryForm: FormGroup;
   appendicesForm: FormGroup;
   constraintsForm: FormGroup;
   proceduresForm: FormGroup;
-  // executiveSummaryContent: string;
   executiveSummaryQuill = false;
   appendicesQuill = false;
   constraintsQuill = false;
@@ -124,9 +132,9 @@ export class EditorComponent implements OnInit {
     }>; appendix?: Maybe<{ __typename?: 'Appendix' } & Pick<Appendix, 'tools' | 'evidences'>>
   };
   complexIssues: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>>;
-  localListData: Maybe<Array<{ __typename?: 'Finding' } & Pick<Finding, 'id' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences'>>>;
-  jkl: any;
-
+  // localListData: Maybe<Array<{ __typename?: 'Finding' } & Pick<Finding, 'id' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences'>>>;
+  sortedIssues: any;
+  complexIssuesDateSource: MatTableDataSource<any>;
 
   constructor(
     private relatorioFormService: NewRelatorioFormService,
@@ -147,7 +155,7 @@ export class EditorComponent implements OnInit {
 
   ngOnInit() {
     this.fetchFindingsGQL.watch().valueChanges.subscribe(result => {
-      this.localListData = result.data.fetchFindings;
+      // this.localListData = result.data.fetchFindings;
       this.listData = new MatTableDataSource(result.data.fetchFindings);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
@@ -171,16 +179,16 @@ export class EditorComponent implements OnInit {
       this.staticInformation = result.data.fetchComplexRelatorio.summaryOfAssessmentResults.staticInformation;
       this.executiveSummary = result.data.fetchComplexRelatorio.executiveSummary;
       this.complexIssues = result.data.fetchComplexRelatorio.complexIssues;
-      this.jkl = {
-          criticalSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'criticalSeverityVulnerabilities'),
-          highSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'highSeverityVulnerabilities'),
-          moderateSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'moderateSeverityVulnerabilities'),
-          lowSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'lowSeverityVulnerabilities'),
-          minorSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'minorSeverityVulnerabilities')
-        }
-      ;
-      console.log(this.jkl);
-
+      this.complexIssuesDateSource = new MatTableDataSource(result.data.fetchComplexRelatorio.complexIssues);
+      this.complexIssuesDateSource.paginator = this.complexIssuesPaginator;
+      this.complexIssuesDateSource.sort = this.complexIssuesSort;
+      this.sortedIssues = {
+        criticalSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'criticalSeverityVulnerabilities'),
+        highSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'highSeverityVulnerabilities'),
+        moderateSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'moderateSeverityVulnerabilities'),
+        lowSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'lowSeverityVulnerabilities'),
+        minorSeverityVulnerabilities: this.complexIssues.filter(el => el.severity === 'minorSeverityVulnerabilities')
+      };
 
       let vulCounter = 1;
       let subVulCounter = 1;
@@ -423,7 +431,11 @@ export class EditorComponent implements OnInit {
     this.proceduresQuill = true;
   }
 
-  printIssueId(row) {
-    console.log(row.id);
+  printIssueId(rel, finding) {
+    this.coverService.addComplexIssue(rel.id, finding.id, this.selectedSeverity);
+  }
+
+  removeComplexIssue(rel, issue) {
+    this.coverService.removeComplexIssue(rel.id, issue.id);
   }
 }
