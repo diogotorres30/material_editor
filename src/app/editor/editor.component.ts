@@ -209,7 +209,7 @@ export class EditorComponent implements OnInit {
       this.createRow('4', 'Summary of Assessment Results', '10', 'summarizedVulnerabilities');
 
       // let severities = Object.keys(result.data.fetchComplexRelatorio.summaryOfAssessmentResults).reverse().splice(1, 5);
-      let indexCount = 19;
+      let indexCount = 20;
       for (const vul of this.severities) {
         this.createTdRow('', '4.' + vulCounter + ' ' + this.capitalize(vul), indexCount.toString(), 'summarizedVulnerabilities');
         if (this.sortedIssues[vul].length > 0) {

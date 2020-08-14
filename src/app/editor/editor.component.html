@@ -84,8 +84,6 @@
       <mat-paginator #complexIssuesPaginator [pageSizeOptions]="[5, 10, 25, 50]" [pageSize]="5"
                      showFirstLastButtons></mat-paginator>
     </div>
-
-
   </mat-sidenav>
   <mat-sidenav-content>
     <!----------------------------------------------COVER--------------------------------------------------->
@@ -112,6 +110,12 @@
       <table class="contents" id="initialContents">
       </table>
       <table class="contents" id="summarizedVulnerabilities"></table>
+    </section>
+    <section class="sheet" id="moreTableContents">
+      <app-header></app-header>
+      <div class="footerDiv">
+        <app-footer></app-footer>
+      </div>
       <table class="contents" id="detailedVulnerabilities"></table>
     </section>
     <!----------------------------------------------CONTENTS/INDEX--------------------------------------------------->
