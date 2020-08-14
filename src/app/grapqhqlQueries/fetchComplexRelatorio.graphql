@@ -33,9 +33,7 @@ query fetchComplexRelatorio($id: ID!){
         editor
         remarks
       }
-      documentStructure{
-        appendicesIntro
-      }
+      documentStructure
       disclaimer
     }
     assessmentInformation{

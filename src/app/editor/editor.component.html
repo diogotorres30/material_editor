@@ -203,25 +203,25 @@
 
     <!-----------------------------------------Document Management--------------------------------------------------->
     <!-----------------------------------------Document Structure--------------------------------------------------->
-    <section class="sheet" (dblclick)="fillAppendices()">
+    <section class="sheet" (dblclick)="fillDocumentStructure()">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
       <h3>2.2 Document Structure</h3>
       <div>
-        <form *ngIf="appendicesQuill" [formGroup]="appendicesForm">
+        <form *ngIf="documentStructureQuill" [formGroup]="documentStructureForm">
           <div class="form-group">
-            <quill-editor [style]="editorStyle" formControlName="appendicesFormControl"
-                          [(ngModel)]="documentStructure.appendicesIntro">
+            <quill-editor [style]="editorStyle" formControlName="documentStructureFormControl"
+                          [(ngModel)]="documentStructure">
 
             </quill-editor>
           </div>
-          <button mat-button color="blue" (click)="appendicesSubmit()">Submit</button>
+          <button mat-button color="blue" (click)="documentStructureSubmit()">Submit</button>
         </form>
       </div>
 
-      <div *ngIf="!appendicesQuill" [innerHTML]="documentStructure.appendicesIntro | safe:'html'"></div>
+      <div *ngIf="!documentStructureQuill" [innerHTML]="documentStructure | safe:'html'"></div>
     </section>
     <!-----------------------------------------Document Structure--------------------------------------------------->
 
@@ -361,14 +361,14 @@
       <h3>CVSS 3.0 Metrics</h3>
 
       <div
-        *ngFor="let metric of cvss3Metrics.slice(0,1)">
+        *ngFor="let metric of cvss3MetricsNames.slice(0,1)">
         <h4>{{capitalizeAndInitials(metric.toString())}}</h4>
-        <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric]["intro"]}}</p>
+        <p>{{cvss3Metrics[metric]["intro"]}}</p>
         <table style="width: 100%" class="bordered">
           <tr
-            *ngFor="let vari of subset(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric])">
+            *ngFor="let vari of subset(cvss3Metrics[metric])">
             <th>{{capitalizeAndInitials(vari.toString())}}</th>
-            <td>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric][vari]}}</td>
+            <td>{{cvss3Metrics[metric][vari]}}</td>
           </tr>
         </table>
       </div>
@@ -377,18 +377,18 @@
 
     <!-------------------------------------CVSS 3.0 Metrics------------------------------------>
     <section class="sheet"
-             *ngFor="let metric of cvss3Metrics.slice(1,8)">
+             *ngFor="let metric of cvss3MetricsNames.slice(1,8)">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
       </div>
       <h4>{{capitalizeAndInitials(metric.toString())}}</h4>
-      <p>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric]["intro"]}}</p>
+      <p>{{cvss3Metrics[metric]["intro"]}}</p>
       <table style="width: 100%" class="bordered">
         <tr
-          *ngFor="let vari of subset(complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric])">
+          *ngFor="let vari of subset(cvss3Metrics[metric])">
           <th>{{capitalizeAndInitials(vari.toString())}}</th>
-          <td>{{complexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics[metric][vari]}}</td>
+          <td>{{cvss3Metrics[metric][vari]}}</td>
         </tr>
       </table>
     </section>
@@ -402,7 +402,7 @@
           <app-footer></app-footer>
         </div>
         <h3>{{'4.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
-        <p>{{complexRelatorio.summaryOfAssessmentResults[sev]['notEmpty']}}</p>
+        <p>{{'No issues were identified and rated as ' + firstWord(sev) + ' severity.'}} </p>
       </section>
       <div *ngFor="let groupedIssues of groupArr(sortedIssues[sev],3); let zz = index">
         <section class="sheet">
@@ -411,6 +411,7 @@
             <app-footer></app-footer>
           </div>
           <h3 *ngIf="zz==0">{{'4.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
+          <p>{{'The following table contains the summary of the issues that might lead to ' + firstWord(sev) + ' severity vulnerabilities:'}} </p>
           <table style="width: 100%" class="bordered">
             <tr>
               <th>Vulnerability</th>

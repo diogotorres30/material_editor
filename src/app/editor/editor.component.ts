@@ -19,15 +19,13 @@ import {
   Cover,
   DetailedIssue,
   DocumentManagement,
-  DocumentStructure,
   FetchComplexRelatorioGQL,
   FetchFindingsGQL,
   FetchProjectGQL,
-  FillAppendicesGQL,
   FillConstraintsGQL,
+  FillDocumentStructureGQL,
   FillExecutiveSummaryGQL,
   FillProceduresGQL,
-  Finding,
   Integrity,
   Introduction,
   Maybe,
@@ -79,11 +77,11 @@ export class EditorComponent implements OnInit {
   searchKey: string;
   selectedSeverity: string;
   executiveSummaryForm: FormGroup;
-  appendicesForm: FormGroup;
+  documentStructureForm: FormGroup;
   constraintsForm: FormGroup;
   proceduresForm: FormGroup;
   executiveSummaryQuill = false;
-  appendicesQuill = false;
+  documentStructureQuill = false;
   constraintsQuill = false;
   proceduresQuill = false;
   severities = [
@@ -94,7 +92,7 @@ export class EditorComponent implements OnInit {
     'minorSeverityVulnerabilities',
   ];
 
-  cvss3Metrics = [
+  cvss3MetricsNames = [
     'attackVector',
     'attackComplexity',
     'privilegesRequired',
@@ -114,7 +112,6 @@ export class EditorComponent implements OnInit {
   documentManagement: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>>;
 
 
-  documentStructure: Maybe<{ __typename?: 'DocumentStructure' } & Pick<DocumentStructure, 'appendicesIntro'>>;
   client: Maybe<Array<{ __typename?: 'Client' } & Pick<Client, 'id' | 'name' | 'email'>>>;
   private auxString: string;
 
@@ -124,17 +121,21 @@ export class EditorComponent implements OnInit {
   staticInformation: Maybe<{ __typename?: 'StaticInformation' } & Pick<StaticInformation, 'intro' | 'cvss3'> & { cvss3Metrics?: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }> }>;
   executiveSummary: Maybe<Scalars['String']>;
 
+
+  // tslint:disable-next-line:max-line-length
+  complexIssues: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>>;
+  sortedIssues: any;
+  complexIssuesDateSource: MatTableDataSource<any>;
+  documentStructure: Maybe<Scalars['String']>;
   complexRelatorio: { __typename?: 'ComplexRelatorio' } & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary'> & {
-    complexIssues?: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>>; cover?: Maybe<{ __typename?: 'Cover' } & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>>; introduction?: Maybe<{ __typename?: 'Introduction' } & Pick<Introduction, 'responsibilityStatement' | 'disclaimer'> & { documentManagement?: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>>; documentStructure?: Maybe<{ __typename?: 'DocumentStructure' } & Pick<DocumentStructure, 'appendicesIntro'>> }>; assessmentInformation?: Maybe<{ __typename?: 'AssessmentInformation' } & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'> & { assessmentScope?: Maybe<{ __typename?: 'AssessmentScope' } & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: 'SummaryOfAssessmentResults' } & {
+    complexIssues?: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>>; cover?: Maybe<{ __typename?: 'Cover' } & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>>; introduction?: Maybe<{ __typename?: 'Introduction' } & Pick<Introduction, 'responsibilityStatement' | 'documentStructure' | 'disclaimer'> & { documentManagement?: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>> }>; assessmentInformation?: Maybe<{ __typename?: 'AssessmentInformation' } & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'> & { assessmentScope?: Maybe<{ __typename?: 'AssessmentScope' } & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: 'SummaryOfAssessmentResults' } & {
       staticInformation?: Maybe<{ __typename?: 'StaticInformation' } & Pick<StaticInformation, 'intro' | 'cvss3'> & { cvss3Metrics?: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }> }>; minorSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; lowSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; moderateSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; criticalSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; highSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>
     }>; assessmentDetails?: Maybe<{ __typename?: 'AssessmentDetails' } & Pick<AssessmentDetails, 'intro'> & {
       minorSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; lowSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; moderateSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; criticalSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; highSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>
     }>; appendix?: Maybe<{ __typename?: 'Appendix' } & Pick<Appendix, 'tools' | 'evidences'>>
   };
-  complexIssues: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>>;
-  // localListData: Maybe<Array<{ __typename?: 'Finding' } & Pick<Finding, 'id' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences'>>>;
-  sortedIssues: any;
-  complexIssuesDateSource: MatTableDataSource<any>;
+  // tslint:disable-next-line:max-line-length
+  cvss3Metrics: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }>;
 
   constructor(
     private relatorioFormService: NewRelatorioFormService,
@@ -146,7 +147,7 @@ export class EditorComponent implements OnInit {
     private fillExecutiveSummaryGQL: FillExecutiveSummaryGQL,
     private fetchProjectGQL: FetchProjectGQL,
     private docManagementService: DocManagementService,
-    private fillAppendicesGQL: FillAppendicesGQL,
+    private fillDocumentStructureGQL: FillDocumentStructureGQL,
     private assessmentScopeService: AssessmentScopeService,
     private fillConstraintsGQL: FillConstraintsGQL,
     private fillProceduresGQL: FillProceduresGQL
@@ -173,6 +174,7 @@ export class EditorComponent implements OnInit {
       this.complexRelatorio = result.data.fetchComplexRelatorio;
       this.documentManagement = result.data.fetchComplexRelatorio.introduction.documentManagement;
       this.documentStructure = result.data.fetchComplexRelatorio.introduction.documentStructure;
+      this.cvss3Metrics = result.data.fetchComplexRelatorio.summaryOfAssessmentResults.staticInformation.cvss3Metrics;
       this.constraints = result.data.fetchComplexRelatorio.assessmentInformation.constraints;
       this.procedures = result.data.fetchComplexRelatorio.assessmentInformation.proceduresAfterTheAssessment;
       this.coverService.complexrelatorio2 = result.data.fetchComplexRelatorio;
@@ -243,8 +245,8 @@ export class EditorComponent implements OnInit {
     this.executiveSummaryForm = new FormGroup({
       executiveSummaryFormControl: new FormControl(null)
     });
-    this.appendicesForm = new FormGroup({
-      appendicesFormControl: new FormControl(null)
+    this.documentStructureForm = new FormGroup({
+      documentStructureFormControl: new FormControl(null)
     });
     this.constraintsForm = new FormGroup({
       constraintsFormControl: new FormControl(null)
@@ -349,6 +351,11 @@ export class EditorComponent implements OnInit {
     return title;
   }
 
+  firstWord(a) {
+    const parts = a.split(/(?=[A-Z])/);
+    return parts[0];
+  }
+
   onSearchClear() {
     this.searchKey = '';
     this.applyFilter();
@@ -365,14 +372,14 @@ export class EditorComponent implements OnInit {
     this.executiveSummaryQuill = false;
   }
 
-  appendicesSubmit() {
+  documentStructureSubmit() {
     // this.appendixContent = this.executiveSummaryForm.get('executiveSummaryFormControl').value;
-    this.fillAppendicesGQL.mutate({
+    this.fillDocumentStructureGQL.mutate({
       id: this.complexRelatorio.id,
-      appendicesIntro: this.appendicesForm.get('appendicesFormControl').value
+      docStructure: this.documentStructureForm.get('documentStructureFormControl').value
     }).subscribe(() => {
     });
-    this.appendicesQuill = false;
+    this.documentStructureQuill = false;
   }
 
   constraintsSubmit() {
@@ -400,8 +407,8 @@ export class EditorComponent implements OnInit {
     this.executiveSummaryQuill = true;
   }
 
-  fillAppendices() {
-    this.appendicesQuill = true;
+  fillDocumentStructure() {
+    this.documentStructureQuill = true;
   }
 
   fillDocumentManagement(rel) {

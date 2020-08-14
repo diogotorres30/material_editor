@@ -181,11 +181,6 @@ export type DocumentManagement = {
   remarks?: Maybe<Scalars['String']>;
 };
 
-export type DocumentStructure = {
-  __typename?: 'DocumentStructure';
-  appendicesIntro?: Maybe<Scalars['String']>;
-};
-
 export type Finding = {
   __typename?: 'Finding';
   id: Scalars['ID'];
@@ -209,7 +204,7 @@ export type Introduction = {
   __typename?: 'Introduction';
   responsibilityStatement?: Maybe<Scalars['String']>;
   documentManagement?: Maybe<Array<Maybe<DocumentManagement>>>;
-  documentStructure?: Maybe<DocumentStructure>;
+  documentStructure?: Maybe<Scalars['String']>;
   disclaimer?: Maybe<Scalars['String']>;
 };
 
@@ -244,7 +239,7 @@ export type Mutation = {
   fillExecutiveSummary: ComplexRelatorio;
   fillDocumentManagement: Scalars['Boolean'];
   deleteVersion: Scalars['Boolean'];
-  fillAppendices: Scalars['Boolean'];
+  fillDocumentStructure: Scalars['Boolean'];
   fillConstraints: Scalars['Boolean'];
   fillProcedures: Scalars['Boolean'];
   fillAssessmentScope: ComplexRelatorio;
@@ -455,9 +450,9 @@ export type MutationDeleteVersionArgs = {
 };
 
 
-export type MutationFillAppendicesArgs = {
+export type MutationFillDocumentStructureArgs = {
   id: Scalars['ID'];
-  appendicesIntro?: Maybe<Scalars['String']>;
+  docStructure?: Maybe<Scalars['String']>;
 };
 
 
@@ -885,14 +880,11 @@ export type FetchComplexRelatorioQuery = (
       & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
     )>, introduction?: Maybe<(
       { __typename?: 'Introduction' }
-      & Pick<Introduction, 'responsibilityStatement' | 'disclaimer'>
+      & Pick<Introduction, 'responsibilityStatement' | 'documentStructure' | 'disclaimer'>
       & { documentManagement?: Maybe<Array<Maybe<(
         { __typename?: 'DocumentManagement' }
         & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>
-      )>>>, documentStructure?: Maybe<(
-        { __typename?: 'DocumentStructure' }
-        & Pick<DocumentStructure, 'appendicesIntro'>
-      )> }
+      )>>> }
     )>, assessmentInformation?: Maybe<(
       { __typename?: 'AssessmentInformation' }
       & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'>
@@ -1104,17 +1096,6 @@ export type FetchUsersQuery = (
   )>> }
 );
 
-export type FillAppendicesMutationVariables = Exact<{
-  id: Scalars['ID'];
-  appendicesIntro?: Maybe<Scalars['String']>;
-}>;
-
-
-export type FillAppendicesMutation = (
-  { __typename?: 'Mutation' }
-  & Pick<Mutation, 'fillAppendices'>
-);
-
 export type FillAssessmentScopeMutationVariables = Exact<{
   id: Scalars['ID'];
   executionPeriod?: Maybe<Scalars['String']>;
@@ -1184,6 +1165,17 @@ export type FillDocumentManagementMutationVariables = Exact<{
 export type FillDocumentManagementMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'fillDocumentManagement'>
+);
+
+export type FillDocumentStructureMutationVariables = Exact<{
+  id: Scalars['ID'];
+  docStructure?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillDocumentStructureMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'fillDocumentStructure'>
 );
 
 export type FillExecutiveSummaryMutationVariables = Exact<{
@@ -1598,9 +1590,7 @@ export const FetchComplexRelatorioDocument = gql`
         editor
         remarks
       }
-      documentStructure {
-        appendicesIntro
-      }
+      documentStructure
       disclaimer
     }
     assessmentInformation {
@@ -1951,19 +1941,6 @@ export const FetchUsersDocument = gql`
     document = FetchUsersDocument;
     
   }
-export const FillAppendicesDocument = gql`
-    mutation fillAppendices($id: ID!, $appendicesIntro: String) {
-  fillAppendices(id: $id, appendicesIntro: $appendicesIntro)
-}
-    `;
-
-  @Injectable({
-    providedIn: 'root'
-  })
-  export class FillAppendicesGQL extends Apollo.Mutation<FillAppendicesMutation, FillAppendicesMutationVariables> {
-    document = FillAppendicesDocument;
-    
-  }
 export const FillAssessmentScopeDocument = gql`
     mutation fillAssessmentScope($id: ID!, $executionPeriod: String, $assetNames: String, $assetsDescription: String, $assetAddresses: String) {
   fillAssessmentScope(id: $id, executionPeriod: $executionPeriod, assetNames: $assetNames, assetsDescription: $assetsDescription, assetAddresses: $assetAddresses) {
@@ -2033,6 +2010,19 @@ export const FillDocumentManagementDocument = gql`
   })
   export class FillDocumentManagementGQL extends Apollo.Mutation<FillDocumentManagementMutation, FillDocumentManagementMutationVariables> {
     document = FillDocumentManagementDocument;
+    
+  }
+export const FillDocumentStructureDocument = gql`
+    mutation fillDocumentStructure($id: ID!, $docStructure: String) {
+  fillDocumentStructure(id: $id, docStructure: $docStructure)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillDocumentStructureGQL extends Apollo.Mutation<FillDocumentStructureMutation, FillDocumentStructureMutationVariables> {
+    document = FillDocumentStructureDocument;
     
   }
 export const FillExecutiveSummaryDocument = gql`

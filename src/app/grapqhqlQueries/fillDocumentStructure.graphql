@@ -1,0 +1,9 @@
+mutation fillDocumentStructure(
+  $id: ID!,
+  $docStructure: String,
+){
+  fillDocumentStructure(
+    id: $id,
+    docStructure: $docStructure
+  )
+}
