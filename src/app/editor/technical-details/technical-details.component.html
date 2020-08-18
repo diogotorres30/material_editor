@@ -1,0 +1,33 @@
+<div>
+  <form [formGroup]="technicalDetailsForm">
+    <div class="form-group">
+      <quill-editor [style]="editorStyle" formControlName="technicalDetailsFormControl"
+                    [(ngModel)]="technicalDetails">
+
+      </quill-editor>
+    </div>
+    <button mat-button color="blue" (click)="technicalDetailsSubmit()">Submit</button>
+  </form>
+</div>
+
+<script src="technical-details.component.ts"></script>
+<form [formGroup]="technicalDetailsService.form" class="normal-form" (submit)="onSubmit()">
+  <mat-grid-list cols="1" rowHeight="300px">
+    <mat-grid-tile>
+      <div class="controllers-container">
+        <mat-form-field>
+          <input formControlName="url" matInput placeholder="Url or directory*">
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="caption" matInput placeholder="Caption*">
+        </mat-form-field>
+        <div class="button-row">
+          <button mat-raised-button color="primary" type="submit"
+                  [disabled]="technicalDetailsService.form.invalid">Submit
+          </button>
+          <button mat-raised-button color="warn" type="reset">Clear</button>
+        </div>
+      </div>
+    </mat-grid-tile>
+  </mat-grid-list>
+</form>

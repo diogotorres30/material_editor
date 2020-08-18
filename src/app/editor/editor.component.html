@@ -315,7 +315,6 @@
           <button mat-button color="blue" (click)="constraintsSubmit()">Submit</button>
         </form>
       </div>
-
       <div *ngIf="!constraintsQuill" [innerHTML]="constraints | safe:'html'"></div>
     </section>
     <!-----------------------------------------Constraints--------------------------------------------------->
@@ -497,7 +496,7 @@
           </div>
           <h3 *ngIf="zz==0">{{'5.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
 
-          <h4>{{'5.1.' + (zz + 1).toString() + ' ' + complexIssue['title']}}</h4>
+          <h4>{{'5.' + (i + 1) + '.' + (zz + 1).toString() + ' ' + complexIssue['title']}}</h4>
           <mat-divider [ngClass]="sev"></mat-divider>
           <h4>Description</h4>
           <p>{{complexIssue['description']}}</p>
@@ -512,15 +511,23 @@
           <a href="{{complexIssue['otherReferences']}}">{{complexIssue['otherReferences']}}</a>
         </section>
 
-        <section class="sheet" (dblclick)="printIssueId(complexRelatorio,complexIssue)">
+        <section class="sheet" (dblclick)="fillTechnicalDetails(complexRelatorio,complexIssue)">
           <app-header></app-header>
           <div class="footerDiv">
             <app-footer></app-footer>
           </div>
-          <h4>Technical details</h4>
-          <p></p>
-          <h4>Current Status</h4>
-          <p></p>
+          <div [innerHTML]="complexIssue.technicalDetails | safe:'html'"></div>
+        </section>
+
+        <section class="sheet" *ngFor="let fig of complexIssue.issueFigures">
+          <app-header></app-header>
+          <div class="footerDiv">
+            <app-footer></app-footer>
+          </div>
+          <figure>
+            <img src="{{fig.url}}" style="width: 100%">
+            <figcaption>{{fig.caption}}</figcaption>
+          </figure>
         </section>
       </div>
     </div>

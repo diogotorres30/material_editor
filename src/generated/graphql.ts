@@ -113,6 +113,7 @@ export type ComplexIssue = {
   otherReferences?: Maybe<Scalars['String']>;
   technicalDetails?: Maybe<Scalars['String']>;
   currentStatus?: Maybe<Scalars['String']>;
+  issueFigures?: Maybe<Array<Maybe<IssueFigure>>>;
 };
 
 export type ComplexRelatorio = {
@@ -208,6 +209,13 @@ export type Introduction = {
   disclaimer?: Maybe<Scalars['String']>;
 };
 
+export type IssueFigure = {
+  __typename?: 'IssueFigure';
+  id: Scalars['ID'];
+  url?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   _empty?: Maybe<Scalars['Boolean']>;
@@ -243,9 +251,11 @@ export type Mutation = {
   fillConstraints: Scalars['Boolean'];
   fillProcedures: Scalars['Boolean'];
   fillAssessmentScope: ComplexRelatorio;
-  setCriticalIssues?: Maybe<ComplexRelatorio>;
   addComplexIssue: ComplexRelatorio;
   removeComplexIssue: Scalars['Boolean'];
+  addIssueFigure: Scalars['Boolean'];
+  removeIssueFigure: Scalars['Boolean'];
+  fillTechnicalDetails: Scalars['Boolean'];
 };
 
 
@@ -477,12 +487,6 @@ export type MutationFillAssessmentScopeArgs = {
 };
 
 
-export type MutationSetCriticalIssuesArgs = {
-  id: Scalars['ID'];
-  ids?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
-
 export type MutationAddComplexIssueArgs = {
   id: Scalars['ID'];
   findingId?: Maybe<Scalars['String']>;
@@ -493,6 +497,28 @@ export type MutationAddComplexIssueArgs = {
 export type MutationRemoveComplexIssueArgs = {
   id: Scalars['ID'];
   issueId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationAddIssueFigureArgs = {
+  relatorioId: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationRemoveIssueFigureArgs = {
+  relatorioId: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+  figureId?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationFillTechnicalDetailsArgs = {
+  relatorioId: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+  technicalDetails?: Maybe<Scalars['String']>;
 };
 
 export type PrivilegesRequired = {
@@ -718,6 +744,19 @@ export type AddComplexIssueMutation = (
   ) }
 );
 
+export type AddIssueFigureMutationVariables = Exact<{
+  relatorioId: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
+  caption?: Maybe<Scalars['String']>;
+}>;
+
+
+export type AddIssueFigureMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'addIssueFigure'>
+);
+
 export type CreateClientMutationVariables = Exact<{
   name: Scalars['String'];
   email: Scalars['String'];
@@ -875,6 +914,10 @@ export type FetchComplexRelatorioQuery = (
     & { complexIssues?: Maybe<Array<Maybe<(
       { __typename?: 'ComplexIssue' }
       & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+      & { issueFigures?: Maybe<Array<Maybe<(
+        { __typename?: 'IssueFigure' }
+        & Pick<IssueFigure, 'url' | 'caption'>
+      )>>> }
     )>>>, cover?: Maybe<(
       { __typename?: 'Cover' }
       & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
@@ -1203,6 +1246,18 @@ export type FillProceduresMutation = (
   & Pick<Mutation, 'fillProcedures'>
 );
 
+export type FillTechnicalDetailsMutationVariables = Exact<{
+  relatorioId: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+  technicalDetails?: Maybe<Scalars['String']>;
+}>;
+
+
+export type FillTechnicalDetailsMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'fillTechnicalDetails'>
+);
+
 export type NewProjectMutationVariables = Exact<{
   name: Scalars['String'];
   status: Scalars['String'];
@@ -1246,6 +1301,18 @@ export type RemoveComplexIssueMutationVariables = Exact<{
 export type RemoveComplexIssueMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'removeComplexIssue'>
+);
+
+export type RemoveIssueFigureMutationVariables = Exact<{
+  relatorioId: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+  figureId?: Maybe<Scalars['String']>;
+}>;
+
+
+export type RemoveIssueFigureMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'removeIssueFigure'>
 );
 
 export type RemoveRelatorioFromProjectMutationVariables = Exact<{
@@ -1388,6 +1455,19 @@ export const AddComplexIssueDocument = gql`
   })
   export class AddComplexIssueGQL extends Apollo.Mutation<AddComplexIssueMutation, AddComplexIssueMutationVariables> {
     document = AddComplexIssueDocument;
+    
+  }
+export const AddIssueFigureDocument = gql`
+    mutation addIssueFigure($relatorioId: ID!, $issueId: String, $url: String, $caption: String) {
+  addIssueFigure(relatorioId: $relatorioId, issueId: $issueId, url: $url, caption: $caption)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class AddIssueFigureGQL extends Apollo.Mutation<AddIssueFigureMutation, AddIssueFigureMutationVariables> {
+    document = AddIssueFigureDocument;
     
   }
 export const CreateClientDocument = gql`
@@ -1571,6 +1651,10 @@ export const FetchComplexRelatorioDocument = gql`
       otherReferences
       technicalDetails
       currentStatus
+      issueFigures {
+        url
+        caption
+      }
     }
     cover {
       companyLogo
@@ -2053,6 +2137,19 @@ export const FillProceduresDocument = gql`
     document = FillProceduresDocument;
     
   }
+export const FillTechnicalDetailsDocument = gql`
+    mutation fillTechnicalDetails($relatorioId: ID!, $issueId: String, $technicalDetails: String) {
+  fillTechnicalDetails(relatorioId: $relatorioId, issueId: $issueId, technicalDetails: $technicalDetails)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class FillTechnicalDetailsGQL extends Apollo.Mutation<FillTechnicalDetailsMutation, FillTechnicalDetailsMutationVariables> {
+    document = FillTechnicalDetailsDocument;
+    
+  }
 export const NewProjectDocument = gql`
     mutation newProject($name: String!, $status: String!, $clientId: ID!, $auditorIds: [ID!], $revIds: [ID!], $pmIds: [ID!]) {
   newProject(name: $name, status: $status, clientId: $clientId, auditorIds: $auditorIds, revIds: $revIds, pmIds: $pmIds) {
@@ -2098,6 +2195,19 @@ export const RemoveComplexIssueDocument = gql`
   })
   export class RemoveComplexIssueGQL extends Apollo.Mutation<RemoveComplexIssueMutation, RemoveComplexIssueMutationVariables> {
     document = RemoveComplexIssueDocument;
+    
+  }
+export const RemoveIssueFigureDocument = gql`
+    mutation removeIssueFigure($relatorioId: ID!, $issueId: String, $figureId: String) {
+  removeIssueFigure(relatorioId: $relatorioId, issueId: $issueId, figureId: $figureId)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class RemoveIssueFigureGQL extends Apollo.Mutation<RemoveIssueFigureMutation, RemoveIssueFigureMutationVariables> {
+    document = RemoveIssueFigureDocument;
     
   }
 export const RemoveRelatorioFromProjectDocument = gql`

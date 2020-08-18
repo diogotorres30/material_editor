@@ -1,0 +1,3 @@
+mutation removeIssueFigure($relatorioId: ID!, $issueId: String, $figureId: String){
+  removeIssueFigure(relatorioId: $relatorioId, issueId: $issueId, figureId: $figureId)
+}

@@ -1,0 +1,11 @@
+mutation addIssueFigure(
+  $relatorioId: ID!,
+  $issueId: String,
+  $url: String,
+  $caption: String)
+{
+  addIssueFigure(
+    relatorioId: $relatorioId,
+    issueId: $issueId,
+    url: $url,
+    caption: $caption)}

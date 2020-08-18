@@ -1,0 +1,3 @@
+mutation fillTechnicalDetails($relatorioId: ID!, $issueId: String, $technicalDetails: String){
+  fillTechnicalDetails(relatorioId: $relatorioId, issueId: $issueId, technicalDetails: $technicalDetails)
+}
