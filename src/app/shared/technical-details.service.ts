@@ -10,7 +10,7 @@ export class TechnicalDetailsService {
   issueId: string;
   form: FormGroup = new FormGroup({
     url: new FormControl('', Validators.required),
-    caption: new FormControl('', [Validators.required, Validators.email])
+    caption: new FormControl('', [Validators.required])
   });
 
   constructor(
