@@ -29,11 +29,6 @@ export type AssessmentDetailed = {
 export type AssessmentDetails = {
   __typename?: 'AssessmentDetails';
   intro?: Maybe<Array<Maybe<Scalars['String']>>>;
-  minorSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
-  lowSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
-  moderateSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
-  highSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
-  criticalSeverityVulnerabilities?: Maybe<AssessmentDetailed>;
 };
 
 export type AssessmentInformation = {
@@ -148,6 +143,7 @@ export type Cover = {
   version?: Maybe<Scalars['String']>;
   remarks?: Maybe<Scalars['String']>;
   date?: Maybe<Scalars['String']>;
+  image?: Maybe<Scalars['String']>;
 };
 
 export type Cvss3Metrics = {
@@ -920,7 +916,7 @@ export type FetchComplexRelatorioQuery = (
       )>>> }
     )>>>, cover?: Maybe<(
       { __typename?: 'Cover' }
-      & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>
+      & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date' | 'image'>
     )>, introduction?: Maybe<(
       { __typename?: 'Introduction' }
       & Pick<Introduction, 'responsibilityStatement' | 'documentStructure' | 'disclaimer'>
@@ -1007,42 +1003,6 @@ export type FetchComplexRelatorioQuery = (
     )>, assessmentDetails?: Maybe<(
       { __typename?: 'AssessmentDetails' }
       & Pick<AssessmentDetails, 'intro'>
-      & { minorSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'empty'>
-        & { detailedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'DetailedIssue' }
-          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
-        )>>> }
-      )>, lowSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'empty'>
-        & { detailedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'DetailedIssue' }
-          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
-        )>>> }
-      )>, moderateSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'empty'>
-        & { detailedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'DetailedIssue' }
-          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
-        )>>> }
-      )>, criticalSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'empty'>
-        & { detailedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'DetailedIssue' }
-          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
-        )>>> }
-      )>, highSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentDetailed' }
-        & Pick<AssessmentDetailed, 'empty'>
-        & { detailedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'DetailedIssue' }
-          & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
-        )>>> }
-      )> }
     )>, appendix?: Maybe<(
       { __typename?: 'Appendix' }
       & Pick<Appendix, 'tools' | 'evidences'>
@@ -1664,6 +1624,7 @@ export const FetchComplexRelatorioDocument = gql`
       version
       remarks
       date
+      image
     }
     executiveSummary
     introduction {
@@ -1788,71 +1749,6 @@ export const FetchComplexRelatorioDocument = gql`
     }
     assessmentDetails {
       intro
-      minorSeverityVulnerabilities {
-        empty
-        detailedIssues {
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
-      lowSeverityVulnerabilities {
-        empty
-        detailedIssues {
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
-      moderateSeverityVulnerabilities {
-        empty
-        detailedIssues {
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
-      criticalSeverityVulnerabilities {
-        empty
-        detailedIssues {
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
-      highSeverityVulnerabilities {
-        empty
-        detailedIssues {
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
     }
     appendix {
       tools

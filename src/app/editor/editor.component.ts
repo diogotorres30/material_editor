@@ -27,7 +27,8 @@ import {
   FillExecutiveSummaryGQL,
   FillProceduresGQL,
   Integrity,
-  Introduction, IssueFigure,
+  Introduction,
+  IssueFigure,
   Maybe,
   PrivilegesRequired,
   Project,
@@ -133,11 +134,9 @@ export class EditorComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
   cvss3Metrics: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }>;
   complexRelatorio: { __typename?: 'ComplexRelatorio' } & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary'> & {
-    complexIssues?: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'> & { issueFigures?: Maybe<Array<Maybe<{ __typename?: 'IssueFigure' } & Pick<IssueFigure, 'url' | 'caption'>>>> }>>>; cover?: Maybe<{ __typename?: 'Cover' } & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date'>>; introduction?: Maybe<{ __typename?: 'Introduction' } & Pick<Introduction, 'responsibilityStatement' | 'documentStructure' | 'disclaimer'> & { documentManagement?: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>> }>; assessmentInformation?: Maybe<{ __typename?: 'AssessmentInformation' } & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'> & { assessmentScope?: Maybe<{ __typename?: 'AssessmentScope' } & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: 'SummaryOfAssessmentResults' } & {
+    complexIssues?: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'> & { issueFigures?: Maybe<Array<Maybe<{ __typename?: 'IssueFigure' } & Pick<IssueFigure, 'url' | 'caption'>>>> }>>>; cover?: Maybe<{ __typename?: 'Cover' } & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date' | 'image'>>; introduction?: Maybe<{ __typename?: 'Introduction' } & Pick<Introduction, 'responsibilityStatement' | 'documentStructure' | 'disclaimer'> & { documentManagement?: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>> }>; assessmentInformation?: Maybe<{ __typename?: 'AssessmentInformation' } & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'> & { assessmentScope?: Maybe<{ __typename?: 'AssessmentScope' } & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: 'SummaryOfAssessmentResults' } & {
       staticInformation?: Maybe<{ __typename?: 'StaticInformation' } & Pick<StaticInformation, 'intro' | 'cvss3'> & { cvss3Metrics?: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }> }>; minorSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; lowSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; moderateSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; criticalSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>; highSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentSummarized' } & Pick<AssessmentSummarized, 'empty' | 'notEmpty'> & { summarizedIssues?: Maybe<Array<Maybe<{ __typename?: 'SummarizedIssue' } & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>>>> }>
-    }>; assessmentDetails?: Maybe<{ __typename?: 'AssessmentDetails' } & Pick<AssessmentDetails, 'intro'> & {
-      minorSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; lowSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; moderateSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; criticalSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>; highSeverityVulnerabilities?: Maybe<{ __typename?: 'AssessmentDetailed' } & Pick<AssessmentDetailed, 'empty'> & { detailedIssues?: Maybe<Array<Maybe<{ __typename?: 'DetailedIssue' } & Pick<DetailedIssue, 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>>>> }>
-    }>; appendix?: Maybe<{ __typename?: 'Appendix' } & Pick<Appendix, 'tools' | 'evidences'>>
+    }>; assessmentDetails?: Maybe<{ __typename?: 'AssessmentDetails' } & Pick<AssessmentDetails, 'intro'>>; appendix?: Maybe<{ __typename?: 'Appendix' } & Pick<Appendix, 'tools' | 'evidences'>>
   };
 
 
@@ -199,23 +198,29 @@ export class EditorComponent implements OnInit {
 
       let vulCounter = 1;
       let subVulCounter = 1;
+      let indexCount = 3;
+      this.createHeaderRow(['1', 'Executive Summary', indexCount.toString()], 'initialContents');
+      indexCount++;
+      this.createHeaderRow(['2', 'Introduction', indexCount.toString()], 'initialContents');
+      this.createRegularRow(['', '2.1 Document Information', indexCount.toString()], 'initialContents');
+      indexCount += 2;
+      this.createRegularRow(['', '2.2 Document Structure', indexCount.toString()], 'initialContents');
+      indexCount++;
+      this.createRegularRow(['', '2.3 Disclaimer', indexCount.toString()], 'initialContents');
+      indexCount++;
+      this.createHeaderRow(['3', 'Assessment Information', indexCount.toString()], 'initialContents');
+      this.createRegularRow(['', '3.1 Assessment Scope', indexCount.toString()], 'initialContents');
+      this.createRegularRow(['', '3.2 Organizational and Technical Contacts', indexCount.toString()], 'initialContents');
+      indexCount++;
+      this.createRegularRow(['', '3.3 Constraints', indexCount.toString()], 'initialContents');
+      indexCount++;
+      this.createRegularRow(['', '3.4 Procedures After the Assessment', indexCount.toString()], 'initialContents');
+      indexCount++;
+      this.createHeaderRow(['4', 'Summary of Assessment Results', indexCount.toString()], 'initialContents');
+      indexCount += 9;
 
-      this.createRow('1', 'Executive Summary', '2', 'initialContents');
-      this.createRow('2', 'Introduction', '3', 'initialContents');
-      this.createTdRow('', '2.1 Document Information', '3', 'initialContents');
-      this.createTdRow('', '2.2 Document Structure', '5', 'initialContents');
-      this.createTdRow('', '2.3 Disclaimer', '6', 'initialContents');
-      this.createRow('3', 'Assessment Information', '7', 'initialContents');
-      this.createTdRow('', '3.1 Assessment Scope', '7', 'initialContents');
-      this.createTdRow('', '3.2 Organizational and Technical Contacts', '7', 'initialContents');
-      this.createTdRow('', '3.3 Constraints', '8', 'initialContents');
-      this.createTdRow('', '3.4 Procedures After the Assessment', '9', 'initialContents');
-      this.createRow('4', 'Summary of Assessment Results', '10', 'summarizedVulnerabilities');
-
-      // let severities = Object.keys(result.data.fetchComplexRelatorio.summaryOfAssessmentResults).reverse().splice(1, 5);
-      let indexCount = 20;
       for (const vul of this.severities) {
-        this.createTdRow('', '4.' + vulCounter + ' ' + this.capitalize(vul), indexCount.toString(), 'summarizedVulnerabilities');
+        this.createRegularRow(['', '4.' + vulCounter + ' ' + this.capitalize(vul), indexCount.toString()], 'initialContents');
         if (this.sortedIssues[vul].length > 0) {
           indexCount = indexCount + Math.ceil(this.sortedIssues[vul].length / 3);
         } else {
@@ -225,24 +230,25 @@ export class EditorComponent implements OnInit {
       }
 
       vulCounter = 1;
-      this.createRow('5', 'Assessment Details', indexCount.toString(), 'detailedVulnerabilities');
+      this.createHeaderRow(['5', 'Assessment Details', indexCount.toString()], 'detailedVulnerabilities');
       indexCount++;
 
       // severities = Object.keys(result.data.fetchComplexRelatorio.assessmentDetails).reverse().splice(1, 5);
       for (const vul of this.severities) {
-        this.createTdRow('', '5.' + vulCounter + ' ' + this.capitalize(vul), indexCount.toString(), 'detailedVulnerabilities');
+        this.createRegularRow(['', '5.' + vulCounter + ' ' + this.capitalize(vul), indexCount.toString()], 'detailedVulnerabilities');
         if (this.sortedIssues[vul].length < 1) {
           indexCount++;
         }
 
         for (const subIssue of this.sortedIssues[vul]) {
           // tslint:disable-next-line:max-line-length
-          this.createTdRow('', '5.' + vulCounter + '.' + subVulCounter + ' ' + subIssue.title, indexCount.toString(), 'detailedVulnerabilities');
-          indexCount += 2;
+          this.createRegularDeepRow('5.' + vulCounter + '.' + subVulCounter + ' ' + subIssue.title, indexCount.toString(), 'detailedVulnerabilities');
+          indexCount = indexCount + 2 + subIssue.issueFigures.length;
           subVulCounter++;
         }
         vulCounter++;
       }
+      this.createHeaderRow(['6', 'Appendix', indexCount.toString()], 'detailedVulnerabilities');
 
     });
 
@@ -282,34 +288,45 @@ export class EditorComponent implements OnInit {
     this.dialog.open(CoverComponent, dialogConfig);
   }
 
-  // fillDocumentManagement(rel){
-  //   this.docManagementService.relId = rel.id;
-  //   // this.docManagementService.initializeFormGroup(rel);
-  //   const dialogConfig = new MatDialogConfig();
-  //   dialogConfig.autoFocus = true;
-  //   dialogConfig.width = '80%';
-  //   this.dialog.open(DocManagementComponent, dialogConfig);
-  // }
 
-
-  createRow(sec, title, pageNum, target) {
+  createHeaderRow(sec, target) {
     const row = document.createElement('tr');
-    row.appendChild(this.createTh(sec));
-    row.appendChild(this.createTh(title));
-    row.appendChild(this.createTh(pageNum));
+    for (const s of sec) {
+      row.appendChild(this.createTh(s));
+    }
+
     document.getElementById(target).appendChild(row);
   }
 
-  createTdRow(a, title, pageNum, target) {
+
+  createRegularRow(sec, target) {
     const row = document.createElement('tr');
-    row.appendChild(this.createTd(a));
-    row.appendChild(this.createTd(title));
-    row.appendChild(this.createTd(pageNum));
+    for (const s of sec) {
+      row.appendChild(this.createTd(s));
+    }
+
+    document.getElementById(target).appendChild(row);
+  }
+
+  createRegularDeepRow(sec, page, target) {
+    const row = document.createElement('tr');
+    row.appendChild(this.createTd(''));
+    row.appendChild(this.createDeepTd(sec));
+    row.appendChild(this.createTd(page));
+
     document.getElementById(target).appendChild(row);
   }
 
   createTd(content) {
     const td = document.createElement('td');
+    td.textContent = content;
+    return td;
+  }
+
+  createDeepTd(content) {
+    const td = document.createElement('td');
+    td.style.paddingLeft = '26px';
+    td.style.paddingRight = '26px';
     td.textContent = content;
     return td;
   }

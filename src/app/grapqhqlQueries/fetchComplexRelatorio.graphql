@@ -27,6 +27,7 @@ query fetchComplexRelatorio($id: ID!){
       version
       remarks
       date
+      image
     }
     executiveSummary
     introduction{
@@ -151,71 +152,6 @@ query fetchComplexRelatorio($id: ID!){
     }
     assessmentDetails{
       intro
-      minorSeverityVulnerabilities{
-        empty
-        detailedIssues{
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
-      lowSeverityVulnerabilities{
-        empty
-        detailedIssues{
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
-      moderateSeverityVulnerabilities{
-        empty
-        detailedIssues{
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
-      criticalSeverityVulnerabilities{
-        empty
-        detailedIssues{
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
-      highSeverityVulnerabilities{
-        empty
-        detailedIssues{
-          title
-          description
-          impact
-          remediation
-          cvssVector
-          otherReferences
-          technicalDetails
-          currentStatus
-        }
-      }
     }
     appendix{
       tools
