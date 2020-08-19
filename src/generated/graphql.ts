@@ -20,17 +20,6 @@ export type Appendix = {
   evidences?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
-export type AssessmentDetailed = {
-  __typename?: 'AssessmentDetailed';
-  empty?: Maybe<Scalars['String']>;
-  detailedIssues?: Maybe<Array<Maybe<DetailedIssue>>>;
-};
-
-export type AssessmentDetails = {
-  __typename?: 'AssessmentDetails';
-  intro?: Maybe<Array<Maybe<Scalars['String']>>>;
-};
-
 export type AssessmentInformation = {
   __typename?: 'AssessmentInformation';
   assessmentScope?: Maybe<AssessmentScope>;
@@ -44,13 +33,6 @@ export type AssessmentScope = {
   assetNames?: Maybe<Scalars['String']>;
   assetsDescription?: Maybe<Scalars['String']>;
   assetAddresses?: Maybe<Scalars['String']>;
-};
-
-export type AssessmentSummarized = {
-  __typename?: 'AssessmentSummarized';
-  empty?: Maybe<Scalars['String']>;
-  notEmpty?: Maybe<Scalars['String']>;
-  summarizedIssues?: Maybe<Array<Maybe<SummarizedIssue>>>;
 };
 
 export type AttackComplexity = {
@@ -122,7 +104,7 @@ export type ComplexRelatorio = {
   introduction?: Maybe<Introduction>;
   assessmentInformation?: Maybe<AssessmentInformation>;
   summaryOfAssessmentResults?: Maybe<SummaryOfAssessmentResults>;
-  assessmentDetails?: Maybe<AssessmentDetails>;
+  assessmentDetails?: Maybe<Scalars['String']>;
   appendix?: Maybe<Appendix>;
 };
 
@@ -156,18 +138,6 @@ export type Cvss3Metrics = {
   privilegesRequired?: Maybe<PrivilegesRequired>;
   attackComplexity?: Maybe<AttackComplexity>;
   attackVector?: Maybe<AttackVector>;
-};
-
-export type DetailedIssue = {
-  __typename?: 'DetailedIssue';
-  title?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  impact?: Maybe<Scalars['String']>;
-  remediation?: Maybe<Scalars['String']>;
-  cvssVector?: Maybe<Scalars['String']>;
-  otherReferences?: Maybe<Scalars['String']>;
-  technicalDetails?: Maybe<Scalars['String']>;
-  currentStatus?: Maybe<Scalars['String']>;
 };
 
 export type DocumentManagement = {
@@ -680,21 +650,9 @@ export type Subscription = {
   _empty?: Maybe<Scalars['Boolean']>;
 };
 
-export type SummarizedIssue = {
-  __typename?: 'SummarizedIssue';
-  vulnerability?: Maybe<Scalars['String']>;
-  description?: Maybe<Scalars['String']>;
-  details?: Maybe<Scalars['String']>;
-};
-
 export type SummaryOfAssessmentResults = {
   __typename?: 'SummaryOfAssessmentResults';
   staticInformation?: Maybe<StaticInformation>;
-  minorSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
-  lowSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
-  moderateSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
-  criticalSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
-  highSeverityVulnerabilities?: Maybe<AssessmentSummarized>;
 };
 
 export type User = {
@@ -906,7 +864,7 @@ export type FetchComplexRelatorioQuery = (
   { __typename?: 'Query' }
   & { fetchComplexRelatorio: (
     { __typename?: 'ComplexRelatorio' }
-    & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary'>
+    & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary' | 'assessmentDetails'>
     & { complexIssues?: Maybe<Array<Maybe<(
       { __typename?: 'ComplexIssue' }
       & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
@@ -964,45 +922,7 @@ export type FetchComplexRelatorioQuery = (
             & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>
           )> }
         )> }
-      )>, minorSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
-        & { summarizedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'SummarizedIssue' }
-          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
-        )>>> }
-      )>, lowSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
-        & { summarizedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'SummarizedIssue' }
-          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
-        )>>> }
-      )>, moderateSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
-        & { summarizedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'SummarizedIssue' }
-          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
-        )>>> }
-      )>, criticalSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
-        & { summarizedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'SummarizedIssue' }
-          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
-        )>>> }
-      )>, highSeverityVulnerabilities?: Maybe<(
-        { __typename?: 'AssessmentSummarized' }
-        & Pick<AssessmentSummarized, 'empty' | 'notEmpty'>
-        & { summarizedIssues?: Maybe<Array<Maybe<(
-          { __typename?: 'SummarizedIssue' }
-          & Pick<SummarizedIssue, 'vulnerability' | 'description' | 'details'>
-        )>>> }
       )> }
-    )>, assessmentDetails?: Maybe<(
-      { __typename?: 'AssessmentDetails' }
-      & Pick<AssessmentDetails, 'intro'>
     )>, appendix?: Maybe<(
       { __typename?: 'Appendix' }
       & Pick<Appendix, 'tools' | 'evidences'>
@@ -1701,55 +1621,8 @@ export const FetchComplexRelatorioDocument = gql`
           }
         }
       }
-      minorSeverityVulnerabilities {
-        empty
-        notEmpty
-        summarizedIssues {
-          vulnerability
-          description
-          details
-        }
-      }
-      lowSeverityVulnerabilities {
-        empty
-        notEmpty
-        summarizedIssues {
-          vulnerability
-          description
-          details
-        }
-      }
-      moderateSeverityVulnerabilities {
-        empty
-        notEmpty
-        summarizedIssues {
-          vulnerability
-          description
-          details
-        }
-      }
-      criticalSeverityVulnerabilities {
-        empty
-        notEmpty
-        summarizedIssues {
-          vulnerability
-          description
-          details
-        }
-      }
-      highSeverityVulnerabilities {
-        empty
-        notEmpty
-        summarizedIssues {
-          vulnerability
-          description
-          details
-        }
-      }
     }
-    assessmentDetails {
-      intro
-    }
+    assessmentDetails
     appendix {
       tools
       evidences

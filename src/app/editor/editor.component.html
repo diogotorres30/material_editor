@@ -37,7 +37,9 @@
       </mat-form-field>
     </div>
 
-    <div class="mat-elevation-z8">
+    <h3 style="padding-left: 5px">Add Issues</h3>
+
+    <div class="mat-elevation-z8" style="height: 355px;">
       <mat-table [dataSource]="listData" matSort>
         <ng-container matColumnDef="title">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
@@ -58,7 +60,9 @@
       <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 50]" [pageSize]="5" showFirstLastButtons></mat-paginator>
     </div>
 
-    <div class="mat-elevation-z8">
+    <h3 style="padding-left: 5px">Current Issues</h3>
+
+    <div class="mat-elevation-z8" style="height: 355px;">
       <mat-table [dataSource]="complexIssuesDateSource" matSort>
         <ng-container matColumnDef="title">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Name</mat-header-cell>
@@ -67,7 +71,7 @@
 
         <ng-container matColumnDef="severity">
           <mat-header-cell *matHeaderCellDef mat-sort-header>Severity</mat-header-cell>
-          <mat-cell *matCellDef="let element">{{element.severity}}</mat-cell>
+          <mat-cell *matCellDef="let element">{{severitiesDict[element.severity]}}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="actions">
@@ -440,8 +444,8 @@
         <app-footer></app-footer>
       </div>
       <h1>5 Assessment Details</h1>
-      <div [innerHTML]="complexRelatorio.assessmentDetails.intro | safe:'html'"></div>
-<!--      <p>{{complexRelatorio.assessmentDetails.intro}}</p>-->
+      <div [innerHTML]="complexRelatorio.assessmentDetails | safe:'html'"></div>
+      <!--      <p>{{complexRelatorio.assessmentDetails.intro}}</p>-->
     </section>
     <!---------------------------------------Assessment Details Intro---------------------------------->
 

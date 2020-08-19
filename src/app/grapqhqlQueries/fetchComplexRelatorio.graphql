@@ -104,55 +104,8 @@ query fetchComplexRelatorio($id: ID!){
           }
         }
       }
-      minorSeverityVulnerabilities{
-        empty
-        notEmpty
-        summarizedIssues{
-          vulnerability
-          description
-          details
-        }
-      }
-      lowSeverityVulnerabilities{
-        empty
-        notEmpty
-        summarizedIssues{
-          vulnerability
-          description
-          details
-        }
-      }
-      moderateSeverityVulnerabilities{
-        empty
-        notEmpty
-        summarizedIssues{
-          vulnerability
-          description
-          details
-        }
-      }
-      criticalSeverityVulnerabilities{
-        empty
-        notEmpty
-        summarizedIssues{
-          vulnerability
-          description
-          details
-        }
-      }
-      highSeverityVulnerabilities{
-        empty
-        notEmpty
-        summarizedIssues{
-          vulnerability
-          description
-          details
-        }
-      }
     }
-    assessmentDetails{
-      intro
-    }
+    assessmentDetails
     appendix{
       tools
       evidences
