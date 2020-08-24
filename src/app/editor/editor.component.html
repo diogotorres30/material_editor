@@ -1,15 +1,18 @@
-<body id="home">
-<mat-toolbar color="primary" class="toolBar" role="toolbar">
-  <mat-toolbar-row>
-    <button mat-icon-button>
-      <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
-    </button>
-    <a mat-button [routerLink]="'/'" class="logo">Report Repository</a>
-    <div>
-      <a mat-button [routerLink]="'/editor'"> Report Editor </a>
-    </div>
-  </mat-toolbar-row>
-</mat-toolbar>
+<!--<body id="home">-->
+<div class="hideReview">
+  <mat-toolbar color="primary" class="toolBar" role="toolbar" >
+    <mat-toolbar-row>
+      <button mat-icon-button>
+        <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+      </button>
+      <a mat-button [routerLink]="'/'" class="logo">Report Repository</a>
+      <div>
+        <a mat-button [routerLink]="'/editor'"> Report Editor </a>
+      </div>
+    </mat-toolbar-row>
+  </mat-toolbar>
+</div>
+
 
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="side" class="sideNav">
@@ -103,6 +106,7 @@
         {{complexRelatorio.cover["date"]}}<br>
       </div>
     </section>
+    <div style="background-color: #c5c5c5; width: 500px;height: 296mm;position: absolute;top:0px; z-index: 1000; left:1355px" class="hideReview"></div>
     <!----------------------------------------------COVER--------------------------------------------------->
 
     <!----------------------------------------------CONTENTS/INDEX--------------------------------------------------->
@@ -519,4 +523,4 @@
 </mat-sidenav-container>
 <router-outlet></router-outlet>
 
-</body>
+<!--</body>-->

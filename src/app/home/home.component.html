@@ -1,15 +1,44 @@
-<mat-toolbar color="primary">
-  <mat-toolbar-row>
-    <!-- <button mat-icon-button>
-            <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
-          </button> -->
-    <a mat-button [routerLink]="'/'" class="logo">Report Repository</a>
-    <!-- <span class="menu-spacer"></span> -->
-    <div>
-      <a mat-button [routerLink]="'/editor'"> Report Editor </a>
-    </div>
-  </mat-toolbar-row>
-</mat-toolbar>
-<app-repository></app-repository>
+<!--<mat-toolbar color="primary">-->
+<!--  <mat-toolbar-row>-->
+<!--    &lt;!&ndash; <button mat-icon-button>-->
+<!--            <mat-icon (click)="sidenav.toggle()">menu</mat-icon>-->
+<!--          </button> &ndash;&gt;-->
+<!--    <a mat-button [routerLink]="'/'" class="logo">Report Repository</a>-->
+<!--    &lt;!&ndash; <span class="menu-spacer"></span> &ndash;&gt;-->
+<!--    <div>-->
+<!--      <a mat-button [routerLink]="'/editor'"> Report Editor </a>-->
+<!--    </div>-->
+<!--  </mat-toolbar-row>-->
+<!--</mat-toolbar>-->
+
+<script src="home.component.ts"></script>
+<div class="mat-elevation-z8" style="width: 400px; position: absolute; margin-left: 760px; margin-top: 300px">
+  <form [formGroup]="userLoginService.form" class="normal-form" (submit)="onSubmit()">
+    <mat-grid-list cols="1" rowHeight="200px">
+      <mat-grid-tile>
+        <div class="controllers-container">
+          <mat-form-field>
+            <input formControlName="email" matInput placeholder="Email*">
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input formControlName="password" matInput [type]="hide ? 'password' : 'text'" placeholder="Password*">
+            <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error>This field is mandatory.</mat-error>
+          </mat-form-field>
+          <div class="button-row">
+            <button mat-raised-button color="primary" type="submit"
+                    [disabled]="userLoginService.form.invalid">Submit
+            </button>
+            <button mat-raised-button color="warn" type="reset">Clear</button>
+          </div>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </form>
+</div>
+
+
+<!--<app-repository></app-repository>-->
 
 <router-outlet></router-outlet>

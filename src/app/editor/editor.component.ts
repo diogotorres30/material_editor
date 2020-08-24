@@ -49,6 +49,7 @@ import {DocManagementComponent} from './doc-management/doc-management.component'
 import {TechnicalDetailsComponent} from './technical-details/technical-details.component';
 import {AssessmentScopeComponent} from './assessment-scope/assessment-scope.component';
 import {TechnicalDetailsService} from '../shared/technical-details.service';
+import {ProjectFormService} from '../shared/projectForm.service';
 
 @Component({
   selector: 'app-editor',
@@ -141,6 +142,7 @@ export class EditorComponent implements OnInit {
       staticInformation?: Maybe<{ __typename?: 'StaticInformation' } & Pick<StaticInformation, 'intro' | 'cvss3'> & { cvss3Metrics?: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }> }>
     }>; appendix?: Maybe<{ __typename?: 'Appendix' } & Pick<Appendix, 'tools' | 'evidences'>>
   };
+  private isReviewer = false;
 
 
   constructor(
@@ -157,7 +159,8 @@ export class EditorComponent implements OnInit {
     private assessmentScopeService: AssessmentScopeService,
     private fillConstraintsGQL: FillConstraintsGQL,
     private fillProceduresGQL: FillProceduresGQL,
-    private technicalDetailsService: TechnicalDetailsService
+    private technicalDetailsService: TechnicalDetailsService,
+    private projectService: ProjectFormService
   ) {
   }
 
@@ -177,6 +180,9 @@ export class EditorComponent implements OnInit {
         this.auditors = projResult.data.fetchProject.auditor;
         this.reviewers = projResult.data.fetchProject.reviewer;
         this.projectManagers = projResult.data.fetchProject.projectManager;
+        if (this.reviewers.filter(el => el.email === this.projectService.userEmail).length > 0) {
+          this.isReviewer = true;
+        }
       });
       this.complexRelatorio = result.data.fetchComplexRelatorio;
       this.documentManagement = result.data.fetchComplexRelatorio.introduction.documentManagement;

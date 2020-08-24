@@ -81,7 +81,8 @@ import { TechnicalDetailsComponent } from './editor/technical-details/technical-
     DocManagementComponent,
     VersionComponent,
     AssessmentScopeComponent,
-    TechnicalDetailsComponent
+    TechnicalDetailsComponent,
+    HomeComponent
   ]
 })
 export class AppModule {

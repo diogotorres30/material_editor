@@ -24,6 +24,7 @@ export class ProjectFormService {
   // editPms = [];
   // editRels = [];
   // editProj: string;
+  userEmail: string;
 
   constructor(
     private newProjectGQL: NewProjectGQL,

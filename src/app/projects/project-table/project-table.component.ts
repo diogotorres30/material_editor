@@ -46,6 +46,7 @@ export class ProjectTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searchKey: string;
   auxString: string;
+  first: true;
 
   constructor(
     private projectFormService: ProjectFormService,
@@ -60,15 +61,24 @@ export class ProjectTableComponent implements OnInit {
   }
 
   ngOnInit() {
+    const altListData = Array<any>();
     this.fetchProjectsGQL.watch().valueChanges.subscribe((result) => {
       this.localListData = result.data.fetchProjects;
-      this.listData = new MatTableDataSource(this.localListData);
+      for (const pr of this.localListData) {
+        if ((pr.auditor.filter(el => el.email === this.projectFormService.userEmail).length +
+          pr.reviewer.filter(el => el.email === this.projectFormService.userEmail).length +
+          pr.projectManager.filter(el => el.email === this.projectFormService.userEmail).length) > 0) {
+          altListData.push(pr);
+        }
+      }
+      this.listData = new MatTableDataSource(altListData);
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     });
   }
 
   openInEditor(relId) {
+
     this.relatorioFormService.showRelatorioId = relId;
     this.router.navigate(['/editor']).then(r => {
     });

@@ -1,3 +1,18 @@
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <!-- <button mat-icon-button>
+            <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+          </button> -->
+    <a mat-button [routerLink]="'/repository'" class="logo">Report Repository</a>
+    <!-- <span class="menu-spacer"></span> -->
+    <div>
+      <a mat-button [routerLink]="'/editor'"> Report Editor </a>
+    </div>
+    <button mat-icon-button style="padding-left: 1530px" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </mat-toolbar-row>
+</mat-toolbar>
 <mat-tab-group>
   <mat-tab label="Projects">
     <app-projects></app-projects>
