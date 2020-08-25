@@ -27,7 +27,6 @@ export class HomeComponent implements OnInit {
   onSubmit() {
     if (this.userLoginService.form.valid) {
       this.projectFormService.userEmail =  this.userLoginService.form.value.email;
-      console.log(this.userLoginService.form.value.password);
 
       this.userLoginService.form.reset();
       this.userLoginService.initializeFormGroup();

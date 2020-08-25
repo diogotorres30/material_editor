@@ -81,6 +81,7 @@ export type Client = {
 export type ComplexIssue = {
   __typename?: 'ComplexIssue';
   id: Scalars['ID'];
+  review?: Maybe<Scalars['String']>;
   severity?: Maybe<Scalars['String']>;
   title?: Maybe<Scalars['String']>;
   description?: Maybe<Scalars['String']>;
@@ -98,6 +99,7 @@ export type ComplexRelatorio = {
   id: Scalars['ID'];
   relId: Scalars['String'];
   projId: Scalars['String'];
+  review?: Maybe<Review>;
   complexIssues?: Maybe<Array<Maybe<ComplexIssue>>>;
   cover?: Maybe<Cover>;
   executiveSummary?: Maybe<Scalars['String']>;
@@ -178,6 +180,7 @@ export type Introduction = {
 export type IssueFigure = {
   __typename?: 'IssueFigure';
   id: Scalars['ID'];
+  review?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
   caption?: Maybe<Scalars['String']>;
 };
@@ -619,6 +622,18 @@ export enum RelatorioStatus {
   Closed = 'CLOSED'
 }
 
+export type Review = {
+  __typename?: 'Review';
+  cover?: Maybe<Scalars['String']>;
+  index?: Maybe<Scalars['String']>;
+  executiveSummary?: Maybe<Scalars['String']>;
+  documentManagement?: Maybe<Scalars['String']>;
+  documentStructure?: Maybe<Scalars['String']>;
+  assessmentScope?: Maybe<Scalars['String']>;
+  constraints?: Maybe<Scalars['String']>;
+  proceduresAfterTheAssessment?: Maybe<Scalars['String']>;
+};
+
 export type Reviewer = {
   __typename?: 'Reviewer';
   id: Scalars['ID'];
@@ -867,12 +882,15 @@ export type FetchComplexRelatorioQuery = (
     & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary' | 'assessmentDetails'>
     & { complexIssues?: Maybe<Array<Maybe<(
       { __typename?: 'ComplexIssue' }
-      & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
+      & Pick<ComplexIssue, 'id' | 'review' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'>
       & { issueFigures?: Maybe<Array<Maybe<(
         { __typename?: 'IssueFigure' }
-        & Pick<IssueFigure, 'url' | 'caption'>
+        & Pick<IssueFigure, 'review' | 'url' | 'caption'>
       )>>> }
-    )>>>, cover?: Maybe<(
+    )>>>, review?: Maybe<(
+      { __typename?: 'Review' }
+      & Pick<Review, 'cover' | 'index' | 'executiveSummary' | 'documentManagement' | 'documentStructure' | 'assessmentScope' | 'constraints' | 'proceduresAfterTheAssessment'>
+    )>, cover?: Maybe<(
       { __typename?: 'Cover' }
       & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date' | 'image'>
     )>, introduction?: Maybe<(
@@ -1522,6 +1540,7 @@ export const FetchComplexRelatorioDocument = gql`
     projId
     complexIssues {
       id
+      review
       severity
       title
       description
@@ -1532,9 +1551,20 @@ export const FetchComplexRelatorioDocument = gql`
       technicalDetails
       currentStatus
       issueFigures {
+        review
         url
         caption
       }
+    }
+    review {
+      cover
+      index
+      executiveSummary
+      documentManagement
+      documentStructure
+      assessmentScope
+      constraints
+      proceduresAfterTheAssessment
     }
     cover {
       companyLogo

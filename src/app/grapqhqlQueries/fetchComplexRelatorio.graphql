@@ -5,6 +5,7 @@ query fetchComplexRelatorio($id: ID!){
     projId
     complexIssues{
       id
+      review
       severity
       title
       description
@@ -15,9 +16,20 @@ query fetchComplexRelatorio($id: ID!){
       technicalDetails
       currentStatus
       issueFigures{
+        review
         url
         caption
       }
+    }
+    review{
+      cover
+      index
+      executiveSummary
+      documentManagement
+      documentStructure
+      assessmentScope
+      constraints
+      proceduresAfterTheAssessment
     }
     cover{
       companyLogo

@@ -1,6 +1,6 @@
 <!--<body id="home">-->
 <div class="hideReview">
-  <mat-toolbar color="primary" class="toolBar" role="toolbar" >
+  <mat-toolbar color="primary" class="toolBar" role="toolbar">
     <mat-toolbar-row>
       <button mat-icon-button>
         <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
@@ -106,7 +106,6 @@
         {{complexRelatorio.cover["date"]}}<br>
       </div>
     </section>
-    <div style="background-color: #c5c5c5; width: 500px;height: 296mm;position: absolute;top:0px; z-index: 1000; left:1355px" class="hideReview"></div>
     <!----------------------------------------------COVER--------------------------------------------------->
 
     <!----------------------------------------------CONTENTS/INDEX--------------------------------------------------->
@@ -151,6 +150,19 @@
 
       <p *ngIf="!executiveSummaryQuill" [innerHTML]="executiveSummary | safe:'html'"></p>
     </section>
+    <div
+      style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative;top:-296mm;margin-bottom:-296mm; z-index: 1000; left:1355px"
+      class="hideReview" >
+      <div class="form-group" *ngIf="coverService.isReviewer">
+        <quill-editor [style]="editorStyle" [(ngModel)]="complexRelatorio.review.executiveSummary"
+                      (onContentChanged)="currentReviewText($event)">
+
+        </quill-editor>
+        <button mat-button color="blue" (click)="ReviewSubmit('cover','')">Submit</button>
+      </div>
+
+      <div *ngIf="!coverService.isReviewer" [innerHTML]="complexRelatorio.review.executiveSummary | safe:'html'"></div>
+    </div>
 
     <!----------------------------------------------EXECUTIVE SUMMARY------------------------------------------------->
 
@@ -236,6 +248,18 @@
 
       <div *ngIf="!documentStructureQuill" [innerHTML]="documentStructure | safe:'html'"></div>
     </section>
+
+    <div
+      style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative;top:-296mm;margin-bottom:-296mm; z-index: 1000; left:1355px"
+      class="hideReview">
+      <div class="form-group">
+        <quill-editor [style]="editorStyle" [(ngModel)]="complexRelatorio.review.documentStructure"
+                      (onContentChanged)="currentReviewText($event)">
+
+        </quill-editor>
+      </div>
+      <button mat-button color="blue" (click)="ReviewSubmit('cover','')">Submit</button>
+    </div>
     <!-----------------------------------------Document Structure--------------------------------------------------->
 
     <!-----------------------------------------Disclaimer--------------------------------------------------->
@@ -326,6 +350,17 @@
       </div>
       <div *ngIf="!constraintsQuill" [innerHTML]="constraints | safe:'html'"></div>
     </section>
+    <div
+      style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative;top:-296mm;margin-bottom:-296mm; z-index: 1000; left:1355px"
+      class="hideReview">
+      <div class="form-group">
+        <quill-editor [style]="editorStyle" [(ngModel)]="complexRelatorio.review.constraints"
+                      (onContentChanged)="currentReviewText($event)">
+
+        </quill-editor>
+      </div>
+      <button mat-button color="blue" (click)="ReviewSubmit('cover','')">Submit</button>
+    </div>
     <!-----------------------------------------Constraints--------------------------------------------------->
 
     <!-------------------------------------Procedures After The Assessment------------------------------------>
@@ -349,6 +384,17 @@
 
       <div *ngIf="!proceduresQuill" [innerHTML]="procedures | safe:'html'"></div>
     </section>
+    <div
+      style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative;top:-296mm;margin-bottom:-296mm; z-index: 1000; left:1355px"
+      class="hideReview">
+      <div class="form-group">
+        <quill-editor [style]="editorStyle" [(ngModel)]="complexRelatorio.review.proceduresAfterTheAssessment"
+                      (onContentChanged)="currentReviewText($event)">
+
+        </quill-editor>
+      </div>
+      <button mat-button color="blue" (click)="ReviewSubmit('cover','')">Submit</button>
+    </div>
     <!-------------------------------------Procedures After The Assessment------------------------------------>
 
     <!-------------------------------------Summary of Assessment Results Intro------------------------------------>
@@ -493,6 +539,18 @@
           </div>
           <div [innerHTML]="complexIssue.technicalDetails | safe:'html'"></div>
         </section>
+
+        <div
+          style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative; z-index: 1000;top:-296mm;margin-bottom:-296mm;left:1355px"
+          class="hideReview">
+          <div class="form-group">
+            <quill-editor [style]="editorStyle" [(ngModel)]="complexIssue.review"
+                          (onContentChanged)="currentReviewText($event)">
+
+            </quill-editor>
+          </div>
+          <button mat-button color="blue" (click)="ReviewSubmit('technicalDetails',complexIssue.id)">Submit</button>
+        </div>
 
         <section class="sheet" *ngFor="let fig of complexIssue.issueFigures">
           <app-header></app-header>

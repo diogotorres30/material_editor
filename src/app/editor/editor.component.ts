@@ -30,6 +30,7 @@ import {
   Project,
   ProjectManager,
   Relatorio,
+  Review,
   Reviewer,
   Scalars,
   Scope,
@@ -50,6 +51,7 @@ import {TechnicalDetailsComponent} from './technical-details/technical-details.c
 import {AssessmentScopeComponent} from './assessment-scope/assessment-scope.component';
 import {TechnicalDetailsService} from '../shared/technical-details.service';
 import {ProjectFormService} from '../shared/projectForm.service';
+import {ContentChange, EditorChangeSelection} from 'ngx-quill';
 
 @Component({
   selector: 'app-editor',
@@ -75,6 +77,7 @@ export class EditorComponent implements OnInit {
   @ViewChild('complexIssuesPaginator', {static: true}) complexIssuesPaginator: MatPaginator;
   searchKey: string;
   selectedSeverity: string;
+  currentText: string;
   executiveSummaryForm: FormGroup;
   documentStructureForm: FormGroup;
   constraintsForm: FormGroup;
@@ -137,12 +140,13 @@ export class EditorComponent implements OnInit {
 
   // tslint:disable-next-line:max-line-length
   cvss3Metrics: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }>;
+
+
   complexRelatorio: { __typename?: 'ComplexRelatorio' } & Pick<ComplexRelatorio, 'id' | 'relId' | 'projId' | 'executiveSummary' | 'assessmentDetails'> & {
-    complexIssues?: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'> & { issueFigures?: Maybe<Array<Maybe<{ __typename?: 'IssueFigure' } & Pick<IssueFigure, 'url' | 'caption'>>>> }>>>; cover?: Maybe<{ __typename?: 'Cover' } & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date' | 'image'>>; introduction?: Maybe<{ __typename?: 'Introduction' } & Pick<Introduction, 'responsibilityStatement' | 'documentStructure' | 'disclaimer'> & { documentManagement?: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>> }>; assessmentInformation?: Maybe<{ __typename?: 'AssessmentInformation' } & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'> & { assessmentScope?: Maybe<{ __typename?: 'AssessmentScope' } & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: 'SummaryOfAssessmentResults' } & {
+    complexIssues?: Maybe<Array<Maybe<{ __typename?: 'ComplexIssue' } & Pick<ComplexIssue, 'id' | 'review' | 'severity' | 'title' | 'description' | 'impact' | 'remediation' | 'cvssVector' | 'otherReferences' | 'technicalDetails' | 'currentStatus'> & { issueFigures?: Maybe<Array<Maybe<{ __typename?: 'IssueFigure' } & Pick<IssueFigure, 'review' | 'url' | 'caption'>>>> }>>>; review?: Maybe<{ __typename?: 'Review' } & Pick<Review, 'cover' | 'index' | 'executiveSummary' | 'documentManagement' | 'documentStructure' | 'assessmentScope' | 'constraints' | 'proceduresAfterTheAssessment'>>; cover?: Maybe<{ __typename?: 'Cover' } & Pick<Cover, 'companyLogo' | 'reportTitle' | 'targetCompany' | 'classification' | 'version' | 'remarks' | 'date' | 'image'>>; introduction?: Maybe<{ __typename?: 'Introduction' } & Pick<Introduction, 'responsibilityStatement' | 'documentStructure' | 'disclaimer'> & { documentManagement?: Maybe<Array<Maybe<{ __typename?: 'DocumentManagement' } & Pick<DocumentManagement, 'version' | 'date' | 'editor' | 'remarks'>>>> }>; assessmentInformation?: Maybe<{ __typename?: 'AssessmentInformation' } & Pick<AssessmentInformation, 'constraints' | 'proceduresAfterTheAssessment'> & { assessmentScope?: Maybe<{ __typename?: 'AssessmentScope' } & Pick<AssessmentScope, 'executionPeriod' | 'assetNames' | 'assetsDescription' | 'assetAddresses'>> }>; summaryOfAssessmentResults?: Maybe<{ __typename?: 'SummaryOfAssessmentResults' } & {
       staticInformation?: Maybe<{ __typename?: 'StaticInformation' } & Pick<StaticInformation, 'intro' | 'cvss3'> & { cvss3Metrics?: Maybe<{ __typename?: 'Cvss3Metrics' } & { availability?: Maybe<{ __typename?: 'Availability' } & Pick<Availability, 'intro' | 'high' | 'none' | 'low'>>; integrity?: Maybe<{ __typename?: 'Integrity' } & Pick<Integrity, 'intro' | 'high' | 'low' | 'none'>>; confidentiality?: Maybe<{ __typename?: 'Confidentiality' } & Pick<Confidentiality, 'intro' | 'high' | 'low' | 'none'>>; scope?: Maybe<{ __typename?: 'Scope' } & Pick<Scope, 'intro' | 'changed' | 'unchanged'>>; userInteraction?: Maybe<{ __typename?: 'UserInteraction' } & Pick<UserInteraction, 'intro' | 'none' | 'required'>>; privilegesRequired?: Maybe<{ __typename?: 'PrivilegesRequired' } & Pick<PrivilegesRequired, 'intro' | 'none' | 'high' | 'low'>>; attackComplexity?: Maybe<{ __typename?: 'AttackComplexity' } & Pick<AttackComplexity, 'intro' | 'high' | 'low'>>; attackVector?: Maybe<{ __typename?: 'AttackVector' } & Pick<AttackVector, 'intro' | 'network' | 'adjacent' | 'local' | 'physical'>> }> }>
     }>; appendix?: Maybe<{ __typename?: 'Appendix' } & Pick<Appendix, 'tools' | 'evidences'>>
   };
-  private isReviewer = false;
 
 
   constructor(
@@ -151,7 +155,7 @@ export class EditorComponent implements OnInit {
     private dialog: MatDialog,
     private fetchFindingsGQL: FetchFindingsGQL,
     private fetchComplexRelatorioGQL: FetchComplexRelatorioGQL,
-    private coverService: CoverService,
+    public coverService: CoverService,
     private fillExecutiveSummaryGQL: FillExecutiveSummaryGQL,
     private fetchProjectGQL: FetchProjectGQL,
     private docManagementService: DocManagementService,
@@ -180,9 +184,7 @@ export class EditorComponent implements OnInit {
         this.auditors = projResult.data.fetchProject.auditor;
         this.reviewers = projResult.data.fetchProject.reviewer;
         this.projectManagers = projResult.data.fetchProject.projectManager;
-        if (this.reviewers.filter(el => el.email === this.projectService.userEmail).length > 0) {
-          this.isReviewer = true;
-        }
+        this.coverService.isReviewer = this.reviewers.filter(el => el.email === this.projectService.userEmail).length > 0;
       });
       this.complexRelatorio = result.data.fetchComplexRelatorio;
       this.documentManagement = result.data.fetchComplexRelatorio.introduction.documentManagement;
@@ -489,5 +491,15 @@ export class EditorComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
     this.dialog.open(TechnicalDetailsComponent, dialogConfig);
+  }
+
+
+  currentReviewText(event: ContentChange | EditorChangeSelection) {
+    this.currentText = event.editor.root.innerHTML;
+  }
+
+  ReviewSubmit(target, id) {
+    console.log(target);
+    console.log(id);
   }
 }
