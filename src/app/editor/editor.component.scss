@@ -28,7 +28,6 @@ app-footer::after {
   margin: 0mm auto;
   padding: 10mm;
 }
-
 @media screen {
   .myPageBreak {
     margin: 10px 0 0 0;
@@ -52,7 +51,7 @@ app-footer::after {
     margin: 0;
     border: none;
   }
-  .hideReview{
+  .hideReview {
     display: none;
   }
 }
@@ -82,15 +81,23 @@ section {
   padding: 15%
 }
 
-.criticalSeverityVulnerabilities{
+.criticalSeverityVulnerabilities {
   border-top-color: red;
-}.highSeverityVulnerabilities{
+}
+
+.highSeverityVulnerabilities {
   border-top-color: orange;
-}.moderateSeverityVulnerabilities{
+}
+
+.moderateSeverityVulnerabilities {
   border-top-color: yellow;
-}.lowSeverityVulnerabilities{
+}
+
+.lowSeverityVulnerabilities {
   border-top-color: green;
-}.minorSeverityVulnerabilities{
+}
+
+.minorSeverityVulnerabilities {
   border-top-color: gray;
 }
 

@@ -1,22 +1,25 @@
-<!--<body id="home">-->
-<div class="hideReview">
+<div class="toolBar">
   <mat-toolbar color="primary" class="toolBar" role="toolbar">
     <mat-toolbar-row>
       <button mat-icon-button>
         <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
       </button>
-      <a mat-button [routerLink]="'/'" class="logo">Report Repository</a>
+      <a mat-button [routerLink]="'/editor'" class="logo">Report Editor</a>
       <div>
-        <a mat-button [routerLink]="'/editor'"> Report Editor </a>
+        <a mat-button [routerLink]="'/repository'"> Report Repository</a>
       </div>
+      <button mat-icon-button style="padding-left: 1500px" [routerLink]="'/'">
+        <mat-icon>logout</mat-icon>
+      </button>
     </mat-toolbar-row>
   </mat-toolbar>
 </div>
 
 
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="side" class="sideNav">
+  <mat-sidenav #sidenav mode="over" class="sideNav">
 
+    <h3 style="padding-left: 5px">Add Issues</h3>
     <div class="search-div">
       <mat-form-field class="search-form-field" floatLabel="never">
         <label>
@@ -39,9 +42,6 @@
         </mat-select>
       </mat-form-field>
     </div>
-
-    <h3 style="padding-left: 5px">Add Issues</h3>
-
     <div class="mat-elevation-z8" style="height: 355px;">
       <mat-table [dataSource]="listData" matSort>
         <ng-container matColumnDef="title">
@@ -151,9 +151,11 @@
       <p *ngIf="!executiveSummaryQuill" [innerHTML]="executiveSummary | safe:'html'"></p>
     </section>
     <div
-      style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative;top:-296mm;margin-bottom:-296mm; z-index: 1000; left:1355px"
-      class="hideReview" >
+      style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative;top:-296mm;margin-bottom:-296mm; z-index: 1000; left:1355px; padding-left:10px; padding-top:5px;"
+      class="hideReview">
+      <h2>Comments</h2>
       <div class="form-group" *ngIf="coverService.isReviewer">
+
         <quill-editor [style]="editorStyle" [(ngModel)]="complexRelatorio.review.executiveSummary"
                       (onContentChanged)="currentReviewText($event)">
 
@@ -581,4 +583,3 @@
 </mat-sidenav-container>
 <router-outlet></router-outlet>
 
-<!--</body>-->

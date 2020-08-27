@@ -3,17 +3,7 @@ import {Router} from '@angular/router';
 import {ProjectFormService} from 'src/app/shared/projectForm.service';
 import {NewRelatorioFormService} from '../../shared/new-relatorio-form.service';
 import {Apollo} from 'apollo-angular';
-import {
-  Auditor,
-  Client,
-  DeleteProjectGQL,
-  FetchProjectsGQL,
-  Maybe,
-  Project,
-  ProjectManager,
-  Relatorio,
-  Reviewer
-} from '../../../generated/graphql';
+import {DeleteProjectGQL, FetchProjectsGQL} from '../../../generated/graphql';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
@@ -29,7 +19,6 @@ import {NewRelatorioComponent} from '../../repository/new-relatorio/new-relatori
 })
 export class ProjectTableComponent implements OnInit {
   // tslint:disable-next-line:max-line-length
-  localListData: Array<{ __typename?: 'Project' } & Pick<Project, 'id' | 'name' | 'status'> & { relatorios?: Maybe<Array<{ __typename?: 'Relatorio' } & Pick<Relatorio, 'id' | 'name' | 'status' | 'revDeadline' | 'delDeadline' | 'complexRelatorioId'>>>; auditor?: Maybe<Array<{ __typename?: 'Auditor' } & Pick<Auditor, 'id' | 'name' | 'email' | 'role'>>>; reviewer?: Maybe<Array<{ __typename?: 'Reviewer' } & Pick<Reviewer, 'id' | 'name' | 'email' | 'role'>>>; projectManager?: Maybe<Array<{ __typename?: 'ProjectManager' } & Pick<ProjectManager, 'id' | 'name' | 'email' | 'role'>>>; client?: Maybe<Array<{ __typename?: 'Client' } & Pick<Client, 'id' | 'name' | 'email'>>> }>;
   listData: MatTableDataSource<any>;
   displayedColumns: string[] = [
     'name',
@@ -49,7 +38,7 @@ export class ProjectTableComponent implements OnInit {
   first: true;
 
   constructor(
-    private projectFormService: ProjectFormService,
+    public projectFormService: ProjectFormService,
     private apollo: Apollo,
     private fetchProjectsGQL: FetchProjectsGQL,
     private deleteProjectGQL: DeleteProjectGQL,
@@ -63,23 +52,30 @@ export class ProjectTableComponent implements OnInit {
   ngOnInit() {
     const altListData = Array<any>();
     this.fetchProjectsGQL.watch().valueChanges.subscribe((result) => {
-      this.localListData = result.data.fetchProjects;
-      for (const pr of this.localListData) {
-        if ((pr.auditor.filter(el => el.email === this.projectFormService.userEmail).length +
-          pr.reviewer.filter(el => el.email === this.projectFormService.userEmail).length +
-          pr.projectManager.filter(el => el.email === this.projectFormService.userEmail).length) > 0) {
-          altListData.push(pr);
+      if (localStorage.getItem('userEmail') === 'admin@saar2020.com') {
+        this.listData = new MatTableDataSource(result.data.fetchProjects);
+      } else {
+        for (const pr of result.data.fetchProjects) {
+          if (pr.projectManager.filter(el => el.email === localStorage.getItem('userEmail')).length > 0) {
+            altListData.push(pr);
+          }
         }
+
+        this.listData = new MatTableDataSource(altListData);
       }
-      this.listData = new MatTableDataSource(altListData);
+
+
       this.listData.sort = this.sort;
       this.listData.paginator = this.paginator;
     });
   }
 
   openInEditor(relId) {
-
-    this.relatorioFormService.showRelatorioId = relId;
+    console.log('ASASFSAFGSFGASGSDFGDFSGDSFGSDFGSDFGSDFG');
+    console.log(relId);
+    console.log('ASASFSAFGSFGASGSDFGDFSGDSFGSDFGSDFGSDFG');
+    localStorage.setItem('showRelatorioId', relId);
+    // this.relatorioFormService.showRelatorioId = relId;
     this.router.navigate(['/editor']).then(r => {
     });
   }
@@ -108,7 +104,6 @@ export class ProjectTableComponent implements OnInit {
   createRelatorio(proj) {
     this.newRelatorioFormService.updating = false;
     this.newRelatorioFormService.addingToProject = true;
-    console.log(proj.id);
     this.newRelatorioFormService.addToProject = proj.id;
     this.newRelatorioFormService.initializeFormGroup();
     const dialogConfig = new MatDialogConfig();

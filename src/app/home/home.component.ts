@@ -26,8 +26,8 @@ export class HomeComponent implements OnInit {
 
   onSubmit() {
     if (this.userLoginService.form.valid) {
-      this.projectFormService.userEmail =  this.userLoginService.form.value.email;
-
+      this.projectFormService.userEmail = this.userLoginService.form.value.email;
+      localStorage.setItem('userEmail', this.userLoginService.form.value.email);
       this.userLoginService.form.reset();
       this.userLoginService.initializeFormGroup();
       this.router.navigate(['/repository']).then(r => {

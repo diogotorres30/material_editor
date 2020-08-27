@@ -37,6 +37,7 @@ export class NewRelatorioComponent implements OnInit {
       if (this.newRelatorioFormService.updating) {
         this.newRelatorioFormService.updateRelatorio(this.newRelatorioFormService.form.value);
       } else {
+        this.newRelatorioFormService.addingToProject = false;
         this.newRelatorioFormService.newRelatorio(this.newRelatorioFormService.form.value);
       }
 

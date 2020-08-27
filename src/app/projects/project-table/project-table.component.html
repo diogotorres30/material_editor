@@ -29,9 +29,9 @@
       <mat-cell *matCellDef="let element;let row">
         <button class="invisible-button" (dblclick)="openInEditor(rel['complexRelatorioId'])"
                 *ngFor="let rel of element.relatorios">{{rel['name']}}</button>
-        <button mat-icon-button (click)="createRelatorio(row)">
-          <mat-icon>add</mat-icon>
-        </button>
+<!--        <button mat-icon-button (click)="createRelatorio(row)">-->
+<!--          <mat-icon>add</mat-icon>-->
+<!--        </button>-->
       </mat-cell>
     </ng-container>
     <ng-container matColumnDef="auditor">

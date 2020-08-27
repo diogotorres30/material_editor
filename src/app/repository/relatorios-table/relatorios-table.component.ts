@@ -3,9 +3,10 @@ import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
-import {FetchRelatoriosGQL} from '../../../generated/graphql';
+import {FetchProjectGQL, FetchRelatoriosGQL} from '../../../generated/graphql';
 import {NewRelatorioFormService} from '../../shared/new-relatorio-form.service';
 import {NewRelatorioComponent} from '../new-relatorio/new-relatorio.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-relatorios-table',
@@ -29,13 +30,36 @@ export class RelatoriosTableComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private fetchRelatoriosGQL: FetchRelatoriosGQL,
-    private newRelatorioFormService: NewRelatorioFormService
+    private newRelatorioFormService: NewRelatorioFormService,
+    private fetchProjectGQL: FetchProjectGQL,
+    private router: Router
   ) {
   }
 
   ngOnInit() {
+    const altListData = Array<any>();
     this.fetchRelatoriosGQL.watch().valueChanges.subscribe(result => {
-      this.listData = new MatTableDataSource(result.data.fetchRelatorios);
+      if (localStorage.getItem('userEmail') === 'admin@saar2020.com') {
+        this.listData = new MatTableDataSource(result.data.fetchRelatorios);
+      } else {
+        for (const rel of result.data.fetchRelatorios) {
+          this.fetchProjectGQL.watch({id: rel.projId}).valueChanges.subscribe(resultProj => {
+            if ((
+              resultProj.data.fetchProject.projectManager.filter(
+                el => el.email === localStorage.getItem('userEmail')).length +
+              resultProj.data.fetchProject.reviewer.filter(
+                el => el.email === localStorage.getItem('userEmail')).length +
+              resultProj.data.fetchProject.auditor.filter(
+                el => el.email === localStorage.getItem('userEmail')).length) > 0) {
+              altListData.push(rel);
+              this.listData = new MatTableDataSource(altListData);
+            }
+
+          });
+        }
+      }
+
+      // this.listData = new MatTableDataSource(altListData);
     });
   }
 
@@ -70,5 +94,12 @@ export class RelatoriosTableComponent implements OnInit {
   onSearchClear() {
     this.searchKey = '';
     this.applyFilter();
+  }
+
+  openInEditor(relId) {
+    localStorage.setItem('showRelatorioId', relId);
+    // this.relatorioFormService.showRelatorioId = relId;
+    this.router.navigate(['/editor']).then(r => {
+    });
   }
 }

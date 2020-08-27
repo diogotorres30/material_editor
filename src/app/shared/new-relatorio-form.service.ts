@@ -41,7 +41,7 @@ export class NewRelatorioFormService {
       status: 'OPEN',
       revDeadline: '',
       delDeadline: '',
-      projId: 0,
+      projId: '0',
     });
   }
 
@@ -65,7 +65,7 @@ export class NewRelatorioFormService {
       delDeadline: rel.delDeadline === '' ? '' : this.datePipe.transform(rel.delDeadline, 'dd-MM-yyyy'),
     }).subscribe(() => {
     });
-    location.reload();
+    // location.reload();
   }
 
   deleteRelatorio(id) {
@@ -75,10 +75,10 @@ export class NewRelatorioFormService {
   }
 
   newRelatorio(rel) {
-    if (this.addingToProject) {
-      rel.projId = this.addToProject;
+    if (!this.addingToProject) {
+      this.addToProject = rel.projId;
     }
-    const proj = this.projectFormOptionsService.projectsArray.filter(a => a.id === rel.projId)[0];
+    const proj = this.projectFormOptionsService.projectsArray.filter(a => a.id === this.addToProject)[0];
     this.createComplexRelatorioGQL.mutate({
       classification: '',
       companyLogo: 'MAINSEC',
@@ -89,10 +89,10 @@ export class NewRelatorioFormService {
       version: '0.1',
       projId: this.addToProject
     }).subscribe(complex => {
-      this.showRelatorioId = complex.data.createComplexRelatorio.id;
+      // this.showRelatorioId = complex.data.createComplexRelatorio.id;
       this.createRelatorioGQL.mutate({
         name: rel.name,
-        projId: rel.projId,
+        projId: this.addToProject,
         status: rel.status,
         revDeadline: rel.revDeadline === '' ? '' : this.datePipe.transform(rel.revDeadline, 'dd-MM-yyyy'),
         delDeadline: rel.delDeadline === '' ? '' : this.datePipe.transform(rel.delDeadline, 'dd-MM-yyyy'),
@@ -103,6 +103,6 @@ export class NewRelatorioFormService {
       });
     });
     this.addingToProject = false;
-    location.reload();
+    // location.reload();
   }
 }

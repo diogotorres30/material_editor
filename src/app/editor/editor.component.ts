@@ -177,14 +177,14 @@ export class EditorComponent implements OnInit {
     });
 
 
-    this.fetchComplexRelatorioGQL.watch({id: this.relatorioFormService.showRelatorioId}).valueChanges.subscribe(result => {
+    this.fetchComplexRelatorioGQL.watch({id: localStorage.getItem('showRelatorioId')}).valueChanges.subscribe(result => {
       this.fetchProjectGQL.watch({id: result.data.fetchComplexRelatorio.projId}).valueChanges.subscribe(projResult => {
         this.currentProj = projResult.data.fetchProject;
         this.client = projResult.data.fetchProject.client;
         this.auditors = projResult.data.fetchProject.auditor;
         this.reviewers = projResult.data.fetchProject.reviewer;
         this.projectManagers = projResult.data.fetchProject.projectManager;
-        this.coverService.isReviewer = this.reviewers.filter(el => el.email === this.projectService.userEmail).length > 0;
+        this.coverService.isReviewer = this.reviewers.filter(el => el.email === localStorage.getItem('userEmail')).length > 0;
       });
       this.complexRelatorio = result.data.fetchComplexRelatorio;
       this.documentManagement = result.data.fetchComplexRelatorio.introduction.documentManagement;
