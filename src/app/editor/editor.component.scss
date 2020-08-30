@@ -28,11 +28,19 @@ app-footer::after {
   margin: 0mm auto;
   padding: 10mm;
 }
+
 @media screen {
   .myPageBreak {
     margin: 10px 0 0 0;
     padding: 10px 0;
     border-top: 1px dotted #c5c5c5;
+  }
+  .toolBar {
+    display: flex;
+    z-index: 100000;
+    position: fixed;
+    left: 0px;
+    top: 0px;
   }
 }
 
