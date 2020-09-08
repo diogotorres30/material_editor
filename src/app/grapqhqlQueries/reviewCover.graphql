@@ -1,0 +1,7 @@
+mutation reviewExecutiveSummary(
+  $relatorioId: ID!,
+  $comment: String)
+{
+  reviewExecutiveSummary(
+    relatorioId: $relatorioId,
+    comment: $comment)}

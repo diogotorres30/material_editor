@@ -72,6 +72,11 @@ export class CoverService {
     this.fetchComplexRelatorioGQL.watch({id: this.relId}).valueChanges.subscribe(result => {
       this.fetchProjectGQL.watch({id: result.data.fetchComplexRelatorio.projId}).valueChanges.subscribe(projResult => {
         this.currentProj2 = projResult.data.fetchProject;
+        for (const ll of projResult.data.fetchProject.reviewer) {
+          if (ll.email === localStorage.getItem('userEmail')) {
+            this.isReviewer = true;
+          }
+        }
       });
       this.complexrelatorio2 = result.data.fetchComplexRelatorio;
     });
@@ -112,8 +117,8 @@ export class CoverService {
       remarks: rel.remarks,
       date: rel.date === '' ? '' : this.datePipe.transform(rel.date, 'MMMM d, y')
     }).subscribe(result => {
-      console.log(result.data.fillCover.cover.date);
     });
+    location.reload();
   }
 
   addComplexIssue(id, findingId, severity) {

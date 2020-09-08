@@ -32,6 +32,8 @@ import {
   Relatorio,
   Review,
   Reviewer,
+  ReviewExecutiveSummaryGQL,
+  ReviewIssueGQL,
   Scalars,
   Scope,
   StaticInformation,
@@ -164,7 +166,9 @@ export class EditorComponent implements OnInit {
     private fillConstraintsGQL: FillConstraintsGQL,
     private fillProceduresGQL: FillProceduresGQL,
     private technicalDetailsService: TechnicalDetailsService,
-    private projectService: ProjectFormService
+    private projectService: ProjectFormService,
+    private reviewIssueGQL: ReviewIssueGQL,
+    private reviewExecutiveSummaryGQL: ReviewExecutiveSummaryGQL
   ) {
   }
 
@@ -446,7 +450,6 @@ export class EditorComponent implements OnInit {
 
   fillDocumentManagement(rel) {
     this.docManagementService.relId = rel.id;
-
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.width = '80%';
@@ -499,7 +502,15 @@ export class EditorComponent implements OnInit {
   }
 
   ReviewSubmit(target, id) {
-    console.log(target);
-    console.log(id);
+    switch (target) {
+      case 'issue':
+        this.reviewIssueGQL.mutate({relatorioId: this.complexRelatorio.id, issueId: id, comment: this.currentText}).subscribe(() => {
+        });
+        break;
+      case 'executiveSummary':
+        this.reviewExecutiveSummaryGQL.mutate({relatorioId: this.complexRelatorio.id, comment: this.currentText}).subscribe(() => {
+        });
+        break;
+    }
   }
 }

@@ -14,6 +14,7 @@ import {NewUserComponent} from '../new-user/new-user.component';
 })
 export class UsersTableComponent implements OnInit {
   searchKey: string;
+  activeUser = localStorage.getItem('userEmail');
   public listData: MatTableDataSource<any>;
   displayedColumns: string[] = [
     'name',

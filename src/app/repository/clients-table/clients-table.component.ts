@@ -14,6 +14,7 @@ import {NewClientComponent} from '../new-client/new-client.component';
 })
 export class ClientsTableComponent implements OnInit {
   searchKey: string;
+  activeUser = localStorage.getItem('userEmail');
   public listData: MatTableDataSource<any>;
   displayedColumns: string[] = [
     'name',

@@ -42,7 +42,8 @@ export class DocManagementService {
       remarks: ver.remarks
     }).subscribe(() => {
     });
-    // location.reload();
+    location.replace('/editor/#versionsPosition');
+
   }
 
   deleteVersion(version) {

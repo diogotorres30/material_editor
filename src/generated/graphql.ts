@@ -225,6 +225,8 @@ export type Mutation = {
   addIssueFigure: Scalars['Boolean'];
   removeIssueFigure: Scalars['Boolean'];
   fillTechnicalDetails: Scalars['Boolean'];
+  reviewIssue: Scalars['Boolean'];
+  reviewExecutiveSummary: Scalars['Boolean'];
 };
 
 
@@ -490,6 +492,19 @@ export type MutationFillTechnicalDetailsArgs = {
   technicalDetails?: Maybe<Scalars['String']>;
 };
 
+
+export type MutationReviewIssueArgs = {
+  relatorioId: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+  comment?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationReviewExecutiveSummaryArgs = {
+  relatorioId: Scalars['ID'];
+  comment?: Maybe<Scalars['String']>;
+};
+
 export type PrivilegesRequired = {
   __typename?: 'PrivilegesRequired';
   intro?: Maybe<Scalars['String']>;
@@ -539,6 +554,7 @@ export type Query = {
   fetchClient?: Maybe<Client>;
   fetchProjects: Array<Project>;
   fetchProject?: Maybe<Project>;
+  fetchUserProjects?: Maybe<Array<Project>>;
   fetchRelatorios?: Maybe<Array<Relatorio>>;
   fetchRelatorio: Relatorio;
   fetchAuditors?: Maybe<Array<User>>;
@@ -570,6 +586,11 @@ export type QueryFetchClientArgs = {
 
 export type QueryFetchProjectArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryFetchUserProjectsArgs = {
+  email?: Maybe<Scalars['String']>;
 };
 
 
@@ -1222,6 +1243,29 @@ export type RemoveRelatorioFromProjectMutationVariables = Exact<{
 export type RemoveRelatorioFromProjectMutation = (
   { __typename?: 'Mutation' }
   & Pick<Mutation, 'removeRelatorioFromProject'>
+);
+
+export type ReviewExecutiveSummaryMutationVariables = Exact<{
+  relatorioId: Scalars['ID'];
+  comment?: Maybe<Scalars['String']>;
+}>;
+
+
+export type ReviewExecutiveSummaryMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reviewExecutiveSummary'>
+);
+
+export type ReviewIssueMutationVariables = Exact<{
+  relatorioId: Scalars['ID'];
+  issueId?: Maybe<Scalars['String']>;
+  comment?: Maybe<Scalars['String']>;
+}>;
+
+
+export type ReviewIssueMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'reviewIssue'>
 );
 
 export type SetRelIdMutationVariables = Exact<{
@@ -2020,6 +2064,32 @@ export const RemoveRelatorioFromProjectDocument = gql`
   })
   export class RemoveRelatorioFromProjectGQL extends Apollo.Mutation<RemoveRelatorioFromProjectMutation, RemoveRelatorioFromProjectMutationVariables> {
     document = RemoveRelatorioFromProjectDocument;
+    
+  }
+export const ReviewExecutiveSummaryDocument = gql`
+    mutation reviewExecutiveSummary($relatorioId: ID!, $comment: String) {
+  reviewExecutiveSummary(relatorioId: $relatorioId, comment: $comment)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReviewExecutiveSummaryGQL extends Apollo.Mutation<ReviewExecutiveSummaryMutation, ReviewExecutiveSummaryMutationVariables> {
+    document = ReviewExecutiveSummaryDocument;
+    
+  }
+export const ReviewIssueDocument = gql`
+    mutation reviewIssue($relatorioId: ID!, $issueId: String, $comment: String) {
+  reviewIssue(relatorioId: $relatorioId, issueId: $issueId, comment: $comment)
+}
+    `;
+
+  @Injectable({
+    providedIn: 'root'
+  })
+  export class ReviewIssueGQL extends Apollo.Mutation<ReviewIssueMutation, ReviewIssueMutationVariables> {
+    document = ReviewIssueDocument;
     
   }
 export const SetRelIdDocument = gql`

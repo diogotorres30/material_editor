@@ -36,6 +36,7 @@ export class ProjectTableComponent implements OnInit {
   searchKey: string;
   auxString: string;
   first: true;
+  activeUser = localStorage.getItem('userEmail');
 
   constructor(
     public projectFormService: ProjectFormService,
@@ -56,7 +57,10 @@ export class ProjectTableComponent implements OnInit {
         this.listData = new MatTableDataSource(result.data.fetchProjects);
       } else {
         for (const pr of result.data.fetchProjects) {
-          if (pr.projectManager.filter(el => el.email === localStorage.getItem('userEmail')).length > 0) {
+          if (
+            (pr.projectManager.filter(el => el.email === localStorage.getItem('userEmail')).length +
+              pr.reviewer.filter(el => el.email === localStorage.getItem('userEmail')).length +
+              pr.auditor.filter(el => el.email === localStorage.getItem('userEmail')).length) > 0) {
             altListData.push(pr);
           }
         }
@@ -71,9 +75,7 @@ export class ProjectTableComponent implements OnInit {
   }
 
   openInEditor(relId) {
-    console.log('ASASFSAFGSFGASGSDFGDFSGDSFGSDFGSDFGSDFG');
     console.log(relId);
-    console.log('ASASFSAFGSFGASGSDFGDFSGDSFGSDFGSDFGSDFG');
     localStorage.setItem('showRelatorioId', relId);
     // this.relatorioFormService.showRelatorioId = relId;
     this.router.navigate(['/editor']).then(r => {

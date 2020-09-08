@@ -19,9 +19,9 @@
 <mat-sidenav-container>
   <mat-sidenav #sidenav mode="over" class="sideNav">
 
-    <h3 style="padding-left: 5px">Add Issues</h3>
+    <h3 style="padding-left: 20px; padding-top: 60px">Add Issues</h3>
     <div class="search-div">
-      <mat-form-field class="search-form-field" floatLabel="never">
+      <mat-form-field class="search-form-field" style="width: 40%;padding: 0px 5px;margin-left: 0px" floatLabel="never">
         <label>
           <input matInput [(ngModel)]="searchKey" placeholder="Search" autocomplete="off" (keyup)="applyFilter()">
         </label>
@@ -29,7 +29,7 @@
           <mat-icon>close</mat-icon>
         </button>
       </mat-form-field>
-      <mat-form-field>
+      <mat-form-field style="margin-left: 10px">
         <mat-label>Severity</mat-label>
         <mat-select [(ngModel)]="selectedSeverity">
           <ng-container>
@@ -160,7 +160,7 @@
                       (onContentChanged)="currentReviewText($event)">
 
         </quill-editor>
-        <button mat-button color="blue" (click)="ReviewSubmit('cover','')">Submit</button>
+        <button mat-button color="blue" (click)="ReviewSubmit('executiveSummary','')">Submit</button>
       </div>
 
       <div *ngIf="!coverService.isReviewer" [innerHTML]="complexRelatorio.review.executiveSummary | safe:'html'"></div>
@@ -206,7 +206,7 @@
     </section>
     <!------------------------------------------------INTRODUCTION--------------------------------------------------->
     <!------------------------------------------------Document Management-------------------------------------------->
-    <section class="sheet" (dblclick)="fillDocumentManagement(complexRelatorio)">
+    <section class="sheet" (dblclick)="fillDocumentManagement(complexRelatorio)" id="versionsPosition">
       <app-header></app-header>
       <div class="footerDiv">
         <app-footer></app-footer>
@@ -253,7 +253,7 @@
 
     <div
       style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative;top:-296mm;margin-bottom:-296mm; z-index: 1000; left:1355px"
-      class="hideReview">
+      class="hideReview" *ngIf="coverService.isReviewer">
       <div class="form-group">
         <quill-editor [style]="editorStyle" [(ngModel)]="complexRelatorio.review.documentStructure"
                       (onContentChanged)="currentReviewText($event)">
@@ -543,15 +543,18 @@
         </section>
 
         <div
-          style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative; z-index: 1000;top:-296mm;margin-bottom:-296mm;left:1355px"
+          style="background-color: #c5c5c5; width: 500px;height: 296mm;position: relative; z-index: 1000;top:-296mm;margin-bottom:-296mm;left:1355px;padding-left:10px; padding-top:5px;"
           class="hideReview">
-          <div class="form-group">
+          <h2>Comments</h2>
+          <div class="form-group" *ngIf="coverService.isReviewer">
             <quill-editor [style]="editorStyle" [(ngModel)]="complexIssue.review"
                           (onContentChanged)="currentReviewText($event)">
 
             </quill-editor>
+            <button mat-button color="blue" (click)="ReviewSubmit('issue',complexIssue.id)">Submit</button>
           </div>
-          <button mat-button color="blue" (click)="ReviewSubmit('technicalDetails',complexIssue.id)">Submit</button>
+
+          <div *ngIf="!coverService.isReviewer" [innerHTML]="complexIssue.review | safe:'html'"></div>
         </div>
 
         <section class="sheet" *ngFor="let fig of complexIssue.issueFigures">

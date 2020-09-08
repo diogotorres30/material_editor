@@ -1,5 +1,5 @@
 <div class="search-div">
-  <button mat-raised-button (click)="createClient()">
+  <button mat-raised-button (click)="createClient()" *ngIf="activeUser === 'admin@saar2020.com'">
     <mat-icon>add</mat-icon>
     Create
   </button>
@@ -20,13 +20,13 @@
       <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
       <mat-cell *matCellDef="let element">{{element.email}}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="actions">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <ng-container matColumnDef="actions" >
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
       <mat-cell *matCellDef="let row;let i = index;let element">
-        <button mat-icon-button (click)="updateClient(row)">
+        <button mat-icon-button (click)="updateClient(row)" *ngIf="activeUser === 'admin@saar2020.com'">
           <mat-icon>edit</mat-icon>
         </button>
-        <button mat-icon-button color="warn" (click)="deleteClient(element.id)">
+        <button mat-icon-button color="warn" (click)="deleteClient(element.id)" *ngIf="activeUser === 'admin@saar2020.com'">
           <mat-icon>delete_outline</mat-icon>
         </button>
       </mat-cell>

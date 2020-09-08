@@ -35,6 +35,7 @@
 <mat-grid-list cols="2" rowHeight="300px">
   <mat-grid-tile>
     <div>
+      <h3>Edit Technical Details and Current Status</h3>
       <form [formGroup]="technicalDetailsForm">
         <div class="form-group">
           <quill-editor [style]="editorStyle" formControlName="technicalDetailsFormControl"
@@ -48,6 +49,7 @@
   </mat-grid-tile>
   <mat-grid-tile>
     <form [formGroup]="technicalDetailsService.form" class="normal-form" (submit)="onSubmit()">
+      <h3>Add Figure</h3>
       <div class="controllers-container">
         <mat-form-field>
           <input formControlName="url" matInput placeholder="Url or directory*">

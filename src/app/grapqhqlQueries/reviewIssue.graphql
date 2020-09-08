@@ -1,0 +1,9 @@
+mutation reviewIssue(
+  $relatorioId: ID!,
+  $issueId: String,
+  $comment: String)
+{
+  reviewIssue(
+    relatorioId: $relatorioId,
+    issueId: $issueId,
+    comment: $comment)}
