@@ -129,6 +129,8 @@ export class CoverService {
       severity
     }).subscribe(() => {
     });
+    location.reload();
+    location.replace('/editor#criticalSeverityVulnerabilities');
   }
 
   removeComplexIssue(id, issueId) {
@@ -137,5 +139,7 @@ export class CoverService {
       issueId
     }).subscribe(() => {
     });
+    location.reload();
+    location.replace('/editor#criticalSeverityVulnerabilities');
   }
 }

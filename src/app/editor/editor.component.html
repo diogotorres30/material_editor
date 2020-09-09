@@ -453,7 +453,7 @@
       </table>
     </section>
     <!-------------------------------------CVSS 3.0 Metrics------------------------------------>
-
+    <div style="height: 0;width: 0" id="criticalSeverityVulnerabilities"></div>
     <!-------------------------------------Summary of Assessment Results------------------------------------>
     <div *ngFor="let sev of severities;let i = index">
       <section class="sheet" *ngIf="sortedIssues[sev].length < 1">
@@ -464,6 +464,7 @@
         <h3>{{'4.' + (i + 1).toString() + ' ' + capitalize(sev)}}</h3>
         <p>{{'No issues were identified and rated as ' + firstWord(sev) + ' severity.'}} </p>
       </section>
+
       <div *ngFor="let groupedIssues of groupArr(sortedIssues[sev],3); let zz = index">
         <section class="sheet">
           <app-header></app-header>
